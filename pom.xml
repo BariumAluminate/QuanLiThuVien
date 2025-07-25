@@ -45,6 +45,11 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>12.6.1.jre11</version> <!-- Hoặc bản phù hợp với Java bạn dùng -->
 		</dependency>
+		<dependency>
+			<groupId>com.github.jsqlparser</groupId>
+			<artifactId>jsqlparser</artifactId>
+			<version>4.6</version>
+		</dependency>
 
 	</dependencies>
 
