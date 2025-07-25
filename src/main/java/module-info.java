@@ -1,4 +1,4 @@
-module com.example.quanlithuvien {
+module com.example.UI {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -11,6 +11,6 @@ module com.example.quanlithuvien {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens com.example.quanlithuvien to javafx.fxml;
-    exports com.example.quanlithuvien;
+    opens com.example.UI to javafx.fxml;
+    exports com.example.UI;
 }
