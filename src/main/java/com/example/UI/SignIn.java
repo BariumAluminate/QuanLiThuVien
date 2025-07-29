@@ -39,15 +39,15 @@ public class SignIn {
 
 
       label1 = new Label("ID");
-    label1.setStyle("-fx-font-size: 30");
+      label1.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
 
-    label2 = new Label("Password");
-    label2.setStyle("-fx-font-size: 30");
+      label2 = new Label("Password");
+      label2.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
 
-    LogIn = new Button("Sign In");
-    LogIn.setStyle("-fx-font-size: 30");
+      LogIn = new Button("Sign In");
+      LogIn.setStyle("-fx-font-size: 30");
 
-    rect = new Rectangle();
+      rect = new Rectangle();
   }
 
     /**
@@ -73,7 +73,7 @@ public class SignIn {
 
       rect.setWidth(300);
       rect.setHeight(300);
-      rect.setFill(Color.rgb(173, 216, 230, 0.5));
+      rect.setFill(Color.rgb(173, 216, 230, 0.75)); // light blue with 50% opacity
       rect.setStroke(Color.BLACK);
       rect.setArcWidth(20);
       rect.setArcHeight(20);
