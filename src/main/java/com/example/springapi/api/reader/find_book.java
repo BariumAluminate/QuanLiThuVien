@@ -10,6 +10,7 @@ import com.example.springapi.api.reader.basicclass.checkstring;
 import com.example.springapi.api.reader.basicclass.checkuser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/reader")
 public class find_book {
-
-    private checkstring checker;
+    private checkstring checkerSQL;
     
     @Autowired
     private checkuser checkerUser;
@@ -33,10 +33,15 @@ public class find_book {
         // This is a placeholder implementation
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
+        checkerSQL = new checkstring(book.getbookId());
         if(checkerUser.check(reader)){
-            if(checker.isValid(book.getbookId())){
-                String sql = "SELECT * FROM BOOK WHERE ID = ?";
-                Bookclass foundBook = jdbcTemplate.queryForObject(sql, new Object[]{book.getbookId()}, Bookclass.class);
+            if(checkerSQL.isValid(book.getbookId())){
+                String sql = "SELECT * FROM BOOK WHERE STRING_ID_BOOK = ?";
+                Bookclass foundBook = jdbcTemplate.queryForObject(
+                    sql,
+                    new Object[]{book.getbookId()},
+                    new BeanPropertyRowMapper<>(Bookclass.class)
+                );
                 if(foundBook != null){
                     String message = "Book found successfully";
                     return new Reponsebook(foundBook, message);

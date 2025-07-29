@@ -58,8 +58,8 @@ public class AddReader {
         System.out.println("Ghi xong!");
     }
     @PostMapping("/add")
-    public String addReader(@RequestBody Reader reader, @RequestParam String csrfToken) {
-    if(!checker.checklibrarian(csrfToken)){
+    public String addReader(@RequestBody Reader reader, @RequestParam String csrfToken, @RequestParam String stringId, @RequestParam String API_KEY) {
+    if(!checker.checklibrarian(csrfToken, stringId, API_KEY)) {
         throw new IllegalArgumentException("You are not a librarian or CSRF token is invalid");
     }
     reader.setAPI_KEY(reader.createrandomkey());

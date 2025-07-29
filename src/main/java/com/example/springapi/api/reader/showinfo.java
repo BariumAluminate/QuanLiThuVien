@@ -3,6 +3,7 @@ package com.example.springapi.api.reader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.reader.basicclass.AuthResponse;
+import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
 import com.example.springapi.api.reader.basicclass.checkuser;
 
@@ -19,10 +20,23 @@ public class showinfo {
     @Autowired
     private checkuser checker;
 
+    @Autowired
+    private CSRFTokenUtil csrfTokenUtil;
+
     @PostMapping("/show")
     public AuthResponse show(@RequestBody Reader reader) {  // param: ID, API_KEY, CSRF_TOKEN
         AuthResponse response = new AuthResponse(null, null);
         if(checker.check(reader)==true) {
+            try {
+                reader.setCSRFTOKEN(csrfTokenUtil.decrypt(reader.getCSRFTOKEN()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(checker.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
+                reader.setisLibrarian(true);
+            } else {
+                reader.setisLibrarian(false);
+            }
             response.setReader(reader);
             response.setMessage("User information retrieved successfully.");
         } else {

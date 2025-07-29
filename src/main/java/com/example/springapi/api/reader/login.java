@@ -4,13 +4,12 @@ import com.example.springapi.api.reader.basicclass.AuthResponse;
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
 import com.example.springapi.api.reader.basicclass.checkstring;
+import com.example.springapi.api.reader.basicclass.checkuser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +19,8 @@ import java.util.List;
 @RequestMapping("/login")
 public class Login {
 
+    @Autowired
+    private checkuser checkerUser;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -75,7 +76,7 @@ public class Login {
     }
     @PostMapping("/authenticate")
     public AuthResponse authenticate(@RequestBody Reader loginRequest) {
-        System.out.println("==> /login/authenticate CALLED");
+        //System.out.println("==> /login/authenticate CALLED");
         Reader reader = new Reader();
         reader.setName(loginRequest.getName());
         reader.setPassword(loginRequest.getPassword());
@@ -91,7 +92,11 @@ public class Login {
             } catch (Exception e) {
                 throw new RuntimeException("Không thể giải mã CSRF token", e);
             }
-
+            if(checkerUser.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
+                reader.setisLibrarian(true);
+            } else {
+                reader.setisLibrarian(false);
+            }
             String message = "Login successful for user: " + reader.getStringId() + " and " + reader.getName();
             return new AuthResponse(reader, message);
         } else {

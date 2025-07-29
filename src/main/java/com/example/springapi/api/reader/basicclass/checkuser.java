@@ -48,18 +48,27 @@ public class checkuser {
         }
     }
 
-    public boolean checklibrarian(String csrftoken){
-        checkstring checker = new checkstring(csrftoken);
+    public boolean checklibrarian(String csrftoken,String stringId, String API_KEY) {
+        checkstring checker = new checkstring(stringId);
+        if (!checker.isValid(stringId)) {
+            throw new IllegalArgumentException("Invalid String ID: " + stringId);
+        }
+        checker.setNeedcheck(API_KEY);
+        if (!checker.isValid(API_KEY)) {
+            throw new IllegalArgumentException("Invalid API Key: " + API_KEY);
+        }
+        checker.setNeedcheck(csrftoken);
         if (!checker.isValid(csrftoken)) {
             throw new IllegalArgumentException("Invalid CSRF Token: " + csrftoken);
         }
         try {
             csrftoken = csrftokenutil.encrypt(csrftoken);
-            String sql = "SELECT COUNT(*) FROM READER WHERE csrftoken = ? AND LIBRARIAN = 1;";
-            Integer count = jdbcTemplate.queryForObject(sql, Integer.class, csrftoken);
-            return count != null && count == 1;
         } catch (Exception e) {
-            throw new RuntimeException("Database error: " + e.getMessage(), e);
+            throw new RuntimeException("Không thể mã hóa CSRF token", e);
         }
+        
+        String sql = "SELECT COUNT(*) FROM READER WHERE STRING_ID = ? AND API_KEY = ? AND csrftoken = ? AND LIBRARIAN = 1";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, stringId, API_KEY, csrftoken);
+        return count != null && count == 1;
     }
 }

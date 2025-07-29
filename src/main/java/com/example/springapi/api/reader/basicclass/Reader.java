@@ -9,14 +9,16 @@ public class Reader {
     private String password;
     private String API_KEY;
     private String CSRFTOKEN;
+    private boolean isLibrarian;
     public Reader() {}
 
-    public Reader(String stringId, String name, String password, String API_KEY, String CSRFTOKEN) {
+    public Reader(String stringId, String name, String password, String API_KEY, String CSRFTOKEN, boolean isLibrarian) {
         this.stringId = stringId;
         this.name = name;
         this.password = password;
         this.API_KEY = API_KEY;
         this.CSRFTOKEN = CSRFTOKEN;
+        this.isLibrarian = isLibrarian;
     }
 
     // Getters and Setters
@@ -35,6 +37,8 @@ public class Reader {
     public String getCSRFTOKEN() { return CSRFTOKEN; }
     public void setCSRFTOKEN(String CSRFTOKEN) { this.CSRFTOKEN = CSRFTOKEN; }
 
+    public boolean isLibrarian() { return isLibrarian; }
+    public void setisLibrarian(boolean isLibrarian) { this.isLibrarian = isLibrarian; }
     //method
     public String createrandomkey() {
         // You can now use apiKey and csrfToken as needed

@@ -16,7 +16,9 @@ public class Bookclass {
         this.booktag = booktag;
         BorrowerId = borrowerId;
     }
-
+    public Bookclass() {
+        // constructor mặc định là bắt buộc cho BeanPropertyRowMapper
+    }
     // Getters and Setters
     public String getbookId() {
         return bookId;
