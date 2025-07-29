@@ -1,5 +1,4 @@
 package com.example.springapi.api.reader.basicclass;
-import com.example.springapi.api.reader.basicclass.Reader;
 /**
  * AuthResponse class represents the response structure for authentication operations.
  * It contains a Reader object and a message indicating the result of the authentication.

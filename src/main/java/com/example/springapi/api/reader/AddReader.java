@@ -3,21 +3,14 @@ package com.example.springapi.api.reader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
-import com.example.springapi.api.reader.basicclass.GlobalExceptionHandler;
 import com.example.springapi.api.reader.basicclass.Reader;
+import com.example.springapi.api.reader.basicclass.checkstring;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.jdbc.core.JdbcTemplate;
-import java.security.MessageDigest;
-import java.nio.charset.StandardCharsets;
 @RestController
 @RequestMapping("/reader")
 public class AddReader {
@@ -48,7 +41,7 @@ public class AddReader {
             throw new IllegalArgumentException("Invalid Password: " + reader.getPassword());
         }
         reader.setAPI_KEY(reader.createrandomkey());
-        reader.setPassword(reader.hashPassword(reader.getPassword()));
+        reader.setPassword(Reader.hashPassword(reader.getPassword()));
         System.out.println("Bắt đầu mã hóa CSRF token...");
         try {
             reader.setCSRFTOKEN(csrftokenutil.encrypt(reader.createrandomkey()));

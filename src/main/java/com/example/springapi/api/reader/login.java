@@ -3,6 +3,8 @@ package com.example.springapi.api.reader;
 import com.example.springapi.api.reader.basicclass.AuthResponse;
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
+import com.example.springapi.api.reader.basicclass.checkstring;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -76,6 +78,7 @@ public class login {
 
         if (checkaccount(reader)) {
             reader.setAPI_KEY(takeAPIKEY(reader));
+            reader.setCSRFTOKEN(takecsrftoken(reader));
             try {
                 reader.setCSRFTOKEN(csrftokenutil.decrypt(reader.getCSRFTOKEN()));
             } catch (Exception e) {
