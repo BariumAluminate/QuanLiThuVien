@@ -1,6 +1,5 @@
 package com.example.UI;
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
