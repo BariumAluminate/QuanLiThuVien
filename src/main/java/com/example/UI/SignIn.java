@@ -1,7 +1,6 @@
 package com.example.UI;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -10,16 +9,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
+
 
 
 public class SignIn {
-  private TextField ID ;//ID field
-  private PasswordField password;//password field
-  private Label label1;//the ID word
-  private Label label2;
-  private Button LogIn;
-  private Rectangle rect;
+  private final TextField ID ;//ID field
+  private final PasswordField password;//password field
+  private final Label label1;//the ID word
+  private final Label label2;
+  private final Button LogIn;
+  private final Rectangle rect;
 
     /**
      * Constructor.
@@ -73,8 +72,8 @@ public class SignIn {
 
       rect.setWidth(300);
       rect.setHeight(300);
-      rect.setFill(Color.rgb(173, 216, 230, 0.75)); // light blue with 50% opacity
-      rect.setStroke(Color.BLACK);
+      rect.setFill(Color.rgb(255, 255, 255, 0.75)); // light blue with 50% opacity
+      rect.setStroke(null);
       rect.setArcWidth(20);
       rect.setArcHeight(20);
   }
