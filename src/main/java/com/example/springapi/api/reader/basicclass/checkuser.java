@@ -37,6 +37,11 @@ public class checkuser {
             reader.getStringId(),
             reader.getAPI_KEY(),
             reader.getCSRFTOKEN());
+            if (count != null && count == 1) {
+                String nameSql = "SELECT NAME FROM READER WHERE STRING_ID = ?";
+                String name = jdbcTemplate.queryForObject(nameSql, String.class, reader.getStringId());
+                reader.setName(name);
+            }
             return count != null && count == 1;
         } catch (Exception e) {
             throw new RuntimeException("Database error: " + e.getMessage(), e);
