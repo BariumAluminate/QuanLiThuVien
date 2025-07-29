@@ -14,9 +14,9 @@ import javafx.stage.Stage;
 
 
 public class SignIn {
-  private TextField ID ;
-  private PasswordField password;
-  private Label label1;
+  private TextField ID ;//ID field
+  private PasswordField password;//password field
+  private Label label1;//the ID word
   private Label label2;
   private Button LogIn;
   private Rectangle rect;
@@ -26,13 +26,13 @@ public class SignIn {
      */
   public SignIn() {
       ID = new TextField();
-      ID.setPromptText("ID");
+      ID.setPromptText("Enter your ID");
       ID.setStyle("-fx-font-size: 30");
       ID.setPrefHeight(60);
       ID.setPrefWidth(500);
 
       password = new PasswordField();
-      password.setPromptText("Password");
+      password.setPromptText("Enter your Password");
       password.setStyle("-fx-font-size: 30");
       password.setPrefHeight(60);
       password.setPrefWidth(500);
