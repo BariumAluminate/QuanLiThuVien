@@ -15,10 +15,12 @@ import javafx.scene.shape.Rectangle;
 public class SignIn {
   private final TextField ID ;//ID field
   private final PasswordField password;//password field
-  private final Label label1;//the ID word
-  private final Label label2;
+  private final Label label1;//id label
+  private final Label label2;//password label.
+  private final Label nameLabel;
   private final Button LogIn;
-  private final Rectangle rect;
+  private final Rectangle rect;//the background rect.
+  private final TextField name;
 
     /**
      * Constructor.
@@ -36,12 +38,20 @@ public class SignIn {
       password.setPrefHeight(60);
       password.setPrefWidth(500);
 
+      name = new TextField();
+      name.setPromptText("Enter your registered name");
+      name.setStyle("-fx-font-size: 30");
+      name.setPrefHeight(60);
+      name.setPrefWidth(500);
 
-      label1 = new Label("ID");
+      label1 = new Label("ID:");
       label1.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
 
-      label2 = new Label("Password");
+      label2 = new Label("Password:");
       label2.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
+
+      nameLabel = new Label("Your registered name:");
+      nameLabel.setStyle("-fx-font-size: 30; -fx-font-weight: bold;");
 
       LogIn = new Button("Sign In");
       LogIn.setStyle("-fx-font-size: 30");
@@ -60,13 +70,16 @@ public class SignIn {
       HBox hbox2 = new HBox(label2);
       hbox2.setAlignment(Pos.CENTER_LEFT);
 
+      HBox hbox3 = new HBox(nameLabel);
+      hbox3.setAlignment(Pos.CENTER_LEFT);
+
       //make a box to put all the components but the rectangle into it
       VBox box = new VBox();
       box.setPadding(new Insets(2));
       box.setAlignment(Pos.CENTER);
       box.setMaxWidth(640);
 
-      box.getChildren().addAll(hbox1, ID, hbox2, password, LogIn);
+      box.getChildren().addAll(hbox1, ID, hbox2, password, hbox3, name, LogIn);
 
       stack.getChildren().addAll(rect, box);
 
