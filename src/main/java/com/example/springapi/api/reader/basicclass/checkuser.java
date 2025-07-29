@@ -47,4 +47,19 @@ public class checkuser {
             throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
     }
+
+    public boolean checklibrarian(String csrftoken){
+        checkstring checker = new checkstring(csrftoken);
+        if (!checker.isValid(csrftoken)) {
+            throw new IllegalArgumentException("Invalid CSRF Token: " + csrftoken);
+        }
+        try {
+            csrftoken = csrftokenutil.encrypt(csrftoken);
+            String sql = "SELECT COUNT(*) FROM READER WHERE csrftoken = ? AND LIBRARIAN = 1;";
+            Integer count = jdbcTemplate.queryForObject(sql, Integer.class, csrftoken);
+            return count != null && count == 1;
+        } catch (Exception e) {
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
+        }
+    }
 }

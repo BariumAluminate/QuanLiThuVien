@@ -2,6 +2,9 @@ package com.example.springapi.api.reader.basicclass;
 
 import java.util.regex.Pattern;
 
+
+
+
 public class checkstring {
     private String needcheck;
 

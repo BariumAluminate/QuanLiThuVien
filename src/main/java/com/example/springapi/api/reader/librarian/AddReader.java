@@ -1,15 +1,17 @@
-package com.example.springapi.api.reader;
+package com.example.springapi.api.reader.librarian;
 
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
 import com.example.springapi.api.reader.basicclass.checkstring;
+import com.example.springapi.api.reader.basicclass.checkuser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 @RestController
 @RequestMapping("/reader")
@@ -19,6 +21,8 @@ public class AddReader {
     @Autowired
     private CSRFTokenUtil csrftokenutil;
 
+    @Autowired
+    private checkuser checker;
 
     public void runcommandaddreader(Reader reader) {
         checkstring checker = new checkstring(reader.getStringId());
@@ -54,9 +58,12 @@ public class AddReader {
         System.out.println("Ghi xong!");
     }
     @PostMapping("/add")
-    public String addReader(@RequestBody Reader reader) {
-        reader.setAPI_KEY(reader.createrandomkey());
-        runcommandaddreader(reader);
-        return "Reader added successfully with ID: " + reader.getStringId();
+    public String addReader(@RequestBody Reader reader, @RequestParam String csrfToken) {
+    if(!checker.checklibrarian(csrfToken)){
+        throw new IllegalArgumentException("You are not a librarian or CSRF token is invalid");
+    }
+    reader.setAPI_KEY(reader.createrandomkey());
+    runcommandaddreader(reader);
+    return "Reader added successfully with ID: " + reader.getStringId();
     }
 }

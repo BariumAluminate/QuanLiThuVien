@@ -10,6 +10,7 @@ import com.example.springapi.api.reader.basicclass.checkstring;
 import com.example.springapi.api.reader.basicclass.checkuser;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/reader")
 public class find_book {
 
-    @Autowired
     private checkstring checker;
     
     @Autowired
     private checkuser checkerUser;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    
     @PostMapping("/findid")
     public Reponsebook findBookById(@RequestBody BookReaderRequest request) {
         // Logic to find the book by ID
@@ -31,14 +35,16 @@ public class find_book {
         Reader reader = request.getReader();
         if(checkerUser.check(reader)){
             if(checker.isValid(book.getbookId())){
-                // Find the book by ID
-                // This is a placeholder implementation
-                // sql query to find the book by ID
-                String message = "Book found successfully";
-                return new Reponsebook(book, message);
+                String sql = "SELECT * FROM BOOK WHERE ID = ?";
+                Bookclass foundBook = jdbcTemplate.queryForObject(sql, new Object[]{book.getbookId()}, Bookclass.class);
+                if(foundBook != null){
+                    String message = "Book found successfully";
+                    return new Reponsebook(foundBook, message);
+                }
             }
         } else{
             throw new IllegalArgumentException("Invalid credentials or user not found");
         }
+        return null;
     }
 }

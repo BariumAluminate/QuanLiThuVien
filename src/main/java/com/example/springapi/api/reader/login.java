@@ -9,19 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/login")
-public class login {
+public class Login {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private CSRFTokenUtil csrftokenutil;
+
+    public void Signin() {
+        System.out.println(">>> Login controller created <<<");
+    }
     public boolean checkaccount(Reader reader) {
         checkstring checker = new checkstring(reader.getStringId());
         if (!checker.isValid(reader.getStringId())) {
@@ -69,6 +75,7 @@ public class login {
     }
     @PostMapping("/authenticate")
     public AuthResponse authenticate(@RequestBody Reader loginRequest) {
+        System.out.println("==> /login/authenticate CALLED");
         Reader reader = new Reader();
         reader.setName(loginRequest.getName());
         reader.setPassword(loginRequest.getPassword());
