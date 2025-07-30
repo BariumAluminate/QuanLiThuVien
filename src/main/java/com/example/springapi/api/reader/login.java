@@ -11,13 +11,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/login")
-public class Login {
+public class login {
 
     @Autowired
     private checkuser checkerUser;

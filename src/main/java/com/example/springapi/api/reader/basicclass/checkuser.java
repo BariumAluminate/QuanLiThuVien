@@ -31,7 +31,7 @@ public class checkuser {
             throw new RuntimeException("Không thể mã hóa CSRF token", e);
         }
         try{
-
+            
             String sql = "SELECT COUNT(*) FROM READER WHERE STRING_ID = ? AND API_KEY = ? AND csrftoken = ?";
             Integer count = jdbcTemplate.queryForObject(sql, Integer.class,
             reader.getStringId(),

@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.jdbc.core.JdbcTemplate;
 @RestController
-@RequestMapping("/reader")
+@RequestMapping("/librarian")
 public class AddReader {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private CSRFTokenUtil csrftokenutil;
 
-    @Autowired
     private checkuser checker;
 
     public void runcommandaddreader(Reader reader) {
@@ -57,7 +56,7 @@ public class AddReader {
         jdbcTemplate.update(sql, reader.getStringId(), reader.getName(), reader.getPassword(), reader.getAPI_KEY(), reader.getCSRFTOKEN());
         System.out.println("Ghi xong!");
     }
-    @PostMapping("/add")
+    @PostMapping("/addreader")
     public String addReader(@RequestBody Reader reader, @RequestParam String csrfToken, @RequestParam String stringId, @RequestParam String API_KEY) {
     if(!checker.checklibrarian(csrfToken, stringId, API_KEY)) {
         throw new IllegalArgumentException("You are not a librarian or CSRF token is invalid");
