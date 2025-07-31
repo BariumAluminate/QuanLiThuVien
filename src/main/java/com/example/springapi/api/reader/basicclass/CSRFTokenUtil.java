@@ -15,6 +15,9 @@ public class CSRFTokenUtil {
 
     private static final String ALGO = "AES";
 
+    public CSRFTokenUtil() {
+        // Default constructor
+    }
     public String encrypt(String data) throws Exception {
         String secretKey = secretKeyProvider.getSecretKey();  // ✅ Lấy tại đây
         SecretKeySpec keySpec = new SecretKeySpec(secretKey.getBytes(), ALGO);

@@ -18,12 +18,12 @@ import com.example.springapi.api.reader.basicclass.Reader;
 public class showinfobook {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
+    @Autowired
+    private CheckUser checkUser;
     @PostMapping("/show-info")
     public Reponsebook showInfo(@RequestBody BookReaderRequest request) {   // parameters: reader: name, csrftoken, API_KEY; book: bookID
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
-        CheckUser checkUser = new CheckUser();
         if (!checkUser.check(reader)) {
             throw new IllegalArgumentException("Invalid user credentials or user not found");
         }

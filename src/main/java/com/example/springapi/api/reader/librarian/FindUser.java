@@ -25,14 +25,14 @@ public class FindUser {
     private JdbcTemplate jdbcTemplate;
 
     @PostMapping("/finduser")
-    public AuthResponse findUser(@RequestBody Reader reader,@RequestParam String ID) {
+    public AuthResponse findUser(@RequestBody Reader reader,@RequestParam String stringID) {
         if (checklibrarian.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
             // check sql injection for String ID
-            if (!CheckString.isValid(ID)) {
-                throw new IllegalArgumentException("Invalid String ID: " + ID);
+            if (!CheckString.isValid(stringID)) {
+                throw new IllegalArgumentException("Invalid String ID: " + stringID);
             }
             String sql = "SELECT * FROM READER WHERE STRING_ID = ?";
-            Reader foundReader = jdbcTemplate.queryForObject(sql, new Object[] { ID }, (rs, rowNum) -> {
+            Reader foundReader = jdbcTemplate.queryForObject(sql, new Object[] { stringID }, (rs, rowNum) -> {
                 Reader r = new Reader();
                 r.setStringId(rs.getString("STRING_ID"));
                 r.setName(rs.getString("NAME"));

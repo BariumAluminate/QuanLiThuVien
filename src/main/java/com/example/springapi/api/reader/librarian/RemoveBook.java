@@ -23,6 +23,7 @@ public class RemoveBook {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
     private CheckUser checkuser;
 
     @PostMapping("/removebook")

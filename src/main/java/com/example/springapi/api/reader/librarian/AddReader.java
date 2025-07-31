@@ -18,11 +18,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class AddReader {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     @Autowired
     private CSRFTokenUtil csrftokenutil;
 
+    @Autowired
     private CheckUser checker;
 
+    
     public void runcommandaddreader(Reader reader) {
         CheckString checker = new CheckString(reader.getStringId());
         if (!CheckString.isValid(reader.getStringId())) {
@@ -60,7 +63,7 @@ public class AddReader {
     if(!checker.checklibrarian(csrfToken, stringId, API_KEY)) {
         throw new IllegalArgumentException("You are not a librarian or CSRF token is invalid");
     }
-    reader.setAPI_KEY(reader.createrandomkey());
+    //reader.setAPI_KEY(reader.createrandomkey());
     runcommandaddreader(reader);
     return "Reader added successfully with ID: " + reader.getStringId();
     }

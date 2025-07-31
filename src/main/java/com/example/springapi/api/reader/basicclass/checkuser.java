@@ -9,10 +9,12 @@ public class CheckUser {
     private JdbcTemplate jdbcTemplate;
     @Autowired
     private CSRFTokenUtil csrftokenutil;
+    @Autowired 
+    private CheckString checker;
     public boolean check(Reader reader) { // param: ID, API_KEY, CSRF_TOKEN
         reader.setName("");
         reader.setPassword("");
-        CheckString checker = new CheckString(reader.getStringId());
+        checker.setNeedcheck(reader.getStringId());
         if (!checker.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid String ID: " + reader.getStringId());
         }
@@ -49,7 +51,7 @@ public class CheckUser {
     }
 
     public boolean checklibrarian(String csrftoken,String stringId, String API_KEY) {
-        CheckString checker = new CheckString(stringId);
+        //CheckString checker = new CheckString(stringId);
         if (!checker.isValid(stringId)) {
             throw new IllegalArgumentException("Invalid String ID: " + stringId);
         }
