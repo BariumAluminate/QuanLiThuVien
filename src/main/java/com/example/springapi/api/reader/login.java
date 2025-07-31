@@ -33,16 +33,13 @@ public class login {
         System.out.println(">>> Login controller created <<<");
     }
     public boolean checkaccount(Reader reader) {
-        CheckString checker = new CheckString(reader.getStringId());
-        if (!checker.isValid(reader.getStringId())) {
+        if (!CheckString.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid credentials");
         }
-        checker.setNeedcheck(reader.getName());
-        if (!checker.isValid(reader.getName())) {
+        if (!CheckString.isValid(reader.getName())) {
             throw new IllegalArgumentException("Invalid credentials ");
         }
-        checker.setNeedcheck(reader.getPassword());
-        if (!checker.isValid(reader.getPassword())) {
+        if (!CheckString.isValid(reader.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials ");
         }
         String sql = "SELECT COUNT(*) FROM READER WHERE STRING_ID = ? AND NAME = ? AND PASSWORD = ?";

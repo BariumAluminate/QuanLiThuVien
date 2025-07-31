@@ -24,13 +24,11 @@ public class FindUser {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private CheckString checkerSQL;
-
     @PostMapping("/finduser")
     public AuthResponse findUser(@RequestBody Reader reader,@RequestParam String ID) {
         if (checklibrarian.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
             // check sql injection for String ID
-            if (!checkerSQL.isValid(ID)) {
+            if (!CheckString.isValid(ID)) {
                 throw new IllegalArgumentException("Invalid String ID: " + ID);
             }
             String sql = "SELECT * FROM READER WHERE STRING_ID = ?";

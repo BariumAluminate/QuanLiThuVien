@@ -4,6 +4,7 @@ package com.example.springapi.api.reader.librarian;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.book.Bookclass;
+import com.example.springapi.api.book.CheckBook;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.book.Reponsebook;
 import com.example.springapi.api.reader.basicclass.Reader;
@@ -23,11 +24,15 @@ public class AddBook {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private CheckBook checkBook;
     @PostMapping("/addbook")
-    
     public Reponsebook Addbook (@RequestBody BookReaderRequest request) {
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
+        if(checkBook.checkbook(book)) {
+            throw new IllegalArgumentException("Book already exists with ID: " + book.getbookId());
+        }
         if(checklibrarian.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
             String sql = "INSERT INTO BOOK (title,author,booktag,BorrowerID,STRING_ID_BOOK) VALUES (?,?,?,?,?)";
             jdbcTemplate.update(sql, book.getTitle(), book.getAuthor(), book.getBooktag(), book.getBorrowerId(), book.getbookId());

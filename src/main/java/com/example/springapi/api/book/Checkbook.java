@@ -4,13 +4,17 @@ import com.example.springapi.api.reader.basicclass.CheckString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-
+import com.example.springapi.api.book.Bookclass;
 @Component
 public class CheckBook {
     
-    @Autowired
+    //@Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // default constructor
+    public CheckBook() {   
+        // No initialization needed
+    }
     public boolean checkbook(Bookclass book){
         String ID = book.getbookId();
         if (CheckString.isValid(ID)) {

@@ -2,7 +2,6 @@ package com.example.springapi.api.reader;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springapi.api.book.Bookclass;
 import com.example.springapi.api.book.CheckBook;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.book.Reponsebook;

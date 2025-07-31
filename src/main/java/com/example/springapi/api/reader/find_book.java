@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/reader")
 public class find_book {
-    private CheckString checkerSQL;
     
     @Autowired
     private CheckUser checkerUser;
@@ -33,9 +32,8 @@ public class find_book {
         // This is a placeholder implementation
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
-        checkerSQL = new CheckString(book.getbookId());
         if(checkerUser.check(reader)){
-            if(checkerSQL.isValid(book.getbookId())){
+            if(CheckString.isValid(book.getbookId())){
                 String sql = "SELECT * FROM BOOK WHERE STRING_ID_BOOK = ?";
                 Bookclass foundBook = jdbcTemplate.queryForObject(
                     sql,
@@ -44,6 +42,7 @@ public class find_book {
                 );
                 if(foundBook != null){
                     String message = "Book found successfully";
+                    foundBook.setbookId(book.getbookId());
                     return new Reponsebook(foundBook, message);
                 }
             }

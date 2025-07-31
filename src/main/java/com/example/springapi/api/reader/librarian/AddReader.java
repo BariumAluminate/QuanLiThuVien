@@ -25,7 +25,7 @@ public class AddReader {
 
     public void runcommandaddreader(Reader reader) {
         CheckString checker = new CheckString(reader.getStringId());
-        if (!checker.isValid(reader.getStringId())) {
+        if (!CheckString.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid String ID: " + reader.getStringId());
         }
         // check if stringId exist already in the database
@@ -35,11 +35,11 @@ public class AddReader {
             throw new IllegalArgumentException("String ID already exists: " + reader.getStringId());
         }
         checker.setNeedcheck(reader.getName());
-        if (!checker.isValid(reader.getName())) {
+        if (!CheckString.isValid(reader.getName())) {
             throw new IllegalArgumentException("Invalid Name: " + reader.getName());
         }
         checker.setNeedcheck(reader.getPassword());
-        if (!checker.isValid(reader.getPassword())) {
+        if (!CheckString.isValid(reader.getPassword())) {
             throw new IllegalArgumentException("Invalid Password: " + reader.getPassword());
         }
         reader.setAPI_KEY(reader.createrandomkey());
