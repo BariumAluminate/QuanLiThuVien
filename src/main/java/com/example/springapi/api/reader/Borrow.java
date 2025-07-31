@@ -3,11 +3,11 @@ package com.example.springapi.api.reader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.book.Bookclass;
-import com.example.springapi.api.book.Checkbook;
+import com.example.springapi.api.book.CheckBook;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.book.Reponsebook;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,9 +21,9 @@ public class Borrow {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private Checkbook checkerbook;
+    private CheckBook checkerbook;
 
-    private checkuser checkuser;
+    private CheckUser checkuser;
 
     @PostMapping("/borrow")
     public Reponsebook borrowBook(@RequestBody BookReaderRequest bookReaderRequest) {

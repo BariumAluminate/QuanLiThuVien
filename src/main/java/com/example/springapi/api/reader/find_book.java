@@ -6,8 +6,8 @@ import com.example.springapi.api.book.Bookclass;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.book.Reponsebook;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkstring;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckString;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/reader")
 public class find_book {
-    private checkstring checkerSQL;
+    private CheckString checkerSQL;
     
     @Autowired
-    private checkuser checkerUser;
+    private CheckUser checkerUser;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,7 +33,7 @@ public class find_book {
         // This is a placeholder implementation
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
-        checkerSQL = new checkstring(book.getbookId());
+        checkerSQL = new CheckString(book.getbookId());
         if(checkerUser.check(reader)){
             if(checkerSQL.isValid(book.getbookId())){
                 String sql = "SELECT * FROM BOOK WHERE STRING_ID_BOOK = ?";

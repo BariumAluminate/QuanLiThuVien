@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springapi.api.book.Bookclass;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkstring;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckString;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/librarian")
 public class RemoveBook {
     
-    private checkstring checkerSQL;
+    private CheckString checkerSQL;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private checkuser checkuser;
+    private CheckUser checkuser;
 
     @PostMapping("/removebook")
     public String Removebook(@RequestBody BookReaderRequest request) {

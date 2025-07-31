@@ -8,6 +8,9 @@ public class Bookclass {
     private String BorrowerId;
 
 
+    public Bookclass() {
+        // constructor mặc định là bắt buộc cho BeanPropertyRowMapper
+    }
     //constructor
     public Bookclass(String bookId, String title, String author, String booktag, String borrowerId) {
         this.bookId = bookId;
@@ -15,9 +18,6 @@ public class Bookclass {
         this.author = author;
         this.booktag = booktag;
         BorrowerId = borrowerId;
-    }
-    public Bookclass() {
-        // constructor mặc định là bắt buộc cho BeanPropertyRowMapper
     }
     // Getters and Setters
     public String getbookId() {

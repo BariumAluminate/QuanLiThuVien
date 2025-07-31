@@ -7,7 +7,7 @@ import com.example.springapi.api.book.Bookclass;
 import com.example.springapi.api.book.BookReaderRequest;
 import com.example.springapi.api.book.Reponsebook;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/librarian")
 public class AddBook {
  
-    private checkuser checklibrarian;
+    private CheckUser checklibrarian;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

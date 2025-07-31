@@ -2,13 +2,19 @@ package com.example.springapi.api.reader.basicclass;
 
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 
-
-public class checkstring {
+@Component
+public class CheckString {
     private String needcheck;
 
-    public checkstring(String needcheck) {
+    public CheckString() {
+        this.needcheck = "";
+    }
+    public CheckString(String needcheck) {
         this.needcheck = needcheck;
     }
     public String getNeedcheck() {
@@ -17,7 +23,7 @@ public class checkstring {
     public void setNeedcheck(String needcheck) {
         this.needcheck = needcheck;
     }
-    public boolean isValid(String needcheck) {
+    public static boolean isValid(String needcheck) {
         if (needcheck == null || needcheck.trim().isEmpty()) {
             return false;
         }

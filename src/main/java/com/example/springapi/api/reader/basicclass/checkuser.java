@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component 
-public class checkuser {
+public class CheckUser {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -12,7 +12,7 @@ public class checkuser {
     public boolean check(Reader reader) { // param: ID, API_KEY, CSRF_TOKEN
         reader.setName("");
         reader.setPassword("");
-        checkstring checker = new checkstring(reader.getStringId());
+        CheckString checker = new CheckString(reader.getStringId());
         if (!checker.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid String ID: " + reader.getStringId());
         }
@@ -49,7 +49,7 @@ public class checkuser {
     }
 
     public boolean checklibrarian(String csrftoken,String stringId, String API_KEY) {
-        checkstring checker = new checkstring(stringId);
+        CheckString checker = new CheckString(stringId);
         if (!checker.isValid(stringId)) {
             throw new IllegalArgumentException("Invalid String ID: " + stringId);
         }

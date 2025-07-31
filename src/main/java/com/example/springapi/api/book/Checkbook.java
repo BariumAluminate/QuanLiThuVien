@@ -1,21 +1,19 @@
 package com.example.springapi.api.book;
 
-import com.example.springapi.api.reader.basicclass.checkstring;
+import com.example.springapi.api.reader.basicclass.CheckString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Checkbook {
+public class CheckBook {
     
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private checkstring checkSQL;
-
     public boolean checkbook(Bookclass book){
         String ID = book.getbookId();
-        if (checkSQL.isValid(ID)) {
+        if (CheckString.isValid(ID)) {
             String sql = "SELECT COUNT(*) FROM BOOK WHERE STRING_ID_BOOK = ?";
             int count = jdbcTemplate.queryForObject(sql, new Object[]{ID}, Integer.class);
             return count > 0;

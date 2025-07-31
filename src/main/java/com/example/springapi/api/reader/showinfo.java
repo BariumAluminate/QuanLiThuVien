@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springapi.api.reader.basicclass.AuthResponse;
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Component 
 public class showinfo {
     @Autowired
-    private checkuser checker;
+    private CheckUser checker;
 
     @Autowired
     private CSRFTokenUtil csrfTokenUtil;

@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkstring;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckString;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +21,10 @@ public class AddReader {
     @Autowired
     private CSRFTokenUtil csrftokenutil;
 
-    private checkuser checker;
+    private CheckUser checker;
 
     public void runcommandaddreader(Reader reader) {
-        checkstring checker = new checkstring(reader.getStringId());
+        CheckString checker = new CheckString(reader.getStringId());
         if (!checker.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid String ID: " + reader.getStringId());
         }
@@ -34,7 +34,6 @@ public class AddReader {
         if (count != null && count > 0) {
             throw new IllegalArgumentException("String ID already exists: " + reader.getStringId());
         }
-        
         checker.setNeedcheck(reader.getName());
         if (!checker.isValid(reader.getName())) {
             throw new IllegalArgumentException("Invalid Name: " + reader.getName());

@@ -3,8 +3,8 @@ package com.example.springapi.api.reader;
 import com.example.springapi.api.reader.basicclass.AuthResponse;
 import com.example.springapi.api.reader.basicclass.CSRFTokenUtil;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkstring;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckString;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,7 +23,7 @@ import java.util.List;
 public class login {
 
     @Autowired
-    private checkuser checkerUser;
+    private CheckUser checkerUser;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Autowired
@@ -33,7 +33,7 @@ public class login {
         System.out.println(">>> Login controller created <<<");
     }
     public boolean checkaccount(Reader reader) {
-        checkstring checker = new checkstring(reader.getStringId());
+        CheckString checker = new CheckString(reader.getStringId());
         if (!checker.isValid(reader.getStringId())) {
             throw new IllegalArgumentException("Invalid credentials");
         }

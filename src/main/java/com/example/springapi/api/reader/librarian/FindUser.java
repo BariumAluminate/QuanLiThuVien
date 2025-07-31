@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springapi.api.reader.basicclass.AuthResponse;
 import com.example.springapi.api.reader.basicclass.Reader;
-import com.example.springapi.api.reader.basicclass.checkstring;
-import com.example.springapi.api.reader.basicclass.checkuser;
+import com.example.springapi.api.reader.basicclass.CheckString;
+import com.example.springapi.api.reader.basicclass.CheckUser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class FindUser {
 
     @Autowired
-    private checkuser checklibrarian;
+    private CheckUser checklibrarian;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private checkstring checkerSQL;
+    private CheckString checkerSQL;
 
     @PostMapping("/finduser")
     public AuthResponse findUser(@RequestBody Reader reader,@RequestParam String ID) {
