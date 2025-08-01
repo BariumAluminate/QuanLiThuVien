@@ -30,12 +30,12 @@ public class RemoveBook {
     public String Removebook(@RequestBody BookReaderRequest request) {
         Bookclass book = request.getBook();
         Reader reader = request.getReader();
-        if(checkerSQL.isValid(book.getbookId()) && checkuser.check(reader)) {
+        if(checkerSQL.isValid(book.getbookId()) && checkuser.checklibrarian(reader.getCSRFTOKEN(), reader.getStringId(), reader.getAPI_KEY())) {
             String sql = "DELETE FROM BOOK WHERE STRING_ID_BOOK = ?";
             jdbcTemplate.update(sql, book.getbookId());
             return "Book " + book.getbookId() + " removed successfully";
         } else {
-            throw new IllegalArgumentException("Invalid credentials or user not found");
+            throw new IllegalArgumentException("Invalid credentials or user not found or user not librarian");
         }
     }
 }

@@ -47,7 +47,7 @@ public class AddBook {
             Reponsebook response = new Reponsebook(book, message);  
             return response;
         } else {
-            throw new IllegalArgumentException("Invalid librarian credentials or user not found");
+            throw new IllegalArgumentException("Invalid librarian credentials or user not found or user not librarian");
         }
     }
 }

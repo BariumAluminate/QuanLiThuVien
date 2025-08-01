@@ -45,7 +45,7 @@ public class FindUser {
                 return new AuthResponse(foundReader, "User found successfully");
             }
         } else {
-            throw new IllegalArgumentException("Invalid librarian credentials or user not found");
+            throw new IllegalArgumentException("Invalid librarian credentials or user not found or user not librarian");
         }
         return null;
     }

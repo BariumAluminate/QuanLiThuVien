@@ -7,6 +7,7 @@ import com.example.springapi.api.book.Bookclass;
 import com.example.springapi.api.book.Reponsebook;
 import com.example.springapi.api.reader.basicclass.CheckString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,14 +32,25 @@ public class showinfobook {
             throw new IllegalArgumentException("Invalid book ID");
         }
         String sql = "SELECT * FROM BOOK WHERE STRING_ID_BOOK = ?";
-        Bookclass bookInfo = jdbcTemplate.queryForObject(sql, new Object[]{book.getbookId()}, (rs, rowNum) -> {
-            Bookclass b = new Bookclass();
-            b.setbookId(rs.getString("STRING_ID_BOOK"));
-            b.setTitle(rs.getString("TITLE"));
-            b.setAuthor(rs.getString("AUTHOR"));
-            b.setBooktag(rs.getString("booktag"));
-            return b;
-        });
+        Bookclass bookInfo = null;
+        try {
+        bookInfo = jdbcTemplate.queryForObject(
+            sql,
+            new Object[]{book.getbookId()},
+            (rs, rowNum) -> {
+                Bookclass b = new Bookclass();
+                b.setbookId(rs.getString("STRING_ID_BOOK"));
+                b.setTitle(rs.getString("TITLE"));
+                b.setAuthor(rs.getString("AUTHOR"));
+                b.setBooktag(rs.getString("booktag"));
+                return b;
+            }
+        );
+        } catch (EmptyResultDataAccessException e) {
+            // Không tìm thấy bản ghi -> trả về null hoặc xử lý tùy ý
+            bookInfo = null;
+            return new Reponsebook(null, "Book not found or does not exist");
+        }
         return new Reponsebook(bookInfo, "Book information retrieved successfully");
     }
 }
