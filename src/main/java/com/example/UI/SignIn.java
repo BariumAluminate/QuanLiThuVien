@@ -95,6 +95,10 @@ public class SignIn {
       rect.setArcHeight(20);
   }
 
+    /***
+     * fit to the screen.
+     * @param scene: the main scene.
+     */
   public void fit_to_screen(Scene scene) {
       rect.widthProperty().bind(scene.widthProperty().multiply(0.6));
       rect.heightProperty().bind(scene.heightProperty().multiply(0.6));
