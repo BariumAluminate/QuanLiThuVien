@@ -1,11 +1,15 @@
 public class Book extends Item {
-    public String author;
-    public String bookTag;
-    public String borrowedId;
-    public boolean borrowedState;
+    private String author;
+    private String bookTag;
+    private String borrowedId;
 
-    public Book(String id, String name) {
+    public Book() {
+
+    }
+
+    public Book(String id, String name, String borrowedId) {
         super(id, name);
+        this.borrowedId = borrowedId;
     }
 
     public void updateName(String name) {
@@ -34,11 +38,11 @@ public class Book extends Item {
         this.bookTag = bookTag;
     }
 
-    public String show() {
-        return "Tác giả: " + author + ", Tag: " + bookTag;
+    public void show() {
+
     }
 
-    public void lend(String someone) {
+    public void returned() {
 
     }
 }
