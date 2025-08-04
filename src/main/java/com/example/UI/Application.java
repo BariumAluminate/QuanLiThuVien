@@ -7,12 +7,11 @@ import javafx.scene.image.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 
 public class Application extends javafx.application.Application {
   @Override
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage) throws FileNotFoundException {
     Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
     ImageView imageView = new ImageView(image);
 
