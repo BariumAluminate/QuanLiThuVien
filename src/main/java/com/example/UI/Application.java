@@ -7,11 +7,12 @@ import javafx.scene.image.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class Application extends javafx.application.Application {
   @Override
-  public void start(Stage stage) throws FileNotFoundException {
+  public void start(Stage stage) throws IOException {
     Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
     ImageView imageView = new ImageView(image);
 
@@ -32,10 +33,10 @@ public class Application extends javafx.application.Application {
     imageView.fitHeightProperty().bind(box.heightProperty());
     imageView.setPreserveRatio(false);
 
-
     stage.setTitle("Library Management");
     stage.setScene(scene);
     stage.show();
+    System.out.println("HI");
   }
   public static void main(String[] args) {
       launch(args);

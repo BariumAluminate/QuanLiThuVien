@@ -83,7 +83,7 @@ public class SignIn {
       box.setAlignment(Pos.CENTER);
       box.setMaxWidth(640);
 
-      box.getChildren().addAll(hbox1, ID, hbox2, password, hbox3, name, sep1, LogIn);
+      box.getChildren().addAll(hbox1, ID, hbox3, name, hbox2, password, sep1, LogIn);
 
       stack.getChildren().addAll(rect, box);
 
@@ -93,6 +93,11 @@ public class SignIn {
       rect.setStroke(null);
       rect.setArcWidth(20);
       rect.setArcHeight(20);
+
+      LogIn.setOnAction(e -> {
+          String idText = ID.getText();
+          String passwordText = password.getText();
+      });
   }
 
     /***
