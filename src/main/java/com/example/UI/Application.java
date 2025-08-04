@@ -18,7 +18,6 @@ public class Application extends javafx.application.Application {
     imageView.setX(0);
     imageView.setY(0);
 
-
     StackPane box = new StackPane();
 
     SignIn signIn = new SignIn();
