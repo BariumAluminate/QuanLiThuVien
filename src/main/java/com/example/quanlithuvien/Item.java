@@ -1,3 +1,5 @@
+package com.example.quanlithuvien;
+
 public abstract class Item {
     protected String id;
     protected String name;
@@ -11,7 +13,13 @@ public abstract class Item {
         this.name = name;
     }
 
-    public void show() {
-
+    public String getId() {
+        return id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract void show();
 }

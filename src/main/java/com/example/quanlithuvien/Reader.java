@@ -1,4 +1,6 @@
-public class Reader extends Item {
+package com.example.quanlithuvien;
+
+public abstract class Reader extends Item {
     protected String password;
     protected String API_Key;
     protected String csrfToken;
@@ -19,7 +21,5 @@ public class Reader extends Item {
 
     }
 
-    public void show() {
-
-    }
+    public abstract void show();
 }
