@@ -1,6 +1,6 @@
 package com.example.quanlithuvien;
 
-public class Librarian extends Reader {
+public abstract class Librarian extends Reader {
     public void addBook(String id, String name, String author) {
 
     }
@@ -38,7 +38,5 @@ public class Librarian extends Reader {
     }
 
     @Override
-    public void show() {
-
-    }
+    public abstract void show();
 }

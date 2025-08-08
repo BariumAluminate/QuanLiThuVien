@@ -21,7 +21,5 @@ public abstract class Reader extends Item {
 
     }
 
-    public void show() {
-
-    }
+    public abstract void show();
 }

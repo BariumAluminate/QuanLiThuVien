@@ -13,7 +13,5 @@ public abstract class Item {
         this.name = name;
     }
 
-    public void show() {
-
-    }
+    public abstract void show();
 }
