@@ -20,14 +20,16 @@ public class Application extends javafx.application.Application {
 
     StackPane box = new StackPane();
 
-    SignIn signIn = new SignIn();
-    signIn.render(box);
+    UserInterface a = new UserInterface("John");
+    a.render(box);
 
     box.getChildren().addFirst(imageView);
 
     Scene scene = new Scene(box, 1280, 700);
 
-    signIn.fit_to_screen(scene);
+    a.resizeUserFace(box);
+    a.resizeFunctionBox(box);
+
     imageView.fitWidthProperty().bind(box.widthProperty());
     imageView.fitHeightProperty().bind(box.heightProperty());
     imageView.setPreserveRatio(false);

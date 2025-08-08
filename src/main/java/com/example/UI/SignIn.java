@@ -93,11 +93,6 @@ public class SignIn {
       rect.setStroke(null);
       rect.setArcWidth(20);
       rect.setArcHeight(20);
-
-      LogIn.setOnAction(e -> {
-          String idText = ID.getText();
-          String passwordText = password.getText();
-      });
   }
 
     /***
