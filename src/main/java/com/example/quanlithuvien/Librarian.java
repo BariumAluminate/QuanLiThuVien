@@ -1,6 +1,8 @@
-public class Librarian() extends Reader {
-    public addBook(String id, String name, String author) {
-        super(id, name, author);
+package com.example.quanlithuvien;
+
+public class Librarian extends Reader {
+    public void addBook(String id, String name, String author) {
+
     }
 
     public void RemoveBook(String bookId) {
@@ -19,19 +21,24 @@ public class Librarian() extends Reader {
 
     }
 
-    public addBookTag(String bookId, String tag) {
+    public void addBookTag(String bookId, String tag) {
 
     }
 
-    public removeBookTag(String bookId, String tag) {
+    public void removeBookTag(String bookId, String tag) {
 
     }
 
-    public updateBookTag(String bookId, String oldTag, String newTag) {
+    public void updateBookTag(String bookId, String oldTag, String newTag) {
 
     }
 
-    public findUser(String id) {
+    public void findUser(String id) {
+
+    }
+
+    @Override
+    public void show() {
 
     }
 }
