@@ -10,6 +10,7 @@ module com.example.UI {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires gson;
 
     opens com.example.UI to javafx.fxml;
     exports com.example.UI;
