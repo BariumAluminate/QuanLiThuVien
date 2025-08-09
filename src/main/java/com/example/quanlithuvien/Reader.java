@@ -1,6 +1,6 @@
 package com.example.quanlithuvien;
 
-public abstract class Reader extends Item {
+public class Reader extends Item {
     protected String password;
     protected String API_Key;
     protected String csrfToken;
@@ -20,6 +20,4 @@ public abstract class Reader extends Item {
     public void findByTag(String tag) {
 
     }
-
-    public abstract void show();
 }
