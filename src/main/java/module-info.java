@@ -10,6 +10,7 @@ module com.example.quanlithuvien {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires gson;
 
     opens com.example.quanlithuvien to javafx.fxml;
     exports com.example.quanlithuvien;
