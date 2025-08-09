@@ -1,6 +1,6 @@
 package com.example.quanlithuvien;
 
-public abstract class Item {
+public class Item {
     protected String id;
     protected String name;
 
@@ -20,6 +20,4 @@ public abstract class Item {
     public String getName() {
         return name;
     }
-
-    public abstract void show();
 }

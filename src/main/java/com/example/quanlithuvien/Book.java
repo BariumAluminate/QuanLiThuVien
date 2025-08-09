@@ -1,6 +1,6 @@
 package com.example.quanlithuvien;
 
-public abstract class Book extends Item {
+public class Book extends Item {
     private String author;
     private String bookTag;
     private String borrowedId;
@@ -51,8 +51,6 @@ public abstract class Book extends Item {
         this.name = name;
         this.bookTag = bookTag;
     }
-
-    public abstract void show();
 
     public void returned() {
 
