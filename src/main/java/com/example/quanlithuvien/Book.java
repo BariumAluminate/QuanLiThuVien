@@ -14,6 +14,18 @@ public class Book extends Item {
         this.borrowedId = borrowedId;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getBookTag() {
+        return bookTag;
+    }
+
+    public String getBorrowedId() {
+        return borrowedId;
+    }
+
     public void updateName(String name) {
         this.name = name;
     }
