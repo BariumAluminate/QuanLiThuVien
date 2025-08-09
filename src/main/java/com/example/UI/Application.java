@@ -27,8 +27,11 @@ public class Application extends javafx.application.Application {
 
     Scene scene = new Scene(box, 1280, 700);
 
+    scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
     a.resizeUserFace(box);
     a.resizeFunctionBox(box);
+    a.resizeObjectBox(box);
 
     imageView.fitWidthProperty().bind(box.widthProperty());
     imageView.fitHeightProperty().bind(box.heightProperty());
