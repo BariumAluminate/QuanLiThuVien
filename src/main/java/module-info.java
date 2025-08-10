@@ -11,7 +11,9 @@ module com.example.quanlithuvien {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires gson;
+    requires java.net.http;
+    requires java.sql;
 
-    opens com.example.quanlithuvien to javafx.fxml;
+    opens com.example.quanlithuvien to javafx.fxml, gson;
     exports com.example.quanlithuvien;
 }
