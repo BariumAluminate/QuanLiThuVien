@@ -24,6 +24,18 @@ public class Reader {
         return stringId;
     }
 
+    public String getApi_KEY() {
+        return api_KEY;
+    }
+
+    public String getCsrftoken() {
+        return csrftoken;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void borrow(String bookId) {
 
     }
