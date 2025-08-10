@@ -46,6 +46,10 @@ public class Book {
         return BorrowerID;
     }
 
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
     public void updateTitle(String title) {
         this.title = title;
     }
