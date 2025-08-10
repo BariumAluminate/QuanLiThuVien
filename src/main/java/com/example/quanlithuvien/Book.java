@@ -11,8 +11,19 @@ public class Book {
 
     }
 
-    public Book(String bookId, String name, String BorrowerID) {
-        this.BorrowerID = BorrowerID;
+    /**
+     * Phương thức khởi tạo.
+     * @param bookId id của sách
+     * @param title tên sách
+     * @param author tác giả
+     * @param bookTag book tag của sách
+     */
+    public Book(String bookId, String title, String author, String bookTag) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.bookTag = bookTag;
+        this.BorrowerID = null;
     }
 
     public String getBookId() {
