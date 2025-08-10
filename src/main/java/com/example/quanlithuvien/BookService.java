@@ -1,7 +1,6 @@
 package com.example.quanlithuvien;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,23 +19,15 @@ public class BookService {
 
     /**
      * Phương thức để thêm sách (Chỉ có tác dụng nếu là thủ thư).
+     *
      * @param reader Người thêm sách
-     * @param book Sách được thêm
-     * @return Nếu là thủ thư sách sẽ được thêm
+     * @param book   Sách được thêm
      */
-    public String addBook(Reader reader, Book book) {
+    public void addBook(Reader reader, Book book) {
         LibraryData libraryData = new LibraryData(reader, book);
 
-        JsonSerializer<Reader> readerJsonSerializer = (src,typeOfSrc, context) -> {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("stringId",src.getStringId());
-            jsonObject.addProperty("csrftoken",src.getCsrftoken());
-            jsonObject.addProperty("api_KEY",src.getApi_KEY());
-            return jsonObject;
-        };
-
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
 
@@ -49,14 +40,10 @@ public class BookService {
                     .build();
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                return "Success: Book added - " + response.body();
-            } else {
-                return "Error: Failed to add book - " + response.body();
-            }
+            System.out.println(response.body());
 
         } catch (IOException | InterruptedException e) {
-            return "Error: Failed to connect to API - " + e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -93,11 +80,7 @@ public class BookService {
                     .build();
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200) {
-                System.out.println(response.body());
-            } else {
-                System.out.println(response.body());
-            }
+            System.out.println(response.body());
 
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
