@@ -1,15 +1,20 @@
 package com.example.quanlithuvien;
 
-public class Reader extends Item {
+public class Reader {
+    private String stringId;
     protected String password;
-    protected String API_Key;
+    protected String api_KEY;
     protected String csrfToken;
+
+    public String getStringId() {
+        return stringId;
+    }
 
     public void borrow(String bookId) {
 
     }
 
-    public void findById(String id) {
+    public void findById(String stringId) {
 
     }
 
