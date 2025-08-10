@@ -59,4 +59,48 @@ public class BookService {
             return "Error: Failed to connect to API - " + e.getMessage();
         }
     }
+
+    /**
+     * Phương thức để xóa sách (Chỉ có tác dụng nếu là thủ thư).
+     *
+     * @param reader Người xóa sách
+     * @param bookId Id của sách bị xóa
+     */
+    public void removeBook(Reader reader, String bookId) {
+        Book book = new Book();
+        book.setBookId(bookId);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId", book1.getBookId());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        try {
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("http://20.196.64.166:8080/librarian/removebook"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() == 200) {
+                System.out.println(response.body());
+            } else {
+                System.out.println(response.body());
+            }
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
