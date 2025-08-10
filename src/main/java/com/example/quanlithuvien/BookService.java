@@ -103,4 +103,37 @@ public class BookService {
             System.out.println(e.getMessage());
         }
     }
+
+    public void findBookById(Reader reader, String bookId) {
+        Book book = new Book();
+        book.setBookId(bookId);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId",book1.getBookId());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        try {
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("http://20.196.64.166:8080/reader/findid"))
+                    .header("Content-Type","application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.body());
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
