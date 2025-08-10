@@ -10,6 +10,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class BookService {
+    private static final JsonSerializer<Reader> readerJsonSerializer = (src, typeOfSrc, context) -> {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("stringId", src.getStringId());
+        jsonObject.addProperty("csrftoken", src.getCsrftoken());
+        jsonObject.addProperty("api_KEY", src.getApi_KEY());
+        return jsonObject;
+    };
+
     /**
      * Phương thức để thêm sách (Chỉ có tác dụng nếu là thủ thư).
      * @param reader Người thêm sách
