@@ -1,16 +1,22 @@
 package com.example.quanlithuvien;
 
 public class Librarian extends Reader {
+    private BookService bookService;
+
     public Librarian(String stringId, String password, String api_KEY, String csrftoken) {
         super(stringId, password, api_KEY, csrftoken);
     }
 
-    public void addBook(String stringId, String title, String author) {
-
+    public void addBook(Book book) {
+        bookService.addBook(this, book);
     }
 
     public void RemoveBook(String bookId) {
+        bookService.removeBook(this, bookId);
+    }
 
+    public void findBookById(String bookId) {
+        bookService.findBookById(this, bookId);
     }
 
     public void addUser(String stringId, String name, String password) {
