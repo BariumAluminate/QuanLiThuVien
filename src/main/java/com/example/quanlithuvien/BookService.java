@@ -19,7 +19,17 @@ public class BookService {
     public String addBook(Reader reader, Book book) {
         LibraryData libraryData = new LibraryData(reader, book);
 
-        Gson gson = new Gson();
+        JsonSerializer<Reader> readerJsonSerializer = (src,typeOfSrc, context) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("stringId",src.getStringId());
+            jsonObject.addProperty("csrftoken",src.getCsrftoken());
+            jsonObject.addProperty("api_KEY",src.getApi_KEY());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .create();
         String json = gson.toJson(libraryData);
 
         try {
