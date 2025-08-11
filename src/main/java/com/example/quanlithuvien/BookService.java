@@ -241,6 +241,13 @@ public class BookService {
         doPostRequest("http://20.196.64.166:8080/reader/find_by_booktag", json);
     }
 
+    /**
+     * Cập nhật bookTag vào bookId.
+     *
+     * @param reader Người cập nhật
+     * @param bookId Id của sách cần cập nhật
+     * @param bookTag Tag dùng để cập nhật
+     */
     public void updateBookTag(Reader reader, String bookId, String bookTag) {
         Book book = new Book();
         book.setBookId(bookId);
