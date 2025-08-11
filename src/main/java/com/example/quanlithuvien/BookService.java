@@ -300,4 +300,18 @@ public class BookService {
 
         doPostRequest("http://20.196.64.166:8080/book/update-author",json);
     }
+
+    /**
+     * Ghi ra thông tin ngươi dùng.
+     *
+     * @param reader Người thực hiện yêu cầu
+     */
+    public void show(Reader reader) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .create();
+        String json = gson.toJson(reader);
+
+        doPostRequest("http://20.196.64.166:8080/reader/show",json);
+    }
 }
