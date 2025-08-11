@@ -159,6 +159,7 @@ public class BookService {
 
     /**
      * Mượn sách thông qua id sách.
+     *
      * @param reader người mượn
      * @param bookId Id của sách cần mượn
      */
@@ -170,17 +171,74 @@ public class BookService {
 
         JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("bookId",book1.getBookId());
+            jsonObject.addProperty("bookId", book1.getBookId());
             return jsonObject;
         };
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Reader.class,readerJsonSerializer)
-                .registerTypeAdapter(Book.class,bookJsonSerializer)
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
 
-        doPostRequest("http://20.196.64.166:8080/reader/borrow",json);
+        doPostRequest("http://20.196.64.166:8080/reader/borrow", json);
+    }
+
+    /**
+     * Cập nhật tên sách có id là bookId thành title.
+     *
+     * @param reader Người cập nhật
+     * @param bookId Id của sách cần cập nhật
+     * @param title  Tên sách sau cập nhật
+     */
+    public void updateBookName(Reader reader, String bookId, String title) {
+        Book book = new Book();
+        book.setBookId(bookId);
+        book.setTitle(title);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId", book1.getBookId());
+            jsonObject.addProperty("title", book1.getTitle());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/book/updatename", json);
+    }
+
+    /**
+     * Tìm thông tin các quyển sách có tag là bookTag.
+     *
+     * @param reader  người tìm
+     * @param bookTag bookTag cần tìm
+     */
+    public void findBookByBookTag(Reader reader, String bookTag) {
+        Book book = new Book();
+        book.setBookTag(bookTag);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("booktag", book1.getBookTag());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/reader/find_by_booktag", json);
     }
 
     public void updateBookTag(Reader reader, String bookId, String bookTag) {
