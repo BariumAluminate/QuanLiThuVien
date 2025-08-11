@@ -26,6 +26,14 @@ public class Book {
         this.BorrowerID = null;
     }
 
+    public Book(String bookId, String title, String author, String bookTag, String borrowerID) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.bookTag = bookTag;
+        BorrowerID = borrowerID;
+    }
+
     public String getBookId() {
         return bookId;
     }
@@ -48,6 +56,22 @@ public class Book {
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setBookTag(String bookTag) {
+        this.bookTag = bookTag;
+    }
+
+    public void setBorrowerID(String borrowerID) {
+        BorrowerID = borrowerID;
     }
 
     public void updateTitle(String title) {
