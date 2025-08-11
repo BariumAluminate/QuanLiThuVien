@@ -87,6 +87,12 @@ public class BookService {
         }
     }
 
+    /**
+     * Tìm sách theo id sách.
+     *
+     * @param reader người tìm sách
+     * @param bookId id của sách cần tìm
+     */
     public void findBookById(Reader reader, String bookId) {
         Book book = new Book();
         book.setBookId(bookId);
@@ -95,12 +101,13 @@ public class BookService {
 
         JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("bookId",book1.getBookId());
+            jsonObject.addProperty("bookId", book1.getBookId());
             return jsonObject;
         };
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
 
@@ -108,7 +115,7 @@ public class BookService {
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create("http://20.196.64.166:8080/reader/findid"))
-                    .header("Content-Type","application/json")
+                    .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -117,6 +124,44 @@ public class BookService {
 
         } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Tìm sách theo tên sách.
+     * @param reader Người tìm sách
+     * @param title Tên sách cần tìm
+     */
+    public void findBookByName(Reader reader, String title) {
+        Book book = new Book();
+        book.setTitle(title);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("title", book1.getTitle());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        try {
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create("http://20.196.64.166:8080/reader/find_by_name"))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.body());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
