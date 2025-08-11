@@ -9,6 +9,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class BookService {
+    /**
+     * Chuyển đổi đối tượng Reader thành đối tượng JSON với các cặp key-value cụ thể.
+     * Hàm này tạo ra 1 JsonObject chứa các đối tượng stringId, csrftoken và api_KEY.
+     *
+     */
     private static final JsonSerializer<Reader> readerJsonSerializer = (src, typeOfSrc, context) -> {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("stringId", src.getStringId());
@@ -17,6 +22,13 @@ public class BookService {
         return jsonObject;
     };
 
+    /**
+     * Gửi 1 yêu cầu POST đến endpoint API được chỉ định với dữ liệu JSON.
+     * Phản hồi từ server sẽ được in ra phần console, nếu xảy ra lỗi sẽ ghi ra thông báo lỗi.
+     *
+     * @param Url Đường dẫn Url của endpoint API để gửi yêu cầu POST
+     * @param json chuỗi JSON chứa dữ liệu yêu cầu
+     */
     private static void doPostRequest(String Url, String json) {
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
@@ -48,20 +60,7 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        try {
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create("http://20.196.64.166:8080/librarian/addbook"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println(response.body());
-
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        doPostRequest("http://20.196.64.166:8080/librarian/addbook",json);
     }
 
     /**
@@ -88,20 +87,7 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        try {
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create("http://20.196.64.166:8080/librarian/removebook"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println(response.body());
-
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        doPostRequest("http://20.196.64.166:8080/librarian/removebook",json);
     }
 
     /**
@@ -128,26 +114,14 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        try {
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create("http://20.196.64.166:8080/reader/findid"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println(response.body());
-
-        } catch (IOException | InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+        doPostRequest("http://20.196.64.166:8080/reader/findid",json);
     }
 
     /**
      * Tìm sách theo tên sách.
+     *
      * @param reader Người tìm sách
-     * @param title Tên sách cần tìm
+     * @param title  Tên sách cần tìm
      */
     public void findBookByName(Reader reader, String title) {
         Book book = new Book();
@@ -167,18 +141,19 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        try {
-            HttpClient httpClient = HttpClient.newHttpClient();
-            HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create("http://20.196.64.166:8080/reader/find_by_name"))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
-                    .build();
-            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        doPostRequest("http://20.196.64.166:8080/reader/find_by_name",json);
+    }
 
-            System.out.println(response.body());
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    /**
+     * Ghi ra thông tin sách trong thư viện.
+     * @param reader Người gửi yêu cầu
+     */
+    public void showAllBook(Reader reader) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .create();
+        String json = gson.toJson(reader);
+
+        doPostRequest("http://20.196.64.166:8080/reader/showAllBook",json);
     }
 }
