@@ -17,6 +17,23 @@ public class BookService {
         return jsonObject;
     };
 
+    private static void doPostRequest(String Url, String json) {
+        try {
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(Url))
+                    .header("Content-Type", "application/json")
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println(response.body());
+
+        } catch (IOException | InterruptedException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Phương thức để thêm sách (Chỉ có tác dụng nếu là thủ thư).
      *
