@@ -19,6 +19,14 @@ public class Librarian extends Reader {
         bookService.findBookById(this, bookId);
     }
 
+    public void findBookByName(String title) {
+        bookService.findBookById(this, title);
+    }
+
+    public void showAllBook() {
+        bookService.showAllBook(this);
+    }
+
     public void addUser(String stringId, String name, String password) {
 
     }
