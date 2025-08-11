@@ -182,4 +182,27 @@ public class BookService {
 
         doPostRequest("http://20.196.64.166:8080/reader/borrow",json);
     }
+
+    public void updateBookTag(Reader reader, String bookId, String bookTag) {
+        Book book = new Book();
+        book.setBookId(bookId);
+        book.setBookTag(bookTag);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId",book1.getBookId());
+            jsonObject.addProperty("bookTag",book1.getBookTag());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .registerTypeAdapter(Book.class,bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/book/update-book-tag",json);
+    }
 }
