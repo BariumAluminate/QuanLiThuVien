@@ -213,4 +213,31 @@ public class BookService {
 
         doPostRequest("http://20.196.64.166:8080/book/updatename", json);
     }
+
+    /**
+     * Tìm thông tin các quyển sách có tag là bookTag.
+     *
+     * @param reader  người tìm
+     * @param bookTag bookTag cần tìm
+     */
+    public void findBookByBookTag(Reader reader, String bookTag) {
+        Book book = new Book();
+        book.setBookTag(bookTag);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("booktag", book1.getBookTag());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .registerTypeAdapter(Book.class, bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/reader/find_by_booktag", json);
+    }
 }
