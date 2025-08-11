@@ -263,4 +263,34 @@ public class BookService {
 
         doPostRequest("http://20.196.64.166:8080/book/update-book-tag",json);
     }
+
+    /**
+     * Cập nhật tác giả cuốn sách.
+     *
+     * @param reader Nguười cập nhật
+     * @param bookId Id của sách cần cập nhật
+     * @param author Bút danh tác giả dùng để cập nhật
+     */
+    public void updateBookAuthor(Reader reader, String bookId, String author) {
+        Book book = new Book();
+        book.setBookId(bookId);
+        book.setAuthor(author);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId",book1.getBookId());
+            jsonObject.addProperty("author",book1.getAuthor());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .registerTypeAdapter(Book.class,bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/book/update-author",json);
+    }
 }
