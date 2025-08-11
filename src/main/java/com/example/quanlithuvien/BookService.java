@@ -12,7 +12,6 @@ public class BookService {
     /**
      * Chuyển đổi đối tượng Reader thành đối tượng JSON với các cặp key-value cụ thể.
      * Hàm này tạo ra 1 JsonObject chứa các đối tượng stringId, csrftoken và api_KEY.
-     *
      */
     private static final JsonSerializer<Reader> readerJsonSerializer = (src, typeOfSrc, context) -> {
         JsonObject jsonObject = new JsonObject();
@@ -26,7 +25,7 @@ public class BookService {
      * Gửi 1 yêu cầu POST đến endpoint API được chỉ định với dữ liệu JSON.
      * Phản hồi từ server sẽ được in ra phần console, nếu xảy ra lỗi sẽ ghi ra thông báo lỗi.
      *
-     * @param Url Đường dẫn Url của endpoint API để gửi yêu cầu POST
+     * @param Url  Đường dẫn Url của endpoint API để gửi yêu cầu POST
      * @param json chuỗi JSON chứa dữ liệu yêu cầu
      */
     private static void doPostRequest(String Url, String json) {
@@ -60,7 +59,7 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        doPostRequest("http://20.196.64.166:8080/librarian/addbook",json);
+        doPostRequest("http://20.196.64.166:8080/librarian/addbook", json);
     }
 
     /**
@@ -87,7 +86,7 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        doPostRequest("http://20.196.64.166:8080/librarian/removebook",json);
+        doPostRequest("http://20.196.64.166:8080/librarian/removebook", json);
     }
 
     /**
@@ -114,7 +113,7 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        doPostRequest("http://20.196.64.166:8080/reader/findid",json);
+        doPostRequest("http://20.196.64.166:8080/reader/findid", json);
     }
 
     /**
@@ -141,11 +140,12 @@ public class BookService {
                 .create();
         String json = gson.toJson(libraryData);
 
-        doPostRequest("http://20.196.64.166:8080/reader/find_by_name",json);
+        doPostRequest("http://20.196.64.166:8080/reader/find_by_name", json);
     }
 
     /**
      * Ghi ra thông tin sách trong thư viện.
+     *
      * @param reader Người gửi yêu cầu
      */
     public void showAllBook(Reader reader) {
@@ -154,6 +154,32 @@ public class BookService {
                 .create();
         String json = gson.toJson(reader);
 
-        doPostRequest("http://20.196.64.166:8080/reader/showAllBook",json);
+        doPostRequest("http://20.196.64.166:8080/reader/showAllBook", json);
+    }
+
+    /**
+     * Mượn sách thông qua id sách.
+     * @param reader người mượn
+     * @param bookId Id của sách cần mượn
+     */
+    public void borrowBook(Reader reader, String bookId) {
+        Book book = new Book();
+        book.setBookId(bookId);
+
+        LibraryData libraryData = new LibraryData(reader, book);
+
+        JsonSerializer<Book> bookJsonSerializer = (book1, type, jsonSerializationContext) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("bookId",book1.getBookId());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class,readerJsonSerializer)
+                .registerTypeAdapter(Book.class,bookJsonSerializer)
+                .create();
+        String json = gson.toJson(libraryData);
+
+        doPostRequest("http://20.196.64.166:8080/reader/borrow",json);
     }
 }
