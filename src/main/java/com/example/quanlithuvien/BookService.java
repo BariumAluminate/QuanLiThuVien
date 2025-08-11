@@ -278,7 +278,7 @@ public class BookService {
      * @param bookId Id của sách cần cập nhật
      * @param author Bút danh tác giả dùng để cập nhật
      */
-    public void updateBookAuthor(Reader reader, String bookId, String author) {
+    public void updateAuthor(Reader reader, String bookId, String author) {
         Book book = new Book();
         book.setBookId(bookId);
         book.setAuthor(author);
