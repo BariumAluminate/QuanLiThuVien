@@ -158,4 +158,8 @@ public class UserInterface {
             stackPane.getChildren().removeAll(userFace, functionBox, objectBox);
         }
     }
+
+    public void removeQuery() {
+        removeQuery remove = new removeQuery();
+    }
 }

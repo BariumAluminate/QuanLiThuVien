@@ -9,11 +9,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class SingleLineQuery {
+public abstract class SingleLineQuery {
     private final Text nameOfQuery;
     private final VBox box;
     private TextField Element;
-    private Button confirm;
+    protected Button confirm;
     private Button cancel;
     private Rectangle rect;
 
