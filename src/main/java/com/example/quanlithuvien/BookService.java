@@ -306,7 +306,7 @@ public class BookService {
      *
      * @param reader Người thực hiện yêu cầu
      */
-    public void show(Reader reader) {
+    public void showReaderInfo(Reader reader) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class,readerJsonSerializer)
                 .create();
