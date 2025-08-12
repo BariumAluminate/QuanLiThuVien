@@ -10,8 +10,10 @@ module com.example.UI {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires javafx.graphics;
+    requires gson;
+    requires java.net.http;
+    requires java.sql;
 
-    opens com.example.UI to javafx.fxml;
-    exports com.example.UI;
+    opens com.example.quanlithuvien to javafx.fxml, gson;
+    exports com.example.quanlithuvien;
 }

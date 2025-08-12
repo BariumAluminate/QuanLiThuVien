@@ -1,15 +1,57 @@
 package com.example.quanlithuvien;
 
-public class Reader extends Item {
+public class Reader {
+    private String name;
+    private String stringId;
+    protected String api_KEY;
+    protected String csrftoken;
     protected String password;
-    protected String API_Key;
-    protected String csrfToken;
+
+    /**
+     * Phương thức khởi tạo.
+     * @param stringId Id của người đọc
+     * @param password Mật khẩu
+     * @param csrftoken csrftoken
+     * @param api_KEY api_KEY
+     */
+    public Reader(String stringId, String password, String csrftoken, String api_KEY) {
+        this.stringId = stringId;
+        this.password = password;
+        this.api_KEY = api_KEY;
+        this.csrftoken = csrftoken;
+    }
+
+    public Reader(String stringId, String name, String password) {
+        this.stringId=stringId;
+        this.name=name;
+        this.password=password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getStringId() {
+        return stringId;
+    }
+
+    public String getApi_KEY() {
+        return api_KEY;
+    }
+
+    public String getCsrftoken() {
+        return csrftoken;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     public void borrow(String bookId) {
 
     }
 
-    public void findById(String id) {
+    public void findById(String stringId) {
 
     }
 
@@ -18,10 +60,6 @@ public class Reader extends Item {
     }
 
     public void findByTag(String tag) {
-
-    }
-
-    public void show() {
 
     }
 }
