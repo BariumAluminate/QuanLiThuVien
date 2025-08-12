@@ -38,7 +38,7 @@ public class Borrow {
                 return new Reponsebook(null, "Book is already borrowed or does not exist");
             }
             bookReaderRequest.getBook().setBorrowerId(reader.getStringId());
-            return new Reponsebook(bookReaderRequest.getBook(),"Borrowed successfully" + bookReaderRequest.getBook().getbookId() + " for " + reader.getStringId());
+            return new Reponsebook(bookReaderRequest.getBook(),"Borrowed successfully " + bookReaderRequest.getBook().getbookId() + " for " + reader.getStringId());
         } else {
             throw new IllegalArgumentException("Invalid book ID or user not found");
         }
