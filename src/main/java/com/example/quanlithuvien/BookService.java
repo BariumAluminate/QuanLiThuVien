@@ -28,7 +28,7 @@ public class BookService {
      * @param Url  Đường dẫn Url của endpoint API để gửi yêu cầu POST
      * @param json chuỗi JSON chứa dữ liệu yêu cầu
      */
-    private static void doPostRequest(String Url, String json) {
+    public void doPostRequest(String Url, String json) {
         try {
             HttpClient httpClient = HttpClient.newHttpClient();
             HttpRequest httpRequest = HttpRequest.newBuilder()
