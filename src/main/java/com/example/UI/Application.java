@@ -10,43 +10,37 @@ import java.io.FileNotFoundException;
 
 
 public class Application extends javafx.application.Application {
-    boolean login = false;
-
     @Override
     public void start(Stage stage) throws FileNotFoundException {
+        StackPane backgroundLayer = new StackPane();
         Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
         ImageView imageView = new ImageView(image);
+        backgroundLayer.getChildren().add(imageView);
 
-        imageView.setX(0);
-        imageView.setY(0);
+        // UI layer (content changes here)
+        StackPane uiLayer = new StackPane();
+        uiLayer.setStyle("-fx-background-color: transparent;");
 
-        StackPane box = new StackPane();
+        // Main container
+        StackPane mainContainer = new StackPane();
+        mainContainer.getChildren().addAll(backgroundLayer, uiLayer);
 
-        UserInterface a = new UserInterface("John");
-        a.render(box);
-
-        box.getChildren().addFirst(imageView);
-
-
-
-
-
-
-        a.resizeUserFace(box);
-        a.resizeFunctionBox(box);
-        a.resizeObjectBox(box);
-
-        Scene scene = new Scene(box, 1280, 700);
+        Scene scene = new Scene(mainContainer, 1280, 700);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        imageView.fitWidthProperty().bind(box.widthProperty());
-        imageView.fitHeightProperty().bind(box.heightProperty());
+        // Bind image to background
+        imageView.fitWidthProperty().bind(backgroundLayer.widthProperty());
+        imageView.fitHeightProperty().bind(backgroundLayer.heightProperty());
         imageView.setPreserveRatio(false);
+
+        // Create application controller with UI layer only
+        Controller controller = new Controller(uiLayer, scene);
+        controller.showSignIn(); // Start with sign-in
 
         stage.setTitle("Library Management");
         stage.setScene(scene);
         stage.show();
-      }
+    }
       public static void main(String[] args) {
           launch(args);
       }

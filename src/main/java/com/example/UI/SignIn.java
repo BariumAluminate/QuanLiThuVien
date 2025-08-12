@@ -27,7 +27,7 @@ public class SignIn {
     /**
      * Constructor.
      */
-  public SignIn() {
+  public SignIn(Runnable onSignIn) {
       ID = new TextField();
       ID.setPromptText("Enter your ID");
       ID.setStyle("-fx-font-size: 30");
@@ -57,6 +57,7 @@ public class SignIn {
 
       LogIn = new Button("Sign In");
       LogIn.setStyle("-fx-font-size: 30");
+      LogIn.setOnAction(e->onSignIn.run());
 
       rect = new Rectangle();
 
@@ -105,11 +106,12 @@ public class SignIn {
   }
 
     public void close(StackPane stackPane) {
-        stackPane.getChildren().removeAll(rect);
-
-        stackPane.getChildren().removeIf(node -> node instanceof VBox);
-        
         rect.widthProperty().unbind();
         rect.heightProperty().unbind();
+
+        // Remove specific nodes
+        stackPane.getChildren().removeAll(rect);
+        stackPane.getChildren().removeIf(node ->
+                node instanceof VBox && ((VBox) node).getChildren().contains(ID));
     }
 }

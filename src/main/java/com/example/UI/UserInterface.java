@@ -2,13 +2,10 @@ package com.example.UI;
 
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-
-import java.util.Stack;
 
 public class UserInterface {
     private final VBox userFace;
@@ -26,7 +23,7 @@ public class UserInterface {
     private final Button bookButton;
     private final  Button userButton;
 
-    UserInterface(String userName) {
+    UserInterface(String userName, Runnable onSignOut) {
         // User block
         userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
@@ -35,8 +32,10 @@ public class UserInterface {
         name.setStyle("-fx-font-size: 30");
         userFace.getChildren().add(name);
         SignOut = new Button("Sign out");
+        SignOut.setOnAction(e->onSignOut.run());
         SignOut.setStyle("-fx-font-size: 20");
         userFace.getChildren().add(SignOut);
+        userFace.getStyleClass().add("UserBox");
 
         //Function Button block
         functionBox = new VBox();
@@ -126,11 +125,16 @@ public class UserInterface {
         objectBox.prefHeightProperty().bind(stackPane.heightProperty().divide(8));
     }
 
+    public void resizeAll(StackPane stackPane) {
+        resizeUserFace(stackPane);
+        resizeObjectBox(stackPane);
+        resizeFunctionBox(stackPane);
+    }
+
     public void render(StackPane stackPane) {
         StackPane.setAlignment(userFace, Pos.TOP_LEFT);
         stackPane.getChildren().addFirst(userFace);
         userFace.setAlignment(Pos.CENTER);
-        SignOut.setOnAction(e->close(stackPane));
 
         StackPane.setAlignment(functionBox, Pos.BOTTOM_LEFT);
         stackPane.getChildren().add(functionBox);
@@ -142,7 +146,16 @@ public class UserInterface {
     }
 
     public void close(StackPane stackPane) {
-        stackPane.getChildren().removeIf(node -> node instanceof VBox);
-        stackPane.getChildren().removeIf(node -> node instanceof HBox);
+        if (stackPane != null) {
+            userFace.prefWidthProperty().unbind();
+            userFace.prefHeightProperty().unbind();
+            functionBox.prefWidthProperty().unbind();
+            functionBox.prefHeightProperty().unbind();
+            objectBox.prefWidthProperty().unbind();
+            objectBox.prefHeightProperty().unbind();
+
+            // Remove specific nodes instead of all VBox/HBox
+            stackPane.getChildren().removeAll(userFace, functionBox, objectBox);
+        }
     }
 }
