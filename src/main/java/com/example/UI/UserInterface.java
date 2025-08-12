@@ -8,9 +8,12 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.util.Stack;
+
 public class UserInterface {
-    private final HBox userFace;
+    private final VBox userFace;
     private final Text name;
+    private final Button SignOut;
 
     private final VBox functionBox;
     private final Button addButton;
@@ -24,13 +27,16 @@ public class UserInterface {
     private final  Button userButton;
 
     UserInterface(String userName) {
-        //User block
-        userFace = new HBox();
+        // User block
+        userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
         userFace.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         name = new Text(userName);
-        name.setStyle("-fx-font-size: 40");
+        name.setStyle("-fx-font-size: 30");
         userFace.getChildren().add(name);
+        SignOut = new Button("Sign out");
+        SignOut.setStyle("-fx-font-size: 20");
+        userFace.getChildren().add(SignOut);
 
         //Function Button block
         functionBox = new VBox();
@@ -124,6 +130,7 @@ public class UserInterface {
         StackPane.setAlignment(userFace, Pos.TOP_LEFT);
         stackPane.getChildren().addFirst(userFace);
         userFace.setAlignment(Pos.CENTER);
+        SignOut.setOnAction(e->close(stackPane));
 
         StackPane.setAlignment(functionBox, Pos.BOTTOM_LEFT);
         stackPane.getChildren().add(functionBox);
@@ -132,5 +139,10 @@ public class UserInterface {
         StackPane.setAlignment(objectBox, Pos.TOP_RIGHT);
         stackPane.getChildren().add(objectBox);
         objectBox.setAlignment(Pos.CENTER);
+    }
+
+    public void close(StackPane stackPane) {
+        stackPane.getChildren().removeIf(node -> node instanceof VBox);
+        stackPane.getChildren().removeIf(node -> node instanceof HBox);
     }
 }

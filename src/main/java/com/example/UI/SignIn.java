@@ -103,4 +103,13 @@ public class SignIn {
       rect.widthProperty().bind(scene.widthProperty().multiply(0.6));
       rect.heightProperty().bind(scene.heightProperty().multiply(0.6));
   }
+
+    public void close(StackPane stackPane) {
+        stackPane.getChildren().removeAll(rect);
+
+        stackPane.getChildren().removeIf(node -> node instanceof VBox);
+        
+        rect.widthProperty().unbind();
+        rect.heightProperty().unbind();
+    }
 }

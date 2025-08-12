@@ -1,9 +1,11 @@
 .functionButton {
     -fx-background-color: deepskyblue;
     -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0.2, 0, 5);
 }
 
 .objectButton {
     -fx-background-color: deepskyblue;
     -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0.2, 0, 5);
 }
