@@ -14,6 +14,6 @@ module com.example.UI {
     requires java.net.http;
     requires java.sql;
 
-    opens com.example.quanlithuvien to javafx.fxml, gson;
-    exports com.example.quanlithuvien;
+    opens com.example.UI to javafx.fxml, gson;
+    exports com.example.UI;
 }
