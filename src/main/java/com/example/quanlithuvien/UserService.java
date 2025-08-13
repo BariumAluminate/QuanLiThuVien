@@ -77,4 +77,27 @@ public class UserService {
         BookService bookService = new BookService();
         bookService.doPostRequest("http://20.196.64.166:8080/login/authenticate", json);
     }
+
+    /**
+     * Ghi ra thông tin ngươi dùng.
+     *
+     * @param reader Người thực hiện yêu cầu
+     */
+    public void showReaderInfo(Reader reader) {
+        JsonSerializer<Reader> readerJsonSerializer = (src, typeOfSrc, context) -> {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("stringId", src.getStringId());
+            jsonObject.addProperty("csrftoken", src.getCsrftoken());
+            jsonObject.addProperty("api_KEY", src.getApi_KEY());
+            return jsonObject;
+        };
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .create();
+        String json = gson.toJson(reader);
+
+        BookService bookService = new BookService();
+        bookService.doPostRequest("http://20.196.64.166:8080/reader/show", json);
+    }
 }
