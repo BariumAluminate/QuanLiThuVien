@@ -23,7 +23,7 @@ public class Controller {
 
     public void showUserInterface() {
         mainBox.getChildren().clear();
-        UserInterface userInterface = new UserInterface("John", this::showSignIn);
+        UserInterface userInterface = new UserInterface("John", mainBox,this::showSignIn);
         userInterface.render(mainBox);
         userInterface.resizeAll(mainBox);
         System.out.println("UserInterface UI added to mainBox. Children: " + mainBox.getChildren());

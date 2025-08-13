@@ -7,6 +7,8 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.util.Stack;
+
 public class UserInterface {
     private final VBox userFace;
     private final Text name;
@@ -23,7 +25,7 @@ public class UserInterface {
     private final Button bookButton;
     private final  Button userButton;
 
-    UserInterface(String userName, Runnable onSignOut) {
+    UserInterface(String userName, StackPane stackPane,Runnable onSignOut) {
         // User block
         userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
@@ -48,6 +50,7 @@ public class UserInterface {
         HBox.setHgrow(addButton, Priority.ALWAYS);
         VBox.setVgrow(addButton, Priority.ALWAYS);
         addButton.getStyleClass().add("functionButton");
+        addButton.setOnAction(e->addQuery(stackPane));
 
         removeButton = new Button("Remove");
         removeButton.setMaxWidth(Double.MAX_VALUE);
@@ -55,6 +58,7 @@ public class UserInterface {
         HBox.setHgrow(removeButton, Priority.ALWAYS);
         VBox.setVgrow(removeButton, Priority.ALWAYS);
         removeButton.getStyleClass().add("functionButton");
+        removeButton.setOnAction(e->removeQuery(stackPane));
 
         updateButton = new Button("Update");
         updateButton.setMaxHeight(Double.MAX_VALUE);
@@ -159,7 +163,14 @@ public class UserInterface {
         }
     }
 
-    public void removeQuery() {
+    public void removeQuery(StackPane stackPane) {
         removeQuery remove = new removeQuery();
+        remove.resizeProperty(stackPane);
+        remove.render(stackPane);
+    }
+
+    public void addQuery(StackPane stackPane) {
+        AddQuery add = new AddQuery();
+        add.render(stackPane);
     }
 }
