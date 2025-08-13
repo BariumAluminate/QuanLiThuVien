@@ -47,7 +47,7 @@ public class Librarian extends Reader {
         System.out.println(bookService.showAllBook(this));
     }
 
-    public void addUser(String stringId, String name, String password) throws JsonProcessingException {
+    public void addUser(String stringId, String name, String password) throws IOException, InterruptedException {
         if (stringId == null || name == null || password == null) {
             throw new IllegalArgumentException("User details cannot be null");
         }
@@ -64,11 +64,11 @@ public class Librarian extends Reader {
         System.out.println(bookService.updateBookName(this, bookId, title));
     }
 
-    public void updateBookAuthor(String bookId, String author) {
+    public void updateBookAuthor(String bookId, String author) throws IOException, InterruptedException {
         if (bookId == null || author == null) {
             throw new IllegalArgumentException("Book ID or author cannot be null");
         }
-        bookService.updateAuthor(this, bookId, author);
+        System.out.println(bookService.updateAuthor(this, bookId, author));
     }
 
     public void addBookTag(String bookId, String bookTag) throws IOException, InterruptedException {
