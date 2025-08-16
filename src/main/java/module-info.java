@@ -13,6 +13,7 @@ module com.example.UI {
     requires gson;
     requires java.net.http;
     requires java.sql;
+    requires javafx.graphics;
 
     opens com.example.UI to javafx.fxml, gson;
     exports com.example.UI;

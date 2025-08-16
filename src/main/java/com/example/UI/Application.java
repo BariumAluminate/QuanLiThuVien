@@ -7,6 +7,7 @@ import javafx.scene.image.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 
 public class Application extends javafx.application.Application {
@@ -26,7 +27,7 @@ public class Application extends javafx.application.Application {
         mainContainer.getChildren().addAll(backgroundLayer, uiLayer);
 
         Scene scene = new Scene(mainContainer, 1280, 700);
-        scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
 
         // Bind image to background
         imageView.fitWidthProperty().bind(backgroundLayer.widthProperty());

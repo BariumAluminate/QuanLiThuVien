@@ -172,5 +172,6 @@ public class UserInterface {
     public void addQuery(StackPane stackPane) {
         AddQuery add = new AddQuery();
         add.render(stackPane);
+        add.resize(stackPane);
     }
 }
