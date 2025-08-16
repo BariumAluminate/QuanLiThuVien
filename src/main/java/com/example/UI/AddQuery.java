@@ -105,7 +105,7 @@ public class AddQuery {
 
     public void resize(StackPane stackPane) {
         mainBox.prefWidthProperty().bind(stackPane.widthProperty().multiply(0.66));
-        mainBox.prefHeightProperty().bind(stackPane.heightProperty().divide(0.4));
+        mainBox.prefHeightProperty().bind(stackPane.heightProperty().divide(0.35));
         rect.widthProperty().bind(stackPane.widthProperty().multiply(0.7));
         rect.heightProperty().bind(stackPane.heightProperty().multiply(0.4));
     }

@@ -73,6 +73,7 @@ public class UserInterface {
         HBox.setHgrow(searchButton, Priority.ALWAYS);
         VBox.setVgrow(searchButton, Priority.ALWAYS);
         searchButton.getStyleClass().add("functionButton");
+        searchButton.setOnAction(e->searchQuery(stackPane));
 
         showButton = new Button("Show");
         showButton.setMaxHeight(Double.MAX_VALUE);
@@ -173,5 +174,12 @@ public class UserInterface {
         AddQuery add = new AddQuery();
         add.render(stackPane);
         add.resize(stackPane);
+    }
+
+    public void searchQuery(StackPane stackPane) {
+        SearchChooser searchChooser = new SearchChooser();
+        searchChooser.render(stackPane);
+        searchChooser.resize(stackPane);
+        searchChooser.setOnAction(stackPane);
     }
 }

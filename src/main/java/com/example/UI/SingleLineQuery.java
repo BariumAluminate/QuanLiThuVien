@@ -48,7 +48,7 @@ public abstract class SingleLineQuery {
         stackPane.getChildren().add(box);
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255, 0.75)); // Reaffirm fill
+        rect.setFill(Color.rgb(255, 255, 255));
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
@@ -57,7 +57,7 @@ public abstract class SingleLineQuery {
 
     public void resizeProperty(StackPane stackPane) {
         box.prefWidthProperty().bind(stackPane.widthProperty().multiply(0.66));
-        box.prefHeightProperty().bind(stackPane.heightProperty().divide(0.4));
+        box.prefHeightProperty().bind(stackPane.heightProperty().divide(0.35));
         Element.prefWidthProperty().bind(box.widthProperty().multiply(0.4));
         confirm.prefWidthProperty().bind(box.widthProperty().multiply(0.3));
         cancel.prefWidthProperty().bind(box.widthProperty().multiply(0.3));
