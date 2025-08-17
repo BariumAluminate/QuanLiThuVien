@@ -1,4 +1,4 @@
-module com.example.UI {
+module com.example.quanlithuvien {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
