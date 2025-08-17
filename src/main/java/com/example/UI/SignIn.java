@@ -27,7 +27,7 @@ public class SignIn {
     /**
      * Constructor.
      */
-  public SignIn(Runnable onSignIn) {
+  public SignIn() {
       ID = new TextField();
       ID.setPromptText("Enter your ID");
       ID.setStyle("-fx-font-size: 30");
@@ -57,7 +57,6 @@ public class SignIn {
 
       LogIn = new Button("Sign In");
       LogIn.setStyle("-fx-font-size: 30");
-      LogIn.setOnAction(e->onSignIn.run());
 
       rect = new Rectangle();
 
@@ -105,13 +104,29 @@ public class SignIn {
       rect.heightProperty().bind(scene.heightProperty().multiply(0.6));
   }
 
-    public void close(StackPane stackPane) {
-        rect.widthProperty().unbind();
-        rect.heightProperty().unbind();
+  public void close(StackPane stackPane) {
+    rect.widthProperty().unbind();
+    rect.heightProperty().unbind();
 
-        // Remove specific nodes
-        stackPane.getChildren().removeAll(rect);
-        stackPane.getChildren().removeIf(node ->
-                node instanceof VBox && ((VBox) node).getChildren().contains(ID));
-    }
+    // Remove specific nodes
+    stackPane.getChildren().removeAll(rect);
+    stackPane.getChildren().removeIf(node ->
+            node instanceof VBox && ((VBox) node).getChildren().contains(ID));
+  }
+
+  public String getUserName() {
+      return name.getText();
+  }
+
+  public String getId() {
+      return ID.getText();
+  }
+
+  public String getPassWord() {
+      return password.getText();
+  }
+
+  void setOnAction(Runnable onSignIn) {
+    LogIn.setOnAction(e->onSignIn.run());
+  }
 }

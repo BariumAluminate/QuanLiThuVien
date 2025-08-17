@@ -1,5 +1,7 @@
 package com.example.UI;
 
+import com.example.quanlithuvien.Librarian;
+import com.example.quanlithuvien.Reader;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,32 +13,26 @@ import java.util.Stack;
 
 public class UserInterface {
     private final VBox userFace;
-    private final Text name;
-    private final Button SignOut;
 
     private final VBox functionBox;
     private final Button addButton;
     private final Button removeButton;
     private final Button searchButton;
-    private final Button updateButton;
-    private final Button showButton;
 
     private final HBox objectBox;
-    private final Button bookButton;
-    private final  Button userButton;
 
-    UserInterface(String userName, StackPane stackPane,Runnable onSignOut) {
+    UserInterface(String userName, Runnable onSignOut) {
         // User block
         userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
         userFace.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        name = new Text(userName);
+        Text name = new Text(userName);
         name.setStyle("-fx-font-size: 30");
         userFace.getChildren().add(name);
-        SignOut = new Button("Sign out");
-        SignOut.setOnAction(e->onSignOut.run());
-        SignOut.setStyle("-fx-font-size: 20");
-        userFace.getChildren().add(SignOut);
+        Button signOut = new Button("Sign out");
+        signOut.setOnAction(e->onSignOut.run());
+        signOut.setStyle("-fx-font-size: 20");
+        userFace.getChildren().add(signOut);
         userFace.getStyleClass().add("UserBox");
 
         //Function Button block
@@ -50,7 +46,6 @@ public class UserInterface {
         HBox.setHgrow(addButton, Priority.ALWAYS);
         VBox.setVgrow(addButton, Priority.ALWAYS);
         addButton.getStyleClass().add("functionButton");
-        addButton.setOnAction(e->addQuery(stackPane));
 
         removeButton = new Button("Remove");
         removeButton.setMaxWidth(Double.MAX_VALUE);
@@ -58,9 +53,8 @@ public class UserInterface {
         HBox.setHgrow(removeButton, Priority.ALWAYS);
         VBox.setVgrow(removeButton, Priority.ALWAYS);
         removeButton.getStyleClass().add("functionButton");
-        removeButton.setOnAction(e->removeQuery(stackPane));
 
-        updateButton = new Button("Update");
+        Button updateButton = new Button("Update");
         updateButton.setMaxHeight(Double.MAX_VALUE);
         updateButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(updateButton, Priority.ALWAYS);
@@ -73,9 +67,8 @@ public class UserInterface {
         HBox.setHgrow(searchButton, Priority.ALWAYS);
         VBox.setVgrow(searchButton, Priority.ALWAYS);
         searchButton.getStyleClass().add("functionButton");
-        searchButton.setOnAction(e->searchQuery(stackPane));
 
-        showButton = new Button("Show");
+        Button showButton = new Button("Show");
         showButton.setMaxHeight(Double.MAX_VALUE);
         showButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(showButton, Priority.ALWAYS);
@@ -95,13 +88,13 @@ public class UserInterface {
         objectBox.setStyle("-fx-background-color: deepskyblue;");
         objectBox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
-        bookButton = new Button("Book");
+        Button bookButton = new Button("Book");
         bookButton.setMaxHeight(Double.MAX_VALUE);
         bookButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(bookButton, Priority.ALWAYS);
         VBox.setVgrow(bookButton, Priority.ALWAYS);
 
-        userButton = new Button("User");
+        Button userButton = new Button("User");
         userButton.setMaxHeight(Double.MAX_VALUE);
         userButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(userButton, Priority.ALWAYS);
@@ -109,7 +102,7 @@ public class UserInterface {
 
         Separator objSep = new Separator(Orientation.VERTICAL);
 
-        objectBox.getChildren().addAll(bookButton, objSep,userButton);
+        objectBox.getChildren().addAll(bookButton, objSep, userButton);
 
         bookButton.getStyleClass().add("objectButton");
         userButton.getStyleClass().add("objectButton");
@@ -150,36 +143,28 @@ public class UserInterface {
         objectBox.setAlignment(Pos.CENTER);
     }
 
-    public void close(StackPane stackPane) {
-        if (stackPane != null) {
-            userFace.prefWidthProperty().unbind();
-            userFace.prefHeightProperty().unbind();
-            functionBox.prefWidthProperty().unbind();
-            functionBox.prefHeightProperty().unbind();
-            objectBox.prefWidthProperty().unbind();
-            objectBox.prefHeightProperty().unbind();
-
-            // Remove specific nodes instead of all VBox/HBox
-            stackPane.getChildren().removeAll(userFace, functionBox, objectBox);
-        }
-    }
-
-    public void removeQuery(StackPane stackPane) {
+    public void removeQuery(StackPane stackPane, Reader user) {
         removeQuery remove = new removeQuery();
         remove.resizeProperty(stackPane);
         remove.render(stackPane);
     }
 
-    public void addQuery(StackPane stackPane) {
+    public void addQuery(StackPane stackPane, Reader user) {
         AddQuery add = new AddQuery();
         add.render(stackPane);
         add.resize(stackPane);
     }
 
-    public void searchQuery(StackPane stackPane) {
+    public void searchQuery(StackPane stackPane, Reader user) {
         SearchChooser searchChooser = new SearchChooser();
         searchChooser.render(stackPane);
         searchChooser.resize(stackPane);
-        searchChooser.setOnAction(stackPane);
+        searchChooser.setOnAction(stackPane, user);
+    }
+
+    public void setOnAction(StackPane stackPane, Reader reader) {
+        addButton.setOnAction(e->addQuery(stackPane, reader));
+        removeButton.setOnAction(e->removeQuery(stackPane, reader));
+        searchButton.setOnAction(e->searchQuery(stackPane, reader));
     }
 }
