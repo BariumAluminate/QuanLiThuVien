@@ -65,6 +65,12 @@ public class Reader {
         return password;
     }
 
+    /**
+     * Thông tin cuốn sách được mượn thông qua bookId.
+     * @param bookId id của cuốn sách được mượn
+     * @throws IOException ngoại lệ IO
+     * @throws InterruptedException ngoại lệ Interrupted
+     */
     public void borrow(String bookId) throws IOException, InterruptedException {
         if (bookId == null) {
             throw new IllegalArgumentException("bookId cannot be null!");
@@ -72,6 +78,12 @@ public class Reader {
         System.out.println(bookService.borrowBook(this, bookId));
     }
 
+    /**
+     * Tìm cuốn sách được mượn bằng Id của nó.
+     * @param bookId Id của cuốn sách được mượn
+     * @throws IOException ngoại lệ IO
+     * @throws InterruptedException ngoại lệ Interrupted
+     */
     public void findById(String bookId) throws IOException, InterruptedException {
         if (bookId == null) {
             throw new IllegalArgumentException("bookId cannot be null!");
@@ -79,6 +91,12 @@ public class Reader {
         System.out.println(bookService.findBookById(this, bookId));
     }
 
+    /**
+     * Tìm cuốn sách thông qua tên của nó.
+     * @param bookName tên của cuốn sách
+     * @throws IOException ngoại lệ IO
+     * @throws InterruptedException ngoại lệ Interrupted
+     */
     public void findByName(String bookName) throws IOException, InterruptedException {
         if (bookName == null) {
             throw new IllegalArgumentException("bookName cannot be null!");
@@ -86,6 +104,12 @@ public class Reader {
         System.out.println(bookService.findBookByName(this, bookName));
     }
 
+    /**
+     * Tìm cuốn sách thông qua tag của nó.
+     * @param tag tag của cuốn sách
+     * @throws IOException ngoại lệ IO
+     * @throws InterruptedException ngoại lệ Interrupted
+     */
     public void findByTag(String tag) throws IOException, InterruptedException {
         if (tag == null) {
             throw new IllegalArgumentException("tag cannot be null!");
