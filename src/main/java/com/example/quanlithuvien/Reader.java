@@ -66,21 +66,21 @@ public class Reader {
 
     public void findById(String bookId) throws IOException, InterruptedException {
         if (bookId == null) {
-            throw new IllegalArgumentException("stringId cannot be null!");
+            throw new IllegalArgumentException("bookId cannot be null!");
         }
         System.out.println(bookService.findBookById(this, bookId));
     }
 
     public void findByName(String bookName) throws IOException, InterruptedException {
         if (bookName == null) {
-            throw new IllegalArgumentException("bookId cannot be null!");
+            throw new IllegalArgumentException("bookName cannot be null!");
         }
         System.out.println(bookService.findBookByName(this, bookName));
     }
 
     public void findByTag(String tag) throws IOException, InterruptedException {
         if (tag == null) {
-            throw new IllegalArgumentException("bookId cannot be null!");
+            throw new IllegalArgumentException("tag cannot be null!");
         }
         System.out.println(bookService.findBookByBookTag(this, tag));
     }
