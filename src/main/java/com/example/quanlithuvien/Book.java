@@ -90,8 +90,4 @@ public class Book {
         this.title = title;
         this.bookTag = bookTag;
     }
-
-    public void returned() {
-
-    }
 }
