@@ -37,6 +37,14 @@ public class Reader {
         this.password=password;
     }
 
+    /**
+     * Phương thức khởi tạo.
+     * @param stringId Id của người đọc
+     */
+    public Reader(String stringId) {
+        this.stringId = stringId;
+    }
+
     public String getName() {
         return name;
     }
