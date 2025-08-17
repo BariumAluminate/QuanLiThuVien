@@ -1,0 +1,22 @@
+.functionButton {
+    -fx-background-color: deepskyblue;
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.8), 20, 0.2, 0, 5);
+}
+
+.functionButton:hover {
+    -fx-background-color: #00b7eb; /* Slightly darker shade of deepskyblue */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.objectButton {
+    -fx-background-color: deepskyblue;
+    -fx-font-size: 18px;
+}
+
+.objectButton:hover {
+    -fx-background-color: #00b7eb; /* Slightly darker shade of deepskyblue */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}

@@ -7,38 +7,42 @@ import javafx.scene.image.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 
 
 public class Application extends javafx.application.Application {
-  @Override
-  public void start(Stage stage) throws FileNotFoundException {
-    Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
-    ImageView imageView = new ImageView(image);
+    @Override
+    public void start(Stage stage) throws FileNotFoundException {
+        StackPane backgroundLayer = new StackPane();
+        Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
+        ImageView imageView = new ImageView(image);
+        backgroundLayer.getChildren().add(imageView);
 
-    imageView.setX(0);
-    imageView.setY(0);
+        // UI layer (content changes here)
+        StackPane uiLayer = new StackPane();
+        uiLayer.setStyle("-fx-background-color: transparent;");
 
+        // Main container
+        StackPane mainContainer = new StackPane();
+        mainContainer.getChildren().addAll(backgroundLayer, uiLayer);
 
-    StackPane box = new StackPane();
+        Scene scene = new Scene(mainContainer, 1280, 700);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
 
-    SignIn signIn = new SignIn();
-    signIn.render(box);
+        // Bind image to background
+        imageView.fitWidthProperty().bind(backgroundLayer.widthProperty());
+        imageView.fitHeightProperty().bind(backgroundLayer.heightProperty());
+        imageView.setPreserveRatio(false);
 
-    box.getChildren().addFirst(imageView);
+        // Create application controller with UI layer only
+        Controller controller = new Controller(uiLayer, scene);
+        controller.showSignIn(); // Start with sign-in
 
-    Scene scene = new Scene(box, 1280, 700);
-
-    signIn.fit_to_screen(scene);
-    imageView.fitWidthProperty().bind(box.widthProperty());
-    imageView.fitHeightProperty().bind(box.heightProperty());
-    imageView.setPreserveRatio(false);
-
-
-    stage.setTitle("Library Management");
-    stage.setScene(scene);
-    stage.show();
-  }
-  public static void main(String[] args) {
-      launch(args);
-  }
+        stage.setTitle("Library Management");
+        stage.setScene(scene);
+        stage.show();
+    }
+      public static void main(String[] args) {
+          launch(args);
+      }
 }

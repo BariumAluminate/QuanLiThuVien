@@ -1,6 +1,7 @@
 package com.example.UI;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ public class SignIn {
   private final Button LogIn;
   private final Rectangle rect;//the background rect.
   private final TextField name;
+  private final Separator sep1;
 
     /**
      * Constructor.
@@ -57,6 +59,8 @@ public class SignIn {
       LogIn.setStyle("-fx-font-size: 30");
 
       rect = new Rectangle();
+
+      sep1 = new Separator(Orientation.VERTICAL);
   }
 
     /**
@@ -79,7 +83,7 @@ public class SignIn {
       box.setAlignment(Pos.CENTER);
       box.setMaxWidth(640);
 
-      box.getChildren().addAll(hbox1, ID, hbox2, password, hbox3, name, LogIn);
+      box.getChildren().addAll(hbox1, ID, hbox3, name, hbox2, password, sep1, LogIn);
 
       stack.getChildren().addAll(rect, box);
 
@@ -91,8 +95,38 @@ public class SignIn {
       rect.setArcHeight(20);
   }
 
+    /***
+     * fit to the screen.
+     * @param scene: the main scene.
+     */
   public void fit_to_screen(Scene scene) {
       rect.widthProperty().bind(scene.widthProperty().multiply(0.6));
       rect.heightProperty().bind(scene.heightProperty().multiply(0.6));
+  }
+
+  public void close(StackPane stackPane) {
+    rect.widthProperty().unbind();
+    rect.heightProperty().unbind();
+
+    // Remove specific nodes
+    stackPane.getChildren().removeAll(rect);
+    stackPane.getChildren().removeIf(node ->
+            node instanceof VBox && ((VBox) node).getChildren().contains(ID));
+  }
+
+  public String getUserName() {
+      return name.getText();
+  }
+
+  public String getId() {
+      return ID.getText();
+  }
+
+  public String getPassWord() {
+      return password.getText();
+  }
+
+  void setOnAction(Runnable onSignIn) {
+    LogIn.setOnAction(e->onSignIn.run());
   }
 }

@@ -14,6 +14,7 @@ module com.example.quanlithuvien {
     requires java.net.http;
     requires java.sql;
     requires com.fasterxml.jackson.databind;
+    requires javafx.graphics;
 
     opens com.example.quanlithuvien to javafx.fxml, gson;
     exports com.example.quanlithuvien;
