@@ -1,6 +1,10 @@
 package com.example.quanlithuvien;
 
+import java.io.IOException;
+
 public class Reader {
+    private final BookService bookService = new BookService();
+
     private String name;
     private String stringId;
     protected String api_KEY;
@@ -21,6 +25,12 @@ public class Reader {
         this.csrftoken = csrftoken;
     }
 
+    /**
+     * Phương thức khởi tạo.
+     * @param stringId Id người đọc
+     * @param name tên người dùng
+     * @param password mật khẩu
+     */
     public Reader(String stringId, String name, String password) {
         this.stringId=stringId;
         this.name=name;
@@ -47,19 +57,31 @@ public class Reader {
         return password;
     }
 
-    public void borrow(String bookId) {
-
+    public void borrow(String bookId) throws IOException, InterruptedException {
+        if (bookId == null) {
+            throw new IllegalArgumentException("bookId cannot be null!");
+        }
+        System.out.println(bookService.borrowBook(this, bookId));
     }
 
-    public void findById(String stringId) {
-
+    public void findById(String bookId) throws IOException, InterruptedException {
+        if (bookId == null) {
+            throw new IllegalArgumentException("stringId cannot be null!");
+        }
+        System.out.println(bookService.findBookById(this, bookId));
     }
 
-    public void findByName(String name) {
-
+    public void findByName(String bookName) throws IOException, InterruptedException {
+        if (bookName == null) {
+            throw new IllegalArgumentException("bookId cannot be null!");
+        }
+        System.out.println(bookService.findBookByName(this, bookName));
     }
 
-    public void findByTag(String tag) {
-
+    public void findByTag(String tag) throws IOException, InterruptedException {
+        if (tag == null) {
+            throw new IllegalArgumentException("bookId cannot be null!");
+        }
+        System.out.println(bookService.findBookByBookTag(this, tag));
     }
 }

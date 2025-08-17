@@ -13,10 +13,6 @@ public class Book {
 
     /**
      * Phương thức khởi tạo.
-     * @param bookId id của sách
-     * @param title tên sách
-     * @param author tác giả
-     * @param bookTag book tag của sách
      */
     public Book(String bookId, String title, String author, String bookTag) {
         this.bookId = bookId;
@@ -26,6 +22,9 @@ public class Book {
         this.BorrowerID = null;
     }
 
+    /**
+     * Phương thức khởi tạo.
+     */
     public Book(String bookId, String title, String author, String bookTag, String borrowerID) {
         this.bookId = bookId;
         this.title = title;

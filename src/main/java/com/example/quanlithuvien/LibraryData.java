@@ -8,6 +8,11 @@ public class LibraryData {
 
     }
 
+    /**
+     * phương thức khởi tạo.
+     * @param reader Thủ thư
+     * @param book Sách
+     */
     public LibraryData(Reader reader, Book book) {
         this.reader = reader;
         this.book = book;
