@@ -15,19 +15,21 @@ Sau đây là sơ đồ về các class và cách thiết kế API của em:
 https://drive.google.com/file/d/1x52QAnwQozswnAYp03P8Ot-TSwxdXCsF/view?usp=sharing
 
 Về cơ bản, trước khi chúng ta có thể làm bất cứ điều gì, chúng ta cần đăng nhập, thông tin đăng nhập bao gồm ID, tên và mật khẩu, khi đăng nhập thì server sẽ trả về 3 thông tin quan trọng, đó là :
--stringID (ID người đọc)
--API_KEY (KEY API để request)
--CSRFtoken (một token để hỗ trợ xác thực)
+
+a)stringID (ID người đọc)
+b)API_KEY (KEY API để request)
+c)CSRFtoken (một token để hỗ trợ xác thực)
 
 
 với 3 thông tin này thì chúng ta có thể thực hiện request lên API một các dễ dàng. Một người đọc sẽ được cấp quyền librarian nếu như trong cơ sở dữ liệu thì các thông tin của họ được đánh dấu là một librarian, khi này họ sẽ được thêm các quyền và các hành động khác
 
-Về book, thì mỗi book sẽ được dại diện bởi các thông tin sau
--bookId: ID của sách
--title: tên sách
--author: tên tác giả
--booktag: thể loại sách
--BorrowerId: mã của người mượn
+Về book, thì mỗi book sẽ được dại diện bởi các thông tin sau:
+
+a)bookId: ID của sách
+b)title: tên sách
+c)author: tên tác giả
+d)booktag: thể loại sách
+e)BorrowerId: mã của người mượn
 
 
 và các hành động liên quan đến sách luôn cần các thông tin này
