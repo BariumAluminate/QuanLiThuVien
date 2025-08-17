@@ -11,6 +11,13 @@ public class Librarian extends Reader {
     private final BookService bookService = new BookService();
     private final UserService userService = new UserService();
 
+    /**
+     * Phương thức khởi tạo.
+     * @param stringId string Id
+     * @param password mật khẩu
+     * @param api_KEY api_KEY
+     * @param csrftoken csrftoken
+     */
     public Librarian(String stringId, String password, String api_KEY, String csrftoken) {
         super(stringId, password, api_KEY, csrftoken);
     }
@@ -31,7 +38,7 @@ public class Librarian extends Reader {
 
     public void findBookById(String bookId) throws IOException, InterruptedException {
         if (bookId == null || bookId.isEmpty()) {
-            throw new IllegalArgumentException("Book ID cannot be be null or empty!");
+            throw new IllegalArgumentException("BookId title cannot be be null or empty!");
         }
         System.out.println(bookService.findBookById(this, bookId));
     }
@@ -92,7 +99,13 @@ public class Librarian extends Reader {
         System.out.println(bookService.updateBookTag(this, bookId, newTag));
     }
 
-    public void findUser(String stringId) {
-
+    public void findUser(String stringId) throws IOException, InterruptedException {
+        if (stringId == null) {
+            throw new IllegalArgumentException("stringId or new tag cannot be null");
+        }
+        Reader reader = new Reader(stringId);
+        String response = userService.showReaderInfo(reader);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
     }
 }
