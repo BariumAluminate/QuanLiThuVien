@@ -94,18 +94,9 @@ public class UserInterface {
         HBox.setHgrow(bookButton, Priority.ALWAYS);
         VBox.setVgrow(bookButton, Priority.ALWAYS);
 
-        Button userButton = new Button("User");
-        userButton.setMaxHeight(Double.MAX_VALUE);
-        userButton.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(userButton, Priority.ALWAYS);
-        VBox.setVgrow(userButton, Priority.ALWAYS);
-
-        Separator objSep = new Separator(Orientation.VERTICAL);
-
-        objectBox.getChildren().addAll(bookButton, objSep, userButton);
+        objectBox.getChildren().addAll(bookButton);
 
         bookButton.getStyleClass().add("objectButton");
-        userButton.getStyleClass().add("objectButton");
     }
 
     public void resizeUserFace(StackPane stackPane) {

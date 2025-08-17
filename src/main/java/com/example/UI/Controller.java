@@ -28,6 +28,9 @@ public class Controller {
             String password = signIn.getPassWord();
             String ID = signIn.getId();
             reader = new Reader(ID, name, password);
+            if (UserService.login(reader) == true) {
+
+            }
         });
         System.out.println("SignIn UI added to mainBox. Children: " + mainBox.getChildren());
     }
