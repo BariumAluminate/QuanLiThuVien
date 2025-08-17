@@ -81,14 +81,6 @@ public class Book {
         this.author = author;
     }
 
-    public void addBookTag(String tag) {
-
-    }
-
-    public void removeBookTag(String tag) {
-
-    }
-
     public void updateBookTag(String newTag) {
         this.bookTag = newTag;
     }
