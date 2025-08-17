@@ -68,7 +68,7 @@ public class UserService {
      *
      * @param reader Người dùng đăng nhập
      */
-    public boolean login(Reader reader) throws IOException, InterruptedException {
+    public static boolean login(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();

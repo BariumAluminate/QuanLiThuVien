@@ -1,5 +1,6 @@
 package com.example.quanlithuvien;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.google.gson.*;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.ArrayList;
 
 import static com.example.quanlithuvien.Librarian.BASE_URL;
 
@@ -167,14 +169,34 @@ public class BookService {
      *
      * @param reader Người gửi yêu cầu
      */
-    public String showAllBook(Reader reader) throws IOException, InterruptedException {
+    public ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(reader);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/showAllBook", json);
-        return response.body();
+
+        try {
+            JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
+
+            if (!jsonResponse.has("message") ||
+                    !jsonResponse.get("message").getAsString().equals("Books retrieved successfully")) {
+                throw new IOException("Failed to retrieve book!");
+            }
+
+            JsonArray booksArray = jsonResponse.getAsJsonArray("books");
+            ArrayList<Book> bookArrayList = new ArrayList<>();
+            for (JsonElement element : booksArray) {
+                Book book = gson.fromJson(element, Book.class);
+                bookArrayList.add(book);
+            }
+
+            return bookArrayList;
+        } catch (JsonParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -325,6 +347,4 @@ public class BookService {
         HttpResponse<String> response = doPostRequest(BASE_URL + "/book/update-author", json);
         return response.body();
     }
-
-
 }
