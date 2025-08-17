@@ -6,10 +6,11 @@ import com.example.quanlithuvien.UserService;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 
+import java.io.IOException;
+
 public class Controller {
     private final StackPane mainBox;
     private final Scene scene;
-    private Librarian librarian;
     private Reader reader;
 
     public Controller(StackPane stackPane, Scene scene) {
@@ -28,8 +29,12 @@ public class Controller {
             String password = signIn.getPassWord();
             String ID = signIn.getId();
             reader = new Reader(ID, name, password);
-            if (UserService.login(reader) == true) {
-
+            try {
+                if (UserService.login(reader)) {
+                    showUserInterface();
+                }
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
             }
         });
         System.out.println("SignIn UI added to mainBox. Children: " + mainBox.getChildren());
@@ -37,7 +42,7 @@ public class Controller {
 
     public void showUserInterface() {
         mainBox.getChildren().clear();
-        UserInterface userInterface = new UserInterface("John", this::showSignIn);
+        UserInterface userInterface = new UserInterface(reader.getName(), this::showSignIn);
         userInterface.render(mainBox);
         userInterface.resizeAll(mainBox);
         System.out.println("UserInterface UI added to mainBox. Children: " + mainBox.getChildren());
