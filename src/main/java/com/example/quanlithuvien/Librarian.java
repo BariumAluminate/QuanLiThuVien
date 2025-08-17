@@ -38,7 +38,7 @@ public class Librarian extends Reader {
 
     public void findBookByName(String title) throws IOException, InterruptedException {
         if (title == null || title.isEmpty()) {
-            throw new IllegalArgumentException("Book ID cannot be be null or empty!");
+            throw new IllegalArgumentException("Title cannot be be null or empty!");
         }
         System.out.println(bookService.findBookByName(this, title));
     }

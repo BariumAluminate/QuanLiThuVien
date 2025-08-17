@@ -68,7 +68,7 @@ public class UserService {
      *
      * @param reader Người dùng đăng nhập
      */
-    public String login(Reader reader) throws IOException, InterruptedException {
+    public boolean login(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
@@ -76,7 +76,8 @@ public class UserService {
 
         BookService bookService = new BookService();
         HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/login/authenticate", json);
-        return response.body();
+
+        return response.statusCode() == 200;
     }
 
     /**
