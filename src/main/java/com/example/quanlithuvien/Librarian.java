@@ -20,6 +20,7 @@ public class Librarian extends Reader {
      */
     public Librarian(String stringId, String password, String api_KEY, String csrftoken) {
         super(stringId, password, api_KEY, csrftoken);
+        setLibrarian(true);
     }
 
     /**
