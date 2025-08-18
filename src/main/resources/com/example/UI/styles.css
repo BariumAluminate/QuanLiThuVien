@@ -20,3 +20,7 @@
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
 }
+
+.Label {
+    -fx-font-size: 25;
+}

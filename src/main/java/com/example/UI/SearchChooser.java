@@ -1,7 +1,5 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
-import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import javafx.scene.layout.StackPane;
 

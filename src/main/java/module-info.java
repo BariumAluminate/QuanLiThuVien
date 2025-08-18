@@ -18,4 +18,6 @@ module com.example.UI {
 
     opens com.example.UI to javafx.fxml, gson;
     exports com.example.UI;
+//    exports com.example.quanlithuvien;
+//    opens com.example.quanlithuvien to gson,javafx.fxml;
 }

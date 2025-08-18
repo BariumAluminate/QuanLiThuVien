@@ -1,17 +1,18 @@
 package com.example.UI;
 
 import com.example.quanlithuvien.Book;
-import com.example.quanlithuvien.Librarian;
+import com.example.quanlithuvien.BookService;
 import com.example.quanlithuvien.Reader;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class UserInterface {
     private final VBox userFace;
@@ -26,9 +27,13 @@ public class UserInterface {
     private final Button updateButton;
 
     private String editMode;
+
+    private TableView<Book> table;
     Book book = new Book("123", "test", "test", "test");
 
     UserInterface(String userName, Runnable onSignOut) {
+        editMode = "book";
+
         // User block
         userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
@@ -98,12 +103,25 @@ public class UserInterface {
         Button bookButton = new Button("Book");
         bookButton.setMaxHeight(Double.MAX_VALUE);
         bookButton.setMaxWidth(Double.MAX_VALUE);
+        bookButton.setOnAction(e-> {
+            if (bookButton.getText() == "Book") {
+                editMode = "User";
+                bookButton.setText("User");
+            }
+            else {
+                editMode = "Book";
+                bookButton.setText("Book");
+            }
+        });
         HBox.setHgrow(bookButton, Priority.ALWAYS);
         VBox.setVgrow(bookButton, Priority.ALWAYS);
 
         objectBox.getChildren().addAll(bookButton);
 
         bookButton.getStyleClass().add("objectButton");
+
+        table = new TableView<>();
+        ArrayList<Book> list = BookService.showAllBook
     }
 
     public void resizeUserFace(StackPane stackPane) {
@@ -176,9 +194,10 @@ public class UserInterface {
     }
 
     public void showQuery(StackPane stackPane, Reader user, Book book) {
-//        ShowBookInfo showBookInfo = new ShowBookInfo(book);
-//        showBookInfo.render(stackPane);
-//        showBookInfo.resize(stackPane);
+        ShowBookInfo showBookInfo = new ShowBookInfo(book);
+        showBookInfo.render(stackPane);
+        showBookInfo.resize(stackPane);
+        showBookInfo.setup(stackPane);
     }
 
     public void setOnAction(StackPane stackPane, Reader reader) {
@@ -192,5 +211,6 @@ public class UserInterface {
         removeButton.setOnAction(e->removeQuery(stackPane, reader));
         searchButton.setOnAction(e->searchQuery(stackPane, reader));
         updateButton.setOnAction(e->updateQuery(stackPane, reader, book));
+        showButton.setOnAction(e->showQuery(stackPane, reader, book));
     }
 }
