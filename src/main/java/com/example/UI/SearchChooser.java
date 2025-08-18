@@ -8,6 +8,7 @@ import javafx.scene.layout.StackPane;
 public class SearchChooser extends Chooser {
     public SearchChooser() {
         super("search");
+        this.getMainBox().getChildren().remove(author);
     }
 
     public void findById(StackPane stackPane) {
@@ -22,12 +23,6 @@ public class SearchChooser extends Chooser {
         nameSearch.resizeProperty(stackPane);
     }
 
-    public void findByAuthor(StackPane stackPane) {
-        SearchByAuthor authorSearch = new SearchByAuthor();
-        authorSearch.render(stackPane);
-        authorSearch.resizeProperty(stackPane);
-    }
-
     public void findByTag(StackPane stackPane) {
         SearchByTag tagSearch = new SearchByTag();
         tagSearch.render(stackPane);
@@ -37,7 +32,6 @@ public class SearchChooser extends Chooser {
     public void setOnAction(StackPane stackPane, Reader user) {
         ID.setOnAction(e->findById(stackPane));
         title.setOnAction(e->findByName(stackPane));
-        author.setOnAction(e->findByAuthor(stackPane));
         tag.setOnAction(e->findByTag(stackPane));
     }
 }
