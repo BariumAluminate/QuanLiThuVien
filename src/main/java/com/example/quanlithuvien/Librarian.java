@@ -18,8 +18,8 @@ public class Librarian extends Reader {
      * @param api_KEY   api_KEY
      * @param csrftoken csrftoken
      */
-    public Librarian(String stringId, String password, String api_KEY, String csrftoken) {
-        super(stringId, password, api_KEY, csrftoken);
+    public Librarian(String stringId, String name, String password, String api_KEY, String csrftoken) {
+        super(stringId, name, password, api_KEY, csrftoken);
     }
 
     /**

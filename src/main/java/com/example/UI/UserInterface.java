@@ -3,11 +3,11 @@ package com.example.UI;
 import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.BookService;
 import com.example.quanlithuvien.Reader;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Separator;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
@@ -25,20 +25,22 @@ public class UserInterface {
 
     private final HBox objectBox;
     private final Button updateButton;
+    private Reader user;
 
     private String editMode;
 
     private TableView<Book> table;
-    Book book = new Book("123", "test", "test", "test");
 
-    UserInterface(String userName, Runnable onSignOut) {
+    private Book book;
+
+    UserInterface(Reader reader, Runnable onSignOut) throws IOException, InterruptedException {
         editMode = "book";
 
         // User block
         userFace = new VBox();
         userFace.setStyle("-fx-background-color: White;");
         userFace.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-        Text name = new Text(userName);
+        Text name = new Text(reader.getName());
         name.setStyle("-fx-font-size: 30");
         userFace.getChildren().add(name);
         Button signOut = new Button("Sign out");
@@ -120,8 +122,67 @@ public class UserInterface {
 
         bookButton.getStyleClass().add("objectButton");
 
+        user = reader;
+
         table = new TableView<>();
-//        ArrayList<Book> list = BookService.showAllBook
+
+        // Define the borrow button column
+        table = new TableView<>();
+        ObservableList<Book> bookList = FXCollections.observableArrayList(BookService.showAllBook(user));
+        table.setItems(bookList);
+
+        // Define table columns
+        TableColumn<Book, String> Id = new TableColumn<>("ID");
+        Id.setCellValueFactory(cellData -> cellData.getValue().bookIdProperty());
+
+        TableColumn<Book, String> title = new TableColumn<>("Title");
+        title.setCellValueFactory(cellData -> cellData.getValue().bookTitle());
+
+        TableColumn<Book, String> author = new TableColumn<>("Author");
+        author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
+
+        // Borrow button column
+        TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
+        borrowButton.setCellFactory(param -> new TableCell<Book, Void>() {
+            private final Button button = new Button("Borrow");
+
+            {
+                button.setMaxWidth(Double.MAX_VALUE);
+                button.getStyleClass().add("functionButton"); // Match styling with other buttons
+                button.setOnAction(event -> {
+                    Book book = getTableView().getItems().get(getIndex());
+                    try {
+                        user.borrow(book.getBookId()); // Call the borrow method on the Reader object
+                        table.refresh(); // Refresh table to reflect any changes
+                        // Optional: Show success message
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Borrow Success");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Book borrowed successfully!");
+                        alert.showAndWait();
+                    } catch (Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Borrow Error");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Failed to borrow book: " + e.getMessage());
+                        alert.showAndWait();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(button);
+                }
+            }
+        });
+
+        // Add columns to the TableView
+        table.getColumns().addAll(Id, title, author, borrowButton);
     }
 
     public void resizeUserFace(StackPane stackPane) {

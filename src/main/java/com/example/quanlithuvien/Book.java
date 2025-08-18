@@ -1,5 +1,9 @@
 package com.example.quanlithuvien;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+
 public class Book {
     private String bookId;
     private String title;
@@ -89,5 +93,17 @@ public class Book {
         this.author = author;
         this.title = title;
         this.bookTag = bookTag;
+    }
+
+    public StringProperty bookIdProperty() {
+        return new SimpleStringProperty(bookId);  // Wrap the current String
+    }
+
+    public StringProperty bookTitle() {
+        return new SimpleStringProperty(title);
+    }
+
+    public StringProperty bookAuthor() {
+        return new SimpleStringProperty(author);
     }
 }
