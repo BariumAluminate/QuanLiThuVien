@@ -10,39 +10,54 @@ public class Reader {
     protected String api_KEY;
     protected String csrftoken;
     protected String password;
+    boolean librarian;
 
     /**
      * Phương thức khởi tạo.
-     * @param stringId Id của người đọc
-     * @param password Mật khẩu
+     *
+     * @param stringId  Id của người đọc
+     * @param password  Mật khẩu
      * @param csrftoken csrftoken
-     * @param api_KEY api_KEY
+     * @param api_KEY   api_KEY
      */
     public Reader(String stringId, String password, String csrftoken, String api_KEY) {
         this.stringId = stringId;
         this.password = password;
         this.api_KEY = api_KEY;
         this.csrftoken = csrftoken;
+        this.librarian = false;
     }
 
     /**
      * Phương thức khởi tạo.
+     *
      * @param stringId Id người đọc
-     * @param name tên người dùng
+     * @param name     tên người dùng
      * @param password mật khẩu
      */
     public Reader(String stringId, String name, String password) {
-        this.stringId=stringId;
-        this.name=name;
-        this.password=password;
+        this.stringId = stringId;
+        this.name = name;
+        this.password = password;
+        this.librarian = false;
     }
 
     /**
      * Phương thức khởi tạo.
+     *
      * @param stringId Id của người đọc
      */
     public Reader(String stringId) {
         this.stringId = stringId;
+        this.librarian = false;
+    }
+
+    public boolean isLibrarian() {
+        return librarian;
+    }
+
+    public void setLibrarian(boolean librarian) {
+        librarian = librarian;
     }
 
     public String getName() {
@@ -67,8 +82,9 @@ public class Reader {
 
     /**
      * Thông tin cuốn sách được mượn thông qua bookId.
+     *
      * @param bookId id của cuốn sách được mượn
-     * @throws IOException ngoại lệ IO
+     * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
     public void borrow(String bookId) throws IOException, InterruptedException {
@@ -80,8 +96,9 @@ public class Reader {
 
     /**
      * Tìm cuốn sách được mượn bằng Id của nó.
+     *
      * @param bookId Id của cuốn sách được mượn
-     * @throws IOException ngoại lệ IO
+     * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
     public void findById(String bookId) throws IOException, InterruptedException {
@@ -93,8 +110,9 @@ public class Reader {
 
     /**
      * Tìm cuốn sách thông qua tên của nó.
+     *
      * @param bookName tên của cuốn sách
-     * @throws IOException ngoại lệ IO
+     * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
     public void findByName(String bookName) throws IOException, InterruptedException {
@@ -106,8 +124,9 @@ public class Reader {
 
     /**
      * Tìm cuốn sách thông qua tag của nó.
+     *
      * @param tag tag của cuốn sách
-     * @throws IOException ngoại lệ IO
+     * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
     public void findByTag(String tag) throws IOException, InterruptedException {
