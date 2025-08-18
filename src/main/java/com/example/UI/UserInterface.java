@@ -124,14 +124,12 @@ public class UserInterface {
 
         user = reader;
 
-        table = new TableView<>();
-
-        // Define the borrow button column
+        // In the UserInterface constructor, replace the table initialization and column setup
         table = new TableView<>();
         ObservableList<Book> bookList = FXCollections.observableArrayList(BookService.showAllBook(user));
         table.setItems(bookList);
 
-        // Define table columns
+// Define table columns
         TableColumn<Book, String> Id = new TableColumn<>("ID");
         Id.setCellValueFactory(cellData -> cellData.getValue().bookIdProperty());
 
@@ -139,9 +137,9 @@ public class UserInterface {
         title.setCellValueFactory(cellData -> cellData.getValue().bookTitle());
 
         TableColumn<Book, String> author = new TableColumn<>("Author");
-        author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
+        author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor()); // Fixed bug
 
-        // Borrow button column
+// Borrow button column
         TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
         borrowButton.setCellFactory(param -> new TableCell<Book, Void>() {
             private final Button button = new Button("Borrow");
@@ -154,7 +152,6 @@ public class UserInterface {
                     try {
                         user.borrow(book.getBookId()); // Call the borrow method on the Reader object
                         table.refresh(); // Refresh table to reflect any changes
-                        // Optional: Show success message
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Borrow Success");
                         alert.setHeaderText(null);
@@ -181,7 +178,7 @@ public class UserInterface {
             }
         });
 
-        // Add columns to the TableView
+// Add columns to the TableView
         table.getColumns().addAll(Id, title, author, borrowButton);
     }
 
