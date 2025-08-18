@@ -121,7 +121,7 @@ public class UserInterface {
         bookButton.getStyleClass().add("objectButton");
 
         table = new TableView<>();
-        ArrayList<Book> list = BookService.showAllBook
+//        ArrayList<Book> list = BookService.showAllBook
     }
 
     public void resizeUserFace(StackPane stackPane) {
