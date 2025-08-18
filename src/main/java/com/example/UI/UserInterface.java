@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserInterface {
     private final VBox userFace;
@@ -124,12 +125,18 @@ public class UserInterface {
 
         user = reader;
 
+        ArrayList<Book> test = new ArrayList<>(List.of(new Book[]{
+                new Book("1", "test", "test", "test"),
+                new Book("1", "test", "test", "test"),
+                new Book("1", "test", "test", "test")
+        }));
+
         // In the UserInterface constructor, replace the table initialization and column setup
         table = new TableView<>();
-        ObservableList<Book> bookList = FXCollections.observableArrayList(BookService.showAllBook(user));
+        ObservableList<Book> bookList = FXCollections.observableArrayList(test);
         table.setItems(bookList);
 
-// Define table columns
+        // Define table columns
         TableColumn<Book, String> Id = new TableColumn<>("ID");
         Id.setCellValueFactory(cellData -> cellData.getValue().bookIdProperty());
 
@@ -137,21 +144,21 @@ public class UserInterface {
         title.setCellValueFactory(cellData -> cellData.getValue().bookTitle());
 
         TableColumn<Book, String> author = new TableColumn<>("Author");
-        author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor()); // Fixed bug
+        author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
 
-// Borrow button column
+        // Borrow button column
         TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
         borrowButton.setCellFactory(param -> new TableCell<Book, Void>() {
             private final Button button = new Button("Borrow");
 
             {
                 button.setMaxWidth(Double.MAX_VALUE);
-                button.getStyleClass().add("functionButton"); // Match styling with other buttons
+                button.getStyleClass().add("functionButton");
                 button.setOnAction(event -> {
                     Book book = getTableView().getItems().get(getIndex());
                     try {
-                        user.borrow(book.getBookId()); // Call the borrow method on the Reader object
-                        table.refresh(); // Refresh table to reflect any changes
+                        user.borrow(book.getBookId());
+                        table.refresh();
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Borrow Success");
                         alert.setHeaderText(null);
@@ -178,8 +185,15 @@ public class UserInterface {
             }
         });
 
-// Add columns to the TableView
+    // Add columns to the TableView
         table.getColumns().addAll(Id, title, author, borrowButton);
+        table.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+
+    // Bind column widths to stretch
+        Id.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+        title.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+        author.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
+        borrowButton.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
     }
 
     public void resizeUserFace(StackPane stackPane) {
@@ -197,10 +211,16 @@ public class UserInterface {
         objectBox.prefHeightProperty().bind(stackPane.heightProperty().divide(8));
     }
 
+    public void resizeTable(StackPane stackPane) {
+        table.prefWidthProperty().bind(stackPane.widthProperty().multiply(0.75)); // 75% width
+        table.prefHeightProperty().bind(stackPane.heightProperty().subtract(objectBox.prefHeightProperty())); // Full height minus objectBox
+    }
+
     public void resizeAll(StackPane stackPane) {
         resizeUserFace(stackPane);
         resizeObjectBox(stackPane);
         resizeFunctionBox(stackPane);
+        resizeTable(stackPane);
     }
 
     public void render(StackPane stackPane) {
@@ -208,13 +228,26 @@ public class UserInterface {
         stackPane.getChildren().addFirst(userFace);
         userFace.setAlignment(Pos.CENTER);
 
-        StackPane.setAlignment(functionBox, Pos.BOTTOM_LEFT);
+        StackPane.setAlignment(functionBox, Pos.BOTTOM_LEFT); // Anchor functionBox to left center, full height
         stackPane.getChildren().add(functionBox);
         functionBox.setAlignment(Pos.CENTER);
 
         StackPane.setAlignment(objectBox, Pos.TOP_RIGHT);
         stackPane.getChildren().add(objectBox);
         objectBox.setAlignment(Pos.CENTER);
+
+        StackPane.setAlignment(table, Pos.CENTER_RIGHT); // Align table to right center
+        stackPane.getChildren().add(table);
+
+        // Bind table's left margin to functionBox width for direct contact
+        functionBox.widthProperty().addListener((obs, oldValue, newValue) -> {
+            StackPane.setMargin(table, new javafx.geometry.Insets(objectBox.getHeight(), 0, 0, 0)); // Top margin for objectBox, no left gap
+        });
+
+        // Bind top margin for table to objectBox height
+        objectBox.heightProperty().addListener((obs, oldValue, newValue) -> {
+            StackPane.setMargin(table, new javafx.geometry.Insets(newValue.doubleValue(), 0, 0, 0));
+        });
     }
 
     public void removeQuery(StackPane stackPane, Reader user) {

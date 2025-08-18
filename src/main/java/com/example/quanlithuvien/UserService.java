@@ -28,7 +28,7 @@ public class UserService {
         return jsonObject;
     };
 
-    private boolean isLibrarian(String response) throws Exception {
+    public static boolean isLibrarian(String response) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();// Chuyển chuỗi JSON thành các đối tượng Java
         JsonNode jsonNode = objectMapper.readTree(response); // Đại diện cho toàn bộ cấu trúc JSON dưới dạng 1 cây
         String role = jsonNode.get("librarian").asText();
