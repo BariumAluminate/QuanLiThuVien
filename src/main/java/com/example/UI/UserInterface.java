@@ -1,5 +1,6 @@
 package com.example.UI;
 
+import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import javafx.geometry.Orientation;
@@ -9,6 +10,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.Stack;
 
 public class UserInterface {
@@ -18,8 +20,13 @@ public class UserInterface {
     private final Button addButton;
     private final Button removeButton;
     private final Button searchButton;
+    private final Button showButton;
 
     private final HBox objectBox;
+    private final Button updateButton;
+
+    private String editMode;
+    Book book = new Book("123", "test", "test", "test");
 
     UserInterface(String userName, Runnable onSignOut) {
         // User block
@@ -54,7 +61,7 @@ public class UserInterface {
         VBox.setVgrow(removeButton, Priority.ALWAYS);
         removeButton.getStyleClass().add("functionButton");
 
-        Button updateButton = new Button("Update");
+        updateButton = new Button("Update");
         updateButton.setMaxHeight(Double.MAX_VALUE);
         updateButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(updateButton, Priority.ALWAYS);
@@ -68,7 +75,7 @@ public class UserInterface {
         VBox.setVgrow(searchButton, Priority.ALWAYS);
         searchButton.getStyleClass().add("functionButton");
 
-        Button showButton = new Button("Show");
+        showButton = new Button("Show");
         showButton.setMaxHeight(Double.MAX_VALUE);
         showButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(showButton, Priority.ALWAYS);
@@ -140,10 +147,12 @@ public class UserInterface {
         remove.render(stackPane);
     }
 
-    public void addQuery(StackPane stackPane, Reader user) {
+    public void addQuery(StackPane stackPane, Reader user) throws IOException, InterruptedException {
         AddQuery add = new AddQuery();
+        add.setOnAction(stackPane, user);
         add.render(stackPane);
         add.resize(stackPane);
+
     }
 
     public void searchQuery(StackPane stackPane, Reader user) {
@@ -153,9 +162,35 @@ public class UserInterface {
         searchChooser.setOnAction(stackPane, user);
     }
 
+    public void updateQuery(StackPane stackPane, Reader user, Book book) {
+//        if (user instanceof  Librarian) {
+//            UpdateChooser update = new UpdateChooser();
+//            update.render(stackPane);
+//            update.resize(stackPane);
+//            update.setOnAction(stackPane, user, null);
+//        }
+        UpdateChooser update = new UpdateChooser();
+        update.render(stackPane);
+        update.resize(stackPane);
+        update.setOnAction(stackPane, user, book);
+    }
+
+    public void showQuery(StackPane stackPane, Reader user, Book book) {
+//        ShowBookInfo showBookInfo = new ShowBookInfo(book);
+//        showBookInfo.render(stackPane);
+//        showBookInfo.resize(stackPane);
+    }
+
     public void setOnAction(StackPane stackPane, Reader reader) {
-        addButton.setOnAction(e->addQuery(stackPane, reader));
+        addButton.setOnAction(e-> {
+            try {
+                addQuery(stackPane, reader);
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         removeButton.setOnAction(e->removeQuery(stackPane, reader));
         searchButton.setOnAction(e->searchQuery(stackPane, reader));
+        updateButton.setOnAction(e->updateQuery(stackPane, reader, book));
     }
 }

@@ -99,4 +99,8 @@ public abstract class Chooser {
         rect.widthProperty().bind(stackPane.widthProperty().multiply(0.8));
         rect.heightProperty().bind(stackPane.heightProperty().multiply(0.5));
     }
+
+    public VBox getMainBox() {
+        return mainBox;
+    }
 }

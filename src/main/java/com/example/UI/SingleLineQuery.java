@@ -15,10 +15,10 @@ public abstract class SingleLineQuery {
     private TextField Element;
     protected Button confirm;
     private Button cancel;
-    private Rectangle rect;
+    private final Rectangle rect;
 
     public SingleLineQuery(String nameOfQuery) {
-        this.box = new VBox(15);
+        this.box = new VBox();
         this.nameOfQuery = new Text(nameOfQuery);
         box.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         box.setBackground(Background.EMPTY);
@@ -27,16 +27,16 @@ public abstract class SingleLineQuery {
         VBox.setVgrow(Element, Priority.ALWAYS);
         confirm = new Button("Confirm");
         cancel = new Button("Cancel");
-        rect = new Rectangle(300, 300, Color.rgb(255, 255, 255)); // Initialize with fill
+        rect = new Rectangle(); // Initialize with fill
+        rect.setWidth(300);
+        rect.setHeight(300);
+        rect.setFill(Color.rgb(255, 255, 255));
+        rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
     }
 
     public void render(StackPane stackPane) {
-        if (stackPane == null) {
-            System.err.println("Error: StackPane is null");
-            return;
-        }
         stackPane.getChildren().add(rect);
         box.setAlignment(Pos.CENTER);
         HBox temp = new HBox(10, confirm, cancel);
@@ -46,12 +46,6 @@ public abstract class SingleLineQuery {
         confirm.setOnAction(e->close(stackPane));
         cancel.setOnAction(e -> close(stackPane));
         stackPane.getChildren().add(box);
-        rect.setWidth(300);
-        rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255));
-        rect.setStroke(null);
-        rect.setArcWidth(20);
-        rect.setArcHeight(20);
         System.out.println("Rendered rectangle for " + nameOfQuery.getText() + ", Fill: " + rect.getFill());
     }
 
@@ -69,5 +63,9 @@ public abstract class SingleLineQuery {
         if (stackPane != null) {
             stackPane.getChildren().removeAll(rect, box);
         }
+    }
+
+    public String getText() {
+        return Element.getText();
     }
 }
