@@ -1,7 +1,6 @@
 package com.example.UI;
 
 import com.example.quanlithuvien.Book;
-import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import com.example.quanlithuvien.UserService;
 import javafx.scene.Scene;
@@ -32,15 +31,15 @@ public class Controller {
             String ID = signIn.getId();
             reader = new Reader(ID, name, password);
             showUserInterface();
-//            if (UserService.isLibrarian())
-//            try {
-//                System.out.println(ID + " " + password + " " + name);
-//                if (UserService.login(reader)) {
-//                    showUserInterface();
-//                }
-//            } catch (IOException | InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                System.out.println(ID + " " + password + " " + name);
+                if (UserService.login(reader)) {
+                    showUserInterface();
+                }
+            } catch (IOException | InterruptedException e) {
+                System.err.println("Error during login: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
         });
         System.out.println("SignIn UI added to mainBox. Children: " + mainBox.getChildren());
     }

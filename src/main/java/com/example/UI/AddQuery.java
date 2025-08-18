@@ -6,7 +6,6 @@ import com.example.quanlithuvien.Reader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -14,7 +13,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Stack;
 
 public class AddQuery {
     private final VBox mainBox;
@@ -117,10 +115,9 @@ public class AddQuery {
         String ID = this.id.getText();
         String name = this.title.getText();
         String author = this.author.getText();
-        String tag = this.author.getText();
+        String tag = this.tag.getText();
         Book temp = new Book(ID, name, author, tag);
-        if (reader instanceof Librarian) {
-            Librarian librarian = (Librarian) reader;
+        if (reader instanceof Librarian librarian) {
             librarian.addBook(temp);
         }
     }
