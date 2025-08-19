@@ -63,7 +63,7 @@ public class Controller {
             UserInterface userInterface = new UserInterface(reader, this::showSignIn);
             userInterface.render(mainBox);
             userInterface.resizeAll(mainBox);
-            userInterface.setOnAction(mainBox, reader);
+            userInterface.setOnAction(mainBox);
             System.out.println("UserInterface UI added to mainBox. Children: " + mainBox.getChildren());
         } catch (IOException e) {
             showAlert("Error", "Failed to load User Interface: " + e.getMessage());

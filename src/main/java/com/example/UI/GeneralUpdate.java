@@ -80,7 +80,7 @@ public abstract class GeneralUpdate {
         rect = new Rectangle();
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255));
+        rect.setFill(Color.rgb(0, 255, 0));
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);

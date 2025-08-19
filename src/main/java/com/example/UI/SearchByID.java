@@ -15,6 +15,7 @@ public class SearchByID extends SingleLineQuery {
                 reader.findById(
                         this.getText()
                 );
+
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }

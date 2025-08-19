@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -38,15 +39,16 @@ public class ShowBookInfo {
 
         VBox label = new VBox();
         label.getChildren().addAll(idLabel, nameLabel, authorLabel, tagsLabel);
-        label.setAlignment(Pos.CENTER_LEFT);
+        label.setAlignment(Pos.CENTER);
 
         VBox info = new VBox();
         info.getChildren().addAll(id, name, author, tags);
-        info.setAlignment(Pos.CENTER_LEFT);
+        info.setAlignment(Pos.CENTER);
 
         HBox submain = new HBox();
         submain.getChildren().addAll(label, info);
         submain.setAlignment(Pos.CENTER);
+        submain.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         label.prefWidthProperty().bind(submain.widthProperty().divide(3));
         info.prefWidthProperty().bind(submain.widthProperty().divide(3).multiply(2));
 
@@ -55,12 +57,12 @@ public class ShowBookInfo {
         mainBox = new VBox();
         mainBox.getChildren().addAll(nameofQuery, submain, quit);
         mainBox.setAlignment(Pos.CENTER);
-        submain.prefWidthProperty().bind(mainBox.widthProperty().multiply(0.95));
+        submain.prefWidthProperty().bind(mainBox.widthProperty().multiply(0.8));
 
         rect = new Rectangle(); // Initialize with fill
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255));
+        rect.setFill(Color.rgb(0, 255, 0));
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
