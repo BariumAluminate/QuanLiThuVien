@@ -183,7 +183,7 @@ public class BookService {
      *
      * @param reader Người gửi yêu cầu
      */
-    public static ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
+    public ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();

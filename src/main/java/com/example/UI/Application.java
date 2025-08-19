@@ -39,11 +39,11 @@ public class Application extends javafx.application.Application {
         imageView.setPreserveRatio(false);
 
         // Create application controller with UI layer only
-//        Controller controller = new Controller(uiLayer, scene);
-//        controller.showSignIn(); // Start with sign-in
-        Librarian user = new Librarian("abc", "dung", "password", "123-456", "abc123");
-        Controller controller = new Controller(uiLayer, scene, user);
-        controller.showUserInterface();
+        Controller controller = new Controller(uiLayer, scene);
+        controller.showSignIn(); // Start with sign-in
+//        Librarian user = new Librarian("abc", "dung", "password", "123-456", "abc123");
+//        Controller controller = new Controller(uiLayer, scene, user);
+//        controller.showUserInterface();
         stage.setTitle("Library Management");
         stage.setScene(scene);
         stage.show();

@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class Librarian extends Reader {
     public static final String BASE_URL = "http://20.196.64.166:8080";
-    private final BookService bookService = new BookService();
     private final UserService userService = new UserService();
+    private final BookService bookService = new BookService();
 
     /**
      * Phương thức khởi tạo.
@@ -78,15 +78,6 @@ public class Librarian extends Reader {
         System.out.println(bookService.findBookByName(this, title));
     }
 
-    /**
-     * Ghi ra thông tin sách trong thư viện
-     *
-     * @throws IOException          ngoại lệ IO
-     * @throws InterruptedException ngoại lệ Interrupted
-     */
-    public void showAllBook() throws IOException, InterruptedException {
-        System.out.println(bookService.showAllBook(this));
-    }
 
     /**
      * Thêm người dùng.

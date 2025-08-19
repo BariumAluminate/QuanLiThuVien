@@ -1,6 +1,7 @@
 package com.example.quanlithuvien;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Reader {
     private final BookService bookService = new BookService();
@@ -135,5 +136,9 @@ public class Reader {
             throw new IllegalArgumentException("tag cannot be null!");
         }
         System.out.println(bookService.findBookByBookTag(this, tag));
+    }
+
+    public ArrayList<Book> showAllBook() throws IOException, InterruptedException {
+        return bookService.showAllBook(this);
     }
 }

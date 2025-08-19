@@ -33,6 +33,14 @@ public class UserInterface {
 
     private TableView<Book> table;
 
+    ArrayList<Book> test = new ArrayList<>(List.of(new Book[]{
+            new Book("1", "test", "test", "test"),
+            new Book("2", "test2", "test2", "test2"),
+            new Book("3", "test3", "test3", "test3")
+    }));
+
+    ObservableList<Book> bookList;
+
     private Book book;
 
     UserInterface(Reader reader, Runnable onSignOut) throws IOException, InterruptedException {
@@ -127,13 +135,9 @@ public class UserInterface {
         user = reader;
 
         table = new TableView<>();
-        ArrayList<Book> test = new ArrayList<>(List.of(new Book[]{
-                new Book("1", "test", "test", "test"),
-                new Book("2", "test2", "test2", "test2"),
-                new Book("3", "test3", "test3", "test3")
-        }));
-        ObservableList<Book> bookList = FXCollections.observableArrayList(test);
-//        ObservableList<Book> bookList = FXCollections.observableArrayList(BookService.showAllBook(reader));
+
+        bookList = FXCollections.observableArrayList(test);
+//        bookList = FXCollections.observableArrayList(user.showAllBook());
         table.setItems(bookList);
 
 // Define table columns
@@ -226,6 +230,24 @@ public class UserInterface {
         resizeTable(stackPane);
     }
 
+    private void updateBookInList(Book updatedBook) {
+        if (updatedBook == null) {
+            return;
+        }
+        for (int i = 0; i < test.size(); i++) {
+            if (test.get(i).getBookId().equals(updatedBook.getBookId())) {
+                test.set(i, updatedBook);
+                break;
+            }
+        }
+        for (int i = 0; i < bookList.size(); i++) {
+            if (bookList.get(i).getBookId().equals(updatedBook.getBookId())) {
+                bookList.set(i, updatedBook);
+            }
+        }
+        table.refresh();
+    }
+
     public void render(StackPane stackPane) {
         StackPane.setAlignment(userFace, Pos.TOP_LEFT);
         stackPane.getChildren().addFirst(userFace);
@@ -266,9 +288,10 @@ public class UserInterface {
     public void addQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (editMode == "Book") {
             AddQuery add = new AddQuery();
-            add.setOnAction(stackPane, user);
+            add.setOnAction(stackPane, user, test);
             add.render(stackPane);
             add.resize(stackPane);
+            updateBookInList(null);
         } else {
             AddUser addUser = new AddUser();
             addUser.setOnAction(stackPane, user);
@@ -292,7 +315,7 @@ public class UserInterface {
         }
     }
 
-    public void updateQuery(StackPane stackPane) {
+    public void updateQuery(StackPane stackPane) throws IOException, InterruptedException {
 //        if (user instanceof  Librarian) {
 //            UpdateChooser update = new UpdateChooser();
 //            update.render(stackPane);
@@ -303,6 +326,23 @@ public class UserInterface {
         update.render(stackPane);
         update.resize(stackPane);
         update.setOnAction(stackPane, user, book);
+        if (book != null) {
+            try {
+                updateBookInList(book); // Update the book in test and bookList
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Update Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to update book: " + e.getMessage());
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Book Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a book to update.");
+            alert.showAndWait();
+        }
     }
 
     public void showQuery(StackPane stackPane) {
@@ -316,6 +356,10 @@ public class UserInterface {
         addButton.setOnAction(e-> {
             try {
                 addQuery(stackPane);
+                ObservableList<Book> bookList = FXCollections.observableArrayList(test);
+                table.setItems(bookList);
+                table.refresh();
+
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
@@ -335,8 +379,12 @@ public class UserInterface {
             }
         });
         updateButton.setOnAction(e->{
-            updateQuery(stackPane);
-            table.refresh();
+            try {
+                updateQuery(stackPane);
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
         showButton.setOnAction(e->showQuery(stackPane));
     }

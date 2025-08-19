@@ -13,6 +13,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class AddQuery {
     private VBox mainBox;
@@ -116,21 +118,22 @@ public class AddQuery {
         rect.heightProperty().bind(stackPane.heightProperty().multiply(0.4));
     }
 
-    public void setup(Reader reader) throws IOException, InterruptedException {
+    public void setup(Reader reader, ArrayList<Book> books) throws IOException, InterruptedException {
         String ID = this.id.getText();
         String name = this.title.getText();
         String author = this.author.getText();
         String tag = this.tag.getText();
         Book temp = new Book(ID, name, author, tag);
         if (reader instanceof Librarian librarian) {
-            librarian.addBook(temp);
+//            librarian.addBook(temp);
+            books.add(temp);
         }
     }
 
-    public void setOnAction(StackPane stackPane, Reader reader) {
+    public void setOnAction(StackPane stackPane, Reader reader, ArrayList<Book> books) {
         confirm.setOnAction(e-> {
             try {
-                setup(reader);
+                setup(reader, books);
                 close(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
