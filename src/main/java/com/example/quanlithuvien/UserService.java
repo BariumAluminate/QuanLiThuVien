@@ -20,7 +20,7 @@ public class UserService {
      * Chuyển đổi đối tượng Reader thành đối tượng JSON với các cặp key-value cụ thể.
      * Hàm này tạo ra 1 JsonObject chứa các đối tượng stringId, csrftoken và api_KEY.
      */
-    private static final JsonSerializer<Reader> readerJsonSerializer = (reader1, typeOfSrc, context) -> {
+    public static final JsonSerializer<Reader> readerJsonSerializer = (reader1, typeOfSrc, context) -> {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("stringId", reader1.getStringId());
         jsonObject.addProperty("name", reader1.getName());
@@ -28,7 +28,14 @@ public class UserService {
         return jsonObject;
     };
 
-    private boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
+    public static String makeJson(Reader reader) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .create();
+        return gson.toJson(reader);
+    }
+
+    public boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
         String response = showReaderInfo(reader);
 
         ObjectMapper objectMapper = new ObjectMapper();
