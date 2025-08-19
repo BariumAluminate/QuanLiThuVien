@@ -48,6 +48,14 @@ public class Reader {
         this.stringId = stringId;
     }
 
+    public void setApi_KEY(String api_KEY) {
+        this.api_KEY = api_KEY;
+    }
+
+    public void setCsrftoken(String csrftoken) {
+        this.csrftoken = csrftoken;
+    }
+
     public String getName() {
         return name;
     }
