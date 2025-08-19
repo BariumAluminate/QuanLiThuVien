@@ -15,28 +15,33 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class AddQuery {
-    private final VBox mainBox;
-    private final TextField id;
-    private final TextField title;
-    private final TextField author;
-    private final TextField tag;
+    private VBox mainBox;
+    protected Label idLabel;
+    protected TextField id;
+    Label titleLabel;
+    protected TextField title;
+    Label authorLabel;
+    protected TextField author;
+    Label tagLabel;
+    protected TextField tag;
     protected Button confirm;
-    private final Button cancel;
+    protected  Button cancel;
+    protected Text nameOfQuery;
     Rectangle rect = new Rectangle();
 
     public AddQuery() {
         mainBox = new VBox();
-        Text nameOfQuery = new Text("Add a book");
-        Label idLabel = new Label("ID");
+        nameOfQuery = new Text("Add a book");
+        idLabel = new Label("ID");
         id = new TextField();
         id.setPromptText("Enter the book's id number");
-        Label titleLabel = new Label("Title");
+        titleLabel = new Label("Title");
         title = new TextField();
         title.setPromptText("Enter the title of the book");
-        Label authorLabel = new Label("Author");
+        authorLabel = new Label("Author");
         author = new TextField();
         author.setPromptText("Enter the author of the book");
-        Label tagLabel = new Label("Tags");
+        tagLabel = new Label("Tags");
         tag = new TextField();
         tag.setPromptText("Enter all the tags of the book");
         confirm = new Button("Confirm");
@@ -92,7 +97,7 @@ public class AddQuery {
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255)); // light blue with 50% opacity
+        rect.setFill(Color.rgb(0, 255, 0)); // light blue with 50% opacity
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);

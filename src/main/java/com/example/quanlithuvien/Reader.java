@@ -20,8 +20,9 @@ public class Reader {
      * @param csrftoken csrftoken
      * @param api_KEY   api_KEY
      */
-    public Reader(String stringId, String password, String csrftoken, String api_KEY) {
+    public Reader(String stringId, String name, String password, String csrftoken, String api_KEY) {
         this.stringId = stringId;
+        this.name = name;
         this.password = password;
         this.api_KEY = api_KEY;
         this.csrftoken = csrftoken;

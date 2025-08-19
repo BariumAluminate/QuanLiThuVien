@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
 public abstract class SingleLineQuery {
     private final Text nameOfQuery;
     private final VBox box;
-    private TextField Element;
+    protected TextField Element;
     protected Button confirm;
     private Button cancel;
     private final Rectangle rect;
@@ -30,7 +30,7 @@ public abstract class SingleLineQuery {
         rect = new Rectangle(); // Initialize with fill
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(255, 255, 255));
+        rect.setFill(Color.rgb(0, 255, 0));
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
