@@ -10,7 +10,6 @@ public class Reader {
     protected String api_KEY;
     protected String csrftoken;
     protected String password;
-    boolean librarian;
 
     /**
      * Phương thức khởi tạo.
@@ -25,7 +24,6 @@ public class Reader {
         this.password = password;
         this.api_KEY = api_KEY;
         this.csrftoken = csrftoken;
-        this.librarian = false;
     }
 
     /**
@@ -39,7 +37,6 @@ public class Reader {
         this.stringId = stringId;
         this.name = name;
         this.password = password;
-        this.librarian = false;
     }
 
     /**
@@ -49,15 +46,6 @@ public class Reader {
      */
     public Reader(String stringId) {
         this.stringId = stringId;
-        this.librarian = false;
-    }
-
-    public boolean isLibrarian() {
-        return librarian;
-    }
-
-    public void setLibrarian(boolean librarian) {
-        librarian = librarian;
     }
 
     public String getName() {

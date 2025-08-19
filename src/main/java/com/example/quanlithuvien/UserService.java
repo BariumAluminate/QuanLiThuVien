@@ -28,11 +28,14 @@ public class UserService {
         return jsonObject;
     };
 
-    private boolean isLibrarian(Reader reader) {
-        if(reader == null) {
-            return false;
-        }
-        return reader.isLibrarian();
+    private boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
+        String response = showReaderInfo(reader);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+
+        String role = jsonNode.get("librarian").asText();
+        return role.equals("true");
     }
 
     /**
