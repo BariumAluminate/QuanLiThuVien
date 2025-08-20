@@ -33,7 +33,7 @@ public class BookService {
      * @param url  Đường dẫn Url của endpoint API để gửi yêu cầu POST
      * @param json chuỗi JSON chứa dữ liệu yêu cầu
      */
-    public HttpResponse<String> doPostRequest(String url, String json)
+    public static HttpResponse<String> doPostRequest(String url, String json)
             throws IOException, InterruptedException {
         // Kiểm tra đầu vào
         if (url == null || url.isEmpty()) {
@@ -204,7 +204,7 @@ public class BookService {
      *
      * @param reader Người gửi yêu cầu
      */
-    public ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
+    public static ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();

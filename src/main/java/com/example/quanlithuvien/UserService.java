@@ -20,7 +20,7 @@ public class UserService {
      * Chuyển đổi đối tượng Reader thành đối tượng JSON với các cặp key-value cụ thể.
      * Hàm này tạo ra 1 JsonObject chứa các đối tượng stringId, csrftoken và api_KEY.
      */
-    public static final JsonSerializer<Reader> readerJsonSerializer = (reader1, typeOfSrc, context) -> {
+    private static final JsonSerializer<Reader> readerJsonSerializer = (reader1, typeOfSrc, context) -> {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("stringId", reader1.getStringId());
         jsonObject.addProperty("name", reader1.getName());

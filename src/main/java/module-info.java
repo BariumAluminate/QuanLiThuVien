@@ -1,4 +1,4 @@
-module com.example.quanlithuvien {
+module com.example.UI {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -14,7 +14,10 @@ module com.example.quanlithuvien {
     requires java.net.http;
     requires java.sql;
     requires com.fasterxml.jackson.databind;
+    requires javafx.graphics;
 
-    opens com.example.quanlithuvien to javafx.fxml, gson;
+    opens com.example.UI to javafx.fxml, gson;
+    exports com.example.UI;
     exports com.example.quanlithuvien;
+    opens com.example.quanlithuvien to gson,javafx.fxml;
 }
