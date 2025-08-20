@@ -156,7 +156,7 @@ public class BookService {
      * @param reader Người tìm sách
      * @param title  Tên sách cần tìm
      */
-    public String findBookByName(Reader reader, String title) throws IOException, InterruptedException {
+    public ArrayList<Book> findBookByName(Reader reader, String title) throws IOException, InterruptedException {
         Book book = new Book();
         book.setTitle(title);
 
@@ -175,7 +175,28 @@ public class BookService {
         String json = gson.toJson(libraryData);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/find_by_name", json);
-        return response.body();
+
+        try {
+            JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
+
+            if (!jsonResponse.has("message") ||
+                    !jsonResponse.get("message").getAsString().equals("Books found")) {
+                throw new IOException("Failed to find book");
+            }
+
+            JsonArray booksArray = jsonResponse.getAsJsonArray("books");
+            ArrayList<Book> bookArrayList = new ArrayList<>();
+
+            for (JsonElement element : booksArray) {
+                Book book1 = gson.fromJson(element, Book.class);
+                bookArrayList.add(book1);
+            }
+
+            return bookArrayList;
+        } catch (JsonParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     /**
@@ -201,6 +222,7 @@ public class BookService {
 
             JsonArray booksArray = jsonResponse.getAsJsonArray("books");
             ArrayList<Book> bookArrayList = new ArrayList<>();
+
             for (JsonElement element : booksArray) {
                 Book book = gson.fromJson(element, Book.class);
                 bookArrayList.add(book);
@@ -299,17 +321,17 @@ public class BookService {
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/find_by_tag", json);
 
         try {
-            JsonObject jsonResponse = gson.fromJson(response.body(),JsonObject.class);
-            if(!jsonResponse.has("message")||
-            jsonResponse.get("message").getAsString().equals("Books found")) {
+            JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
+            if (!jsonResponse.has("message") ||
+                    jsonResponse.get("message").getAsString().equals("Books found")) {
                 throw new IOException("Cant find book");
             }
 
             JsonArray bookArray = jsonResponse.getAsJsonArray("books");
             ArrayList<Book> bookArrayList = new ArrayList<>();
 
-            for(JsonElement element : bookArray) {
-                Book book1 = gson.fromJson(element,Book.class);
+            for (JsonElement element : bookArray) {
+                Book book1 = gson.fromJson(element, Book.class);
                 bookArrayList.add(book1);
             }
             return bookArrayList;

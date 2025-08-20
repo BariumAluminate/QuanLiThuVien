@@ -28,11 +28,21 @@ public class UserService {
         return jsonObject;
     };
 
-    public static boolean isLibrarian(String response) throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();// Chuyển chuỗi JSON thành các đối tượng Java
-        JsonNode jsonNode = objectMapper.readTree(response); // Đại diện cho toàn bộ cấu trúc JSON dưới dạng 1 cây
+    public static String makeJson(Reader reader) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Reader.class, readerJsonSerializer)
+                .create();
+        return gson.toJson(reader);
+    }
+
+    public boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
+        String response = showReaderInfo(reader);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(response);
+
         String role = jsonNode.get("librarian").asText();
-        return Objects.equals(role, "true");
+        return role.equals("true");
     }
 
     /**
