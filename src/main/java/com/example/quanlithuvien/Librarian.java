@@ -1,9 +1,11 @@
 package com.example.quanlithuvien;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 
 public class Librarian extends Reader {
     public static final String BASE_URL = "http://20.196.64.166:8080";
@@ -25,7 +27,7 @@ public class Librarian extends Reader {
     /**
      * Thêm sách vào thư viện.
      *
-     * @param book                  sách được thêm
+     * @param book sách được thêm
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -39,7 +41,7 @@ public class Librarian extends Reader {
     /**
      * Xóa sách khỏi thư viện thông qua bookId.
      *
-     * @param bookId                Id của sách bị xóa
+     * @param bookId Id của sách bị xóa
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -53,7 +55,7 @@ public class Librarian extends Reader {
     /**
      * Tìm kiếm sách thông qua Id của nó.
      *
-     * @param bookId                Id của sách cần tìm
+     * @param bookId Id của sách cần tìm
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -67,7 +69,7 @@ public class Librarian extends Reader {
     /**
      * Tìm kiếm sách thông qua tên của nó.
      *
-     * @param title                 Tên cuốn sách cần tìm
+     * @param title Tên cuốn sách cần tìm
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -91,9 +93,9 @@ public class Librarian extends Reader {
     /**
      * Thêm người dùng.
      *
-     * @param stringId              Id người dùng
-     * @param name                  Tên người dùng
-     * @param password              Mật khẩu
+     * @param stringId Id người dùng
+     * @param name     Tên người dùng
+     * @param password Mật khẩu
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -102,16 +104,24 @@ public class Librarian extends Reader {
             throw new IllegalArgumentException("User details cannot be null");
         }
         Reader reader = new Reader(stringId, name, password);
-        String response = userService.addReader(getCsrftoken(), getStringId(), getApi_KEY(), reader);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response);
+        if (UserService.login(reader)) {
+            String json = UserService.makeJson(reader);
+            HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/login/authenticate", json);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.body());
+            String apiKey = jsonNode.get("api_KEY").asText();
+            String csrfToken = jsonNode.get("csrftoken").asText();
+            reader.setApi_KEY(apiKey);
+            reader.setCsrftoken(csrftoken);
+        }
     }
 
     /**
      * Cập nhật tên sách
      *
-     * @param bookId                Id của sách cần cập nhật
-     * @param title                 Tên cuốn sách
+     * @param bookId Id của sách cần cập nhật
+     * @param title  Tên cuốn sách
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -125,8 +135,8 @@ public class Librarian extends Reader {
     /**
      * Cập nhật tác giả cuốn sách thông qua bookId.
      *
-     * @param bookId                Id của cuốn sách cần cập nhật
-     * @param author                Tác giả cúa cuốn sách
+     * @param bookId Id của cuốn sách cần cập nhật
+     * @param author Tác giả cúa cuốn sách
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -140,8 +150,8 @@ public class Librarian extends Reader {
     /**
      * Cập nhật bookTag vào bookId.
      *
-     * @param bookId                Id của sách cần cập nhật
-     * @param bookTag               tag dùng để cập nhật
+     * @param bookId  Id của sách cần cập nhật
+     * @param bookTag tag dùng để cập nhật
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -155,7 +165,7 @@ public class Librarian extends Reader {
     /**
      * Xóa bookTag của cuốn sách.
      *
-     * @param bookId                Id của sách cần xóa
+     * @param bookId Id của sách cần xóa
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -169,8 +179,8 @@ public class Librarian extends Reader {
     /**
      * Cập nhật bookTag mới cho cuốn sách.
      *
-     * @param bookId                Id của sách cần cập nhật
-     * @param newTag                tag mới dùng để cập nhật
+     * @param bookId Id của sách cần cập nhật
+     * @param newTag tag mới dùng để cập nhật
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
@@ -184,7 +194,7 @@ public class Librarian extends Reader {
     /**
      * Tìm kiếm thông tin người dùng thông qua Id của họ.
      *
-     * @param stringId              Id người dùng
+     * @param stringId Id người dùng
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
