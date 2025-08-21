@@ -68,7 +68,7 @@ public class BookService {
      * @param reader Người thêm sách
      * @param book   Sách được thêm
      */
-    public String addBook(Reader reader, Book book) throws IOException, InterruptedException {
+    public static String addBook(Reader reader, Book book) throws IOException, InterruptedException {
         LibraryData libraryData = new LibraryData(reader, book);
 
         Gson gson = new GsonBuilder()
@@ -86,7 +86,7 @@ public class BookService {
      * @param reader Người xóa sách
      * @param bookId Id của sách bị xóa
      */
-    public String removeBook(Reader reader, String bookId) throws IOException, InterruptedException {
+    public static String removeBook(Reader reader, String bookId) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
 
@@ -114,7 +114,7 @@ public class BookService {
      * @param reader người tìm sách
      * @param bookId id của sách cần tìm
      */
-    public Book findBookById(Reader reader, String bookId) throws IOException, InterruptedException {
+    public static Book findBookById(Reader reader, String bookId) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
 
@@ -156,7 +156,7 @@ public class BookService {
      * @param reader Người tìm sách
      * @param title  Tên sách cần tìm
      */
-    public ArrayList<Book> findBookByName(Reader reader, String title) throws IOException, InterruptedException {
+    public static ArrayList<Book> findBookByName(Reader reader, String title) throws IOException, InterruptedException {
         Book book = new Book();
         book.setTitle(title);
 
@@ -204,13 +204,16 @@ public class BookService {
      *
      * @param reader Người gửi yêu cầu
      */
-    public ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
+    public static ArrayList<Book> showAllBook(Reader reader) throws IOException, InterruptedException {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(reader);
+        System.out.println("Request Body: " + json);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/showAllBook", json);
+        System.out.println("HTTP Status: " + response.statusCode());
+        System.out.println("API Response: " + response.body());
 
         try {
             JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
@@ -241,7 +244,7 @@ public class BookService {
      * @param reader người mượn
      * @param bookId Id của sách cần mượn
      */
-    public String borrowBook(Reader reader, String bookId) throws IOException, InterruptedException {
+    public static String borrowBook(Reader reader, String bookId) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
 
@@ -270,7 +273,7 @@ public class BookService {
      * @param bookId Id của sách cần cập nhật
      * @param title  Tên sách sau cập nhật
      */
-    public String updateBookName(Reader reader, String bookId, String title) throws IOException, InterruptedException {
+    public static String updateBookName(Reader reader, String bookId, String title) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
         book.setTitle(title);
@@ -300,7 +303,7 @@ public class BookService {
      * @param reader  người tìm
      * @param bookTag bookTag cần tìm
      */
-    public ArrayList<Book> findBookByBookTag(Reader reader, String bookTag) throws IOException, InterruptedException {
+    public static ArrayList<Book> findBookByBookTag(Reader reader, String bookTag) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookTag(bookTag);
 
@@ -348,7 +351,7 @@ public class BookService {
      * @param bookId  Id của sách cần cập nhật
      * @param bookTag Tag dùng để cập nhật
      */
-    public String updateBookTag(Reader reader, String bookId, String bookTag) throws IOException, InterruptedException {
+    public static String updateBookTag(Reader reader, String bookId, String bookTag) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
         book.setBookTag(bookTag);
@@ -379,7 +382,7 @@ public class BookService {
      * @param bookId Id của sách cần cập nhật
      * @param author Bút danh tác giả dùng để cập nhật
      */
-    public String updateAuthor(Reader reader, String bookId, String author) throws IOException, InterruptedException {
+    public static String updateAuthor(Reader reader, String bookId, String author) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
         book.setAuthor(author);

@@ -2,10 +2,7 @@ package com.example.quanlithuvien;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -35,13 +32,22 @@ public class UserService {
         return gson.toJson(reader);
     }
 
-    public boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
+    public static boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
         String response = showReaderInfo(reader);
+        System.out.println("API Response from /reader/show: " + response); // Debug log
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response);
 
-        String role = jsonNode.get("librarian").asText();
+        JsonNode readerNode = jsonNode.get("reader");
+        if (readerNode == null) {
+            throw new IOException("No 'reader' object found in JSON response");
+        }
+        JsonNode librarianNode = readerNode.get("librarian");
+        if (librarianNode == null) {
+            throw new IOException("No 'librarian' field found in reader object");
+        }
+        String role = librarianNode.asText();
         return role.equals("true");
     }
 
@@ -53,7 +59,7 @@ public class UserService {
      * @param api_KEY   api_KEY
      * @param reader    Người dùng được thêm
      */
-    public String addReader(String csrfToken, String stringId, String api_KEY, Reader reader)
+    public static String addReader(String csrfToken, String stringId, String api_KEY, Reader reader)
             throws IOException, InterruptedException {
         //Dùng URLEncoder.encode để mã hóa các giá trị để tránh lỗi cú pháp URL
         //Ví dụ: Kí tự "=" có thể bị mã hóa thành "%3D"
@@ -74,6 +80,27 @@ public class UserService {
     }
 
     /**
+     * biến đầu vào là một String có cấu trúc là một file json thành thực thể reader
+     * @param json string json đầu vào
+     * @return thực thể reader tương ứng
+     */
+    public static Reader jsonToReader(String json) throws IOException {
+        try {
+            Gson gson = new Gson();
+            // Parse the JSON string and extract the "reader" object
+            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+            JsonElement readerElement = jsonObject.get("reader");
+            if (readerElement == null) {
+                throw new IOException("No 'reader' object found in JSON response");
+            }
+            // Deserialize the "reader" object into a Reader instance
+            return gson.fromJson(readerElement, Reader.class);
+        } catch (Exception e) {
+            throw new IOException("Failed to parse JSON into Reader object: " + e.getMessage());
+        }
+    }
+
+    /**
      * Đăng nhập.
      *
      * @param reader Người dùng đăng nhập
@@ -87,7 +114,27 @@ public class UserService {
         BookService bookService = new BookService();
         HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/login/authenticate", json);
 
-        return response.statusCode() == 200;
+        if (response.statusCode() == 200) {
+            // Parse the response to update api_KEY and csrftoken
+            try {
+                JsonObject jsonObject = gson.fromJson(response.body(), JsonObject.class);
+                JsonElement readerElement = jsonObject.get("reader");
+                if (readerElement != null && readerElement.isJsonObject()) {
+                    JsonObject readerJson = readerElement.getAsJsonObject();
+                    // Update api_KEY and csrftoken if present in the response
+                    if (readerJson.has("api_KEY")) {
+                        reader.setApi_KEY(readerJson.get("api_KEY").getAsString());
+                    }
+                    if (readerJson.has("csrftoken")) {
+                        reader.setCsrftoken(readerJson.get("csrftoken").getAsString());
+                    }
+                }
+                return true;
+            } catch (Exception e) {
+                throw new IOException("Failed to parse login response: " + e.getMessage());
+            }
+        }
+        return false;
     }
 
     /**
@@ -95,12 +142,12 @@ public class UserService {
      *
      * @param reader Người thực hiện yêu cầu
      */
-    public String showReaderInfo(Reader reader) throws IOException, InterruptedException {
+    public static String showReaderInfo(Reader reader) throws IOException, InterruptedException {
         JsonSerializer<Reader> readerJsonSerializer = (src, typeOfSrc, context) -> {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("stringId", src.getStringId());
-            jsonObject.addProperty("csrftoken", src.getCsrftoken());
             jsonObject.addProperty("api_KEY", src.getApi_KEY());
+            jsonObject.addProperty("csrftoken", src.getCsrftoken());
             return jsonObject;
         };
 

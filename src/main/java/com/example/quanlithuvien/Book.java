@@ -11,7 +11,7 @@ public class Book {
     private String title;
     private String author;
     private String bookTag;
-    private String BorrowerID;
+    private String borrowerId;
 
     public Book() {
 
@@ -25,18 +25,18 @@ public class Book {
         this.title = title;
         this.author = author;
         this.bookTag = bookTag;
-        this.BorrowerID = null;
+        this.borrowerId = null;
     }
 
     /**
      * Phương thức khởi tạo.
      */
-    public Book(String bookId, String title, String author, String bookTag, String borrowerID) {
+    public Book(String bookId, String title, String author, String bookTag, String borrowerId) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
         this.bookTag = bookTag;
-        BorrowerID = borrowerID;
+        this.borrowerId = borrowerId;
     }
 
     public String getBookId() {
@@ -56,7 +56,7 @@ public class Book {
     }
 
     public String getBorrowedId() {
-        return BorrowerID;
+        return borrowerId;
     }
 
     public void setBookId(String bookId) {
@@ -75,8 +75,8 @@ public class Book {
         this.bookTag = bookTag;
     }
 
-    public void setBorrowerID(String borrowerID) {
-        BorrowerID = borrowerID;
+    public void setborrowerId(String borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public void updateTitle(String title) {
