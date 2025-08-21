@@ -129,10 +129,11 @@ public class AddQuery {
         }
     }
 
-    public void setOnAction(StackPane stackPane, Reader reader) {
+    public void setOnAction(StackPane stackPane, Reader reader, Runnable runnable) {
         confirm.setOnAction(e-> {
             try {
                 setup(reader);
+                runnable.run();
                 close(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);

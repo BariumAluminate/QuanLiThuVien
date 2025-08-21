@@ -103,5 +103,5 @@ public abstract class GeneralUpdate {
         stackPane.getChildren().removeAll(rect, mainBox);
     }
 
-    public abstract void setUp(StackPane stackPane, Reader reader, Book book);
+    public abstract void setUp(StackPane stackPane, Reader reader, Book book, Runnable runnable);
 }

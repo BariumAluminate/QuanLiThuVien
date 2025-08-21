@@ -25,7 +25,6 @@ public class UserInterface {
     private final Button removeButton;
     private final Button searchButton;
     private final Button showButton;
-    private final Button refresh;
 
     private final HBox objectBox;
     private final Button updateButton;
@@ -95,21 +94,13 @@ public class UserInterface {
         VBox.setVgrow(showButton, Priority.ALWAYS);
         showButton.getStyleClass().add("functionButton");
 
-        refresh = new Button("Refresh table");
-        refresh.setMaxHeight(Double.MAX_VALUE);
-        refresh.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(refresh, Priority.ALWAYS);
-        VBox.setVgrow(refresh, Priority.ALWAYS);
-        refresh.getStyleClass().add("functionButton");
-
         Separator sep1 = new Separator(Orientation.HORIZONTAL);
         Separator sep2 = new Separator(Orientation.HORIZONTAL);
         Separator sep3 = new Separator(Orientation.HORIZONTAL);
         Separator sep4 = new Separator(Orientation.HORIZONTAL);
-        Separator sep5 = new Separator(Orientation.HORIZONTAL);
 
         functionBox.getChildren().addAll(addButton, sep1,removeButton, sep2);
-        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton, sep5, refresh);
+        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton);
 
         //Object to choose
         objectBox = new HBox();
@@ -268,13 +259,25 @@ public class UserInterface {
         removeQuery remove = new removeQuery();
         remove.resizeProperty(stackPane);
         remove.render(stackPane);
-        remove.setOnAction(stackPane, user);
+        remove.setOnAction(stackPane, user, ()-> {
+            try {
+                refresh();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     public void addQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (Objects.equals(editMode, "Book")) {
             AddQuery add = new AddQuery();
-            add.setOnAction(stackPane, user);
+            add.setOnAction(stackPane, user, ()-> {
+                try {
+                    refresh();
+                } catch (IOException | InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             add.render(stackPane);
             add.resize(stackPane);
         } else {
@@ -310,7 +313,13 @@ public class UserInterface {
         UpdateChooser update = new UpdateChooser();
         update.render(stackPane);
         update.resize(stackPane);
-        update.setOnAction(stackPane, user, book);
+        update.setOnAction(stackPane, user, book, ()-> {
+            try {
+                refresh();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     public void showQuery(StackPane stackPane) {
@@ -357,12 +366,5 @@ public class UserInterface {
 
         });
         showButton.setOnAction(e->showQuery(stackPane));
-        refresh.setOnAction(e-> {
-            try {
-                refresh();
-            } catch (IOException | InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
     }
 }

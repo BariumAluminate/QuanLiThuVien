@@ -11,12 +11,13 @@ public class removeQuery extends  SingleLineQuery{
         super("Remove");
     }
 
-    public void setOnAction(StackPane stackPane, Reader user) {
+    public void setOnAction(StackPane stackPane, Reader user, Runnable runnable) {
         confirm.setOnAction(e-> {
             try {
                 if (user instanceof Librarian librarian) {
                     librarian.removeBook(Element.getText());
                     close(stackPane);
+                    runnable.run();
                 }
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
