@@ -97,11 +97,11 @@ public class Reader {
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
-    public void findById(String bookId) throws IOException, InterruptedException {
+    public Book findById(String bookId) throws IOException, InterruptedException {
         if (bookId == null) {
             throw new IllegalArgumentException("bookId cannot be null!");
         }
-        System.out.println(BookService.findBookById(this, bookId));
+        return BookService.findBookById(this, bookId);
     }
 
     /**
@@ -111,11 +111,11 @@ public class Reader {
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
-    public void findByName(String bookName) throws IOException, InterruptedException {
+    public ArrayList<Book> findByName(String bookName) throws IOException, InterruptedException {
         if (bookName == null) {
             throw new IllegalArgumentException("bookName cannot be null!");
         }
-        System.out.println(BookService.findBookByName(this, bookName));
+        return BookService.findBookByName(this, bookName);
     }
 
     /**
@@ -125,11 +125,11 @@ public class Reader {
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
-    public void findByTag(String tag) throws IOException, InterruptedException {
+    public ArrayList<Book> findByTag(String tag) throws IOException, InterruptedException {
         if (tag == null) {
             throw new IllegalArgumentException("tag cannot be null!");
         }
-        System.out.println(BookService.findBookByBookTag(this, tag));
+        return BookService.findBookByBookTag(this, tag);
     }
 
     public ArrayList<Book> showAllBook() throws IOException, InterruptedException {
