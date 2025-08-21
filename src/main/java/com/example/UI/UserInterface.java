@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UserInterface {
     private final VBox userFace;
@@ -24,6 +25,7 @@ public class UserInterface {
     private final Button removeButton;
     private final Button searchButton;
     private final Button showButton;
+    private final Button refresh;
 
     private final HBox objectBox;
     private final Button updateButton;
@@ -32,12 +34,6 @@ public class UserInterface {
     private String editMode;
 
     private TableView<Book> table;
-
-    ArrayList<Book> test = new ArrayList<>(List.of(new Book[]{
-            new Book("1", "test", "test", "test"),
-            new Book("2", "test2", "test2", "test2"),
-            new Book("3", "test3", "test3", "test3")
-    }));
 
     ObservableList<Book> bookList;
 
@@ -99,13 +95,21 @@ public class UserInterface {
         VBox.setVgrow(showButton, Priority.ALWAYS);
         showButton.getStyleClass().add("functionButton");
 
+        refresh = new Button("Refresh table");
+        refresh.setMaxHeight(Double.MAX_VALUE);
+        refresh.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(refresh, Priority.ALWAYS);
+        VBox.setVgrow(refresh, Priority.ALWAYS);
+        refresh.getStyleClass().add("functionButton");
+
         Separator sep1 = new Separator(Orientation.HORIZONTAL);
         Separator sep2 = new Separator(Orientation.HORIZONTAL);
         Separator sep3 = new Separator(Orientation.HORIZONTAL);
         Separator sep4 = new Separator(Orientation.HORIZONTAL);
+        Separator sep5 = new Separator(Orientation.HORIZONTAL);
 
         functionBox.getChildren().addAll(addButton, sep1,removeButton, sep2);
-        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton);
+        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton, sep5, refresh);
 
         //Object to choose
         objectBox = new HBox();
@@ -133,11 +137,12 @@ public class UserInterface {
         bookButton.getStyleClass().add("objectButton");
 
         user = reader;
+        System.out.println(user.getPassword());
+        System.out.println(user.getApi_KEY());
 
         table = new TableView<>();
 
-        bookList = FXCollections.observableArrayList(test);
-//        bookList = FXCollections.observableArrayList(user.showAllBook());
+        bookList = FXCollections.observableArrayList(user.showAllBook());
         table.setItems(bookList);
 
 // Define table columns
@@ -148,34 +153,38 @@ public class UserInterface {
         TableColumn<Book, String> author = new TableColumn<>("Author");
         author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
         TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
-        borrowButton.setCellFactory(param -> new TableCell<Book, Void>() {
+        borrowButton.setCellFactory(param -> new TableCell<>() {
             private final Button button = new Button("Borrow");
             {
                 button.setMaxWidth(Double.MAX_VALUE);
                 button.getStyleClass().add("functionButton");
-                button.setOnAction(event -> {
-                    Book selectedBook = getTableView().getItems().get(getIndex());
-                    try {
-                        // user.borrow(selectedBook.getBookId()); // Update if Reader is needed
-                        table.refresh();
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Borrow Success");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Book borrowed successfully!");
-                        alert.showAndWait();
-                    } catch (Exception e) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Borrow Error");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Failed to borrow book: " + e.getMessage());
-                        alert.showAndWait();
-                    }
-                });
             }
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setGraphic(empty ? null : button);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Book book = getTableView().getItems().get(getIndex());
+                    button.setOnAction(event -> {
+                        try {
+                            user.borrow(book.getBookId());
+                            table.refresh();
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Borrow Success");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Book borrowed successfully!");
+                            alert.showAndWait();
+                        } catch (Exception e) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Borrow Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Failed to borrow book: " + e.getMessage());
+                            alert.showAndWait();
+                        }
+                    });
+                    setGraphic(button);
+                }
             }
         });
 
@@ -189,12 +198,7 @@ public class UserInterface {
         // Selection listener to copy selected book to chosenBook
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-                book = new Book(
-                        newSelection.getBookId(),
-                        newSelection.getTitle(),
-                        newSelection.getAuthor(),
-                        newSelection.getBookTag()
-                );
+                book = newSelection;
                 System.out.println("Selected book copied to chosenBook: " + book.getTitle());
             } else {
                 book = null;
@@ -230,24 +234,6 @@ public class UserInterface {
         resizeTable(stackPane);
     }
 
-    private void updateBookInList(Book updatedBook) {
-        if (updatedBook == null) {
-            return;
-        }
-        for (int i = 0; i < test.size(); i++) {
-            if (test.get(i).getBookId().equals(updatedBook.getBookId())) {
-                test.set(i, updatedBook);
-                break;
-            }
-        }
-        for (int i = 0; i < bookList.size(); i++) {
-            if (bookList.get(i).getBookId().equals(updatedBook.getBookId())) {
-                bookList.set(i, updatedBook);
-            }
-        }
-        table.refresh();
-    }
-
     public void render(StackPane stackPane) {
         StackPane.setAlignment(userFace, Pos.TOP_LEFT);
         stackPane.getChildren().addFirst(userFace);
@@ -276,7 +262,7 @@ public class UserInterface {
     }
 
     public void removeQuery(StackPane stackPane) throws IOException, InterruptedException {
-        if (editMode == "User") {
+        if (Objects.equals(editMode, "User")) {
             throw new RuntimeException("This edit mode can't do this");
         }
         removeQuery remove = new removeQuery();
@@ -286,12 +272,11 @@ public class UserInterface {
     }
 
     public void addQuery(StackPane stackPane) throws IOException, InterruptedException {
-        if (editMode == "Book") {
+        if (Objects.equals(editMode, "Book")) {
             AddQuery add = new AddQuery();
-            add.setOnAction(stackPane, user, test);
+            add.setOnAction(stackPane, user);
             add.render(stackPane);
             add.resize(stackPane);
-            updateBookInList(null);
         } else {
             AddUser addUser = new AddUser();
             addUser.setOnAction(stackPane, user);
@@ -326,23 +311,6 @@ public class UserInterface {
         update.render(stackPane);
         update.resize(stackPane);
         update.setOnAction(stackPane, user, book);
-        if (book != null) {
-            try {
-                updateBookInList(book); // Update the book in test and bookList
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Update Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to update book: " + e.getMessage());
-                alert.showAndWait();
-            }
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Book Selected");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a book to update.");
-            alert.showAndWait();
-        }
     }
 
     public void showQuery(StackPane stackPane) {
@@ -352,14 +320,16 @@ public class UserInterface {
         showBookInfo.setup(stackPane);
     }
 
+    public void refresh() throws IOException, InterruptedException {
+        bookList = FXCollections.observableArrayList(BookService.showAllBook(user));
+        table.setItems(bookList);
+        table.refresh();
+    }
+
     public void setOnAction(StackPane stackPane) {
         addButton.setOnAction(e-> {
             try {
                 addQuery(stackPane);
-                ObservableList<Book> bookList = FXCollections.observableArrayList(test);
-                table.setItems(bookList);
-                table.refresh();
-
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
@@ -387,5 +357,12 @@ public class UserInterface {
 
         });
         showButton.setOnAction(e->showQuery(stackPane));
+        refresh.setOnAction(e-> {
+            try {
+                refresh();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 }

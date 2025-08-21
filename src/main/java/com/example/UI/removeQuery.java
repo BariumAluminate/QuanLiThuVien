@@ -15,7 +15,7 @@ public class removeQuery extends  SingleLineQuery{
         confirm.setOnAction(e-> {
             try {
                 if (user instanceof Librarian librarian) {
-                    librarian.removeBookTag(Element.getText());
+                    librarian.removeBook(Element.getText());
                     close(stackPane);
                 }
             } catch (IOException | InterruptedException ex) {

@@ -41,11 +41,12 @@ public class Controller {
                 System.out.println(ID + " " + password + " " + name);
                 if (UserService.login(reader)) {
                     System.out.println(reader.getApi_KEY());
-//                    if (UserService.isLibrarian(reader)) {
-//                        String API_key = reader.getApi_KEY();
-//                        String cr = reader.getCsrftoken();
-//                        reader = new Librarian(ID, name, password, API_key, cr);
-//                    }
+                    if (UserService.isLibrarian(reader)) {
+                        String API_key = reader.getApi_KEY();
+                        String cr = reader.getCsrftoken();
+                        System.out.println(API_key + " " + cr);
+                        reader = new Librarian(ID, name, password, API_key, cr);
+                    }
                     showUserInterface();
                 } else {
                     showAlert("Login Failed", "Invalid credentials. Please try again.");

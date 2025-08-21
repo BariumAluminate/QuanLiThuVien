@@ -14,7 +14,10 @@ public class UpdateAuthor extends GeneralUpdate{
 
     @Override
     public void setUp(StackPane stackPane, Reader reader, Book book) {
-        String newAuthor = newElement.getText();
-        book.updateAuthor(newAuthor);
+        confirm.setOnAction(e-> {
+            String newAuthor = newElement.getText();
+            book.updateAuthor(newAuthor);
+            close(stackPane);
+        });
     }
 }

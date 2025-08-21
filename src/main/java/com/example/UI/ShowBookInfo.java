@@ -25,6 +25,9 @@ public class ShowBookInfo {
         author.getStyleClass().add("Label");
         Label tags = new Label(book.getBookTag());
         tags.getStyleClass().add("Label");
+        Label borrowedID = new Label(book.getBorrowedId());
+        borrowedID.getStyleClass().add("Label");
+        System.out.println(book.getBorrowedId());
 
         Label idLabel = new Label("ID");
         idLabel.getStyleClass().add("Label");
@@ -34,15 +37,17 @@ public class ShowBookInfo {
         authorLabel.getStyleClass().add("Label");
         Label tagsLabel = new Label("Tags");
         tagsLabel.getStyleClass().add("Label");
+        Label borrowerLabel = new Label("Borrowed ID");
+        borrowerLabel.getStyleClass().add("Label");
         Label nameofQuery = new Label("Show Book information");
         nameofQuery.getStyleClass().add("Label");
 
         VBox label = new VBox();
-        label.getChildren().addAll(idLabel, nameLabel, authorLabel, tagsLabel);
+        label.getChildren().addAll(idLabel, nameLabel, authorLabel, tagsLabel, borrowerLabel);
         label.setAlignment(Pos.CENTER);
 
         VBox info = new VBox();
-        info.getChildren().addAll(id, name, author, tags);
+        info.getChildren().addAll(id, name, author, tags, borrowedID);
         info.setAlignment(Pos.CENTER);
 
         HBox submain = new HBox();
@@ -62,10 +67,11 @@ public class ShowBookInfo {
         rect = new Rectangle(); // Initialize with fill
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(0, 255, 0));
+        rect.setFill(Color.rgb(255, 255, 255));
         rect.setStroke(null);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
+
     }
 
     public void render(StackPane stackPane) {

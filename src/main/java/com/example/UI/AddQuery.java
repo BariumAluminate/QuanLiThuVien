@@ -99,8 +99,8 @@ public class AddQuery {
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(0, 255, 0)); // light blue with 50% opacity
-        rect.setStroke(null);
+        rect.setFill(Color.rgb(255, 255, 255)); // light blue with 50% opacity
+        rect.setStroke(Color.BLACK);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
         StackPane.setAlignment(mainBox, Pos.CENTER);
@@ -118,22 +118,21 @@ public class AddQuery {
         rect.heightProperty().bind(stackPane.heightProperty().multiply(0.4));
     }
 
-    public void setup(Reader reader, ArrayList<Book> books) throws IOException, InterruptedException {
+    public void setup(Reader reader) throws IOException, InterruptedException {
         String ID = this.id.getText();
         String name = this.title.getText();
         String author = this.author.getText();
         String tag = this.tag.getText();
         Book temp = new Book(ID, name, author, tag);
         if (reader instanceof Librarian librarian) {
-//            librarian.addBook(temp);
-            books.add(temp);
+            librarian.addBook(temp);
         }
     }
 
-    public void setOnAction(StackPane stackPane, Reader reader, ArrayList<Book> books) {
+    public void setOnAction(StackPane stackPane, Reader reader) {
         confirm.setOnAction(e-> {
             try {
-                setup(reader, books);
+                setup(reader);
                 close(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);

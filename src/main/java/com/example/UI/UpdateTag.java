@@ -17,6 +17,7 @@ public class UpdateTag extends GeneralUpdate{
         confirm.setOnAction(e-> {
             String newTags = newElement.getText();
             book.updateBookTag(newTags);
+            close(stackPane);
         });
     }
 }

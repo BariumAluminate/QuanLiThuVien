@@ -77,8 +77,8 @@ public class AddUser {
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(0, 255, 0)); // light blue with 50% opacity
-        rect.setStroke(null);
+        rect.setFill(Color.rgb(255, 255, 255)); // light blue with 50% opacity
+        rect.setStroke(Color.BLACK);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
         StackPane.setAlignment(mainBox, Pos.CENTER);
