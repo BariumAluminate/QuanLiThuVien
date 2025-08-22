@@ -30,5 +30,14 @@ public class SearchByName extends SingleLineQuery {
                 throw new RuntimeException(ex);
             }
         });
+        cancel.setOnAction(e->this.close(stackPane, reader, runnable, bookList));
+    }
+
+    public void close(StackPane stackPane, Reader user, Runnable runnable, ObservableList<Book> bookList) {
+        close(stackPane);
+        SearchChooser searchChooser = new SearchChooser();
+        searchChooser.render(stackPane);
+        searchChooser.resize(stackPane);
+        searchChooser.setOnAction(stackPane, user, runnable, bookList);
     }
 }

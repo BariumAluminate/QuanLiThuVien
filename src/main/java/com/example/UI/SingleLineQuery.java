@@ -14,7 +14,7 @@ public abstract class SingleLineQuery {
     private final VBox box;
     protected TextField Element;
     protected Button confirm;
-    private Button cancel;
+    protected Button cancel;
     private final Rectangle rect;
 
     public SingleLineQuery(String nameOfQuery) {

@@ -91,13 +91,28 @@ public class UserInterface {
         VBox.setVgrow(showButton, Priority.ALWAYS);
         showButton.getStyleClass().add("functionButton");
 
+        Button showAll = new Button("Show ALL Books");
+        showAll.setMaxHeight(Double.MAX_VALUE);
+        showAll.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(showAll, Priority.ALWAYS);
+        VBox.setVgrow(showAll, Priority.ALWAYS);
+        showAll.getStyleClass().add("functionButton");
+        showAll.setOnAction(e-> {
+            try {
+                refresh();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         Separator sep1 = new Separator(Orientation.HORIZONTAL);
         Separator sep2 = new Separator(Orientation.HORIZONTAL);
         Separator sep3 = new Separator(Orientation.HORIZONTAL);
         Separator sep4 = new Separator(Orientation.HORIZONTAL);
+        Separator sep5 = new Separator(Orientation.HORIZONTAL);
 
         functionBox.getChildren().addAll(addButton, sep1,removeButton, sep2);
-        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton);
+        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton, sep5, showAll);
 
         //Object to choose
         objectBox = new HBox();
@@ -162,7 +177,7 @@ public class UserInterface {
                   Book book = getTableView().getItems().get(getIndex());
                   button.setOnAction(
                       event -> {
-                        if (book.getBorrowedId().isEmpty()){
+                        if (book.getBorrowedId() == null){
                           try {
                             user.borrow(book.getBookId());
                             table.refresh();
@@ -339,6 +354,15 @@ public class UserInterface {
 
     public void updateQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (librarianAuthority()) return;
+        if (!Objects.equals(editMode, "Book")) return;
+        if (book == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Search Error");
+            alert.setHeaderText(null);
+            alert.setContentText("You have not chosen a book to show information");
+            alert.showAndWait();
+            return;
+        }
         UpdateChooser update = new UpdateChooser();
         update.render(stackPane);
         update.resize(stackPane);
@@ -359,6 +383,7 @@ public class UserInterface {
                 alert.setHeaderText(null);
                 alert.setContentText("You have not chosen a book to show information");
                 alert.showAndWait();
+                return;
             }
             ShowBookInfo showBookInfo = new ShowBookInfo(book);
             showBookInfo.render(stackPane);
