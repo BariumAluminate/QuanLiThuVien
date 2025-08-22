@@ -12,9 +12,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ShowBookInfo {
-    private VBox mainBox;
-    private Rectangle rect;
-    private Button quit;
+    private final VBox mainBox;
+    private final Rectangle rect;
+    private final Button quit;
 
     public ShowBookInfo(Book book) {
         Label id = new Label(book.getBookId());

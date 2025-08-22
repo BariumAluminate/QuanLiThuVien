@@ -111,10 +111,12 @@ public class UserInterface {
             if (Objects.equals(bookButton.getText(), "Book")) {
                 editMode = "User";
                 bookButton.setText("User");
+                showButton.setText("Show your information");
             }
             else {
                 editMode = "Book";
                 bookButton.setText("Book");
+                showButton.setText("Show ");
             }
         });
         HBox.setHgrow(bookButton, Priority.ALWAYS);
@@ -133,7 +135,7 @@ public class UserInterface {
         bookList = FXCollections.observableArrayList(user.showAllBook());
         table.setItems(bookList);
 
-// Define table columns
+        // Define table columns
         TableColumn<Book, String> id = new TableColumn<>("ID");
         id.setCellValueFactory(cellData -> cellData.getValue().bookIdProperty());
         TableColumn<Book, String> title = new TableColumn<>("Title");
@@ -350,10 +352,24 @@ public class UserInterface {
     }
 
     public void showQuery(StackPane stackPane) {
-        ShowBookInfo showBookInfo = new ShowBookInfo(book);
-        showBookInfo.render(stackPane);
-        showBookInfo.resize(stackPane);
-        showBookInfo.setup(stackPane);
+        if (Objects.equals(editMode, "Book")) {
+            if (book == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Search Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You have not chosen a book to show information");
+                alert.showAndWait();
+            }
+            ShowBookInfo showBookInfo = new ShowBookInfo(book);
+            showBookInfo.render(stackPane);
+            showBookInfo.resize(stackPane);
+            showBookInfo.setup(stackPane);
+        } else {
+            ShowUserInfo showUserInfo = new ShowUserInfo(user);
+            showUserInfo.render(stackPane);
+            showUserInfo.resize(stackPane);
+            showUserInfo.setup(stackPane);
+        }
     }
 
     public void refresh() throws IOException, InterruptedException {

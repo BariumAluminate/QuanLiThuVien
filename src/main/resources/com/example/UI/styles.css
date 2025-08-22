@@ -15,12 +15,6 @@
     -fx-font-size: 18px;
 }
 
-.objectButton:hover {
-    -fx-background-color: #00b7eb; /* Slightly darker shade of deepskyblue */
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
 .Label {
     -fx-font-size: 25;
 }

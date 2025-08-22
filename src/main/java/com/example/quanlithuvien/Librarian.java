@@ -170,21 +170,4 @@ public class Librarian extends Reader {
         }
         System.out.println(BookService.updateBookTag(this, bookId, newTag));
     }
-
-    /**
-     * Tìm kiếm thông tin người dùng thông qua Id của họ.
-     *
-     * @param stringId Id người dùng
-     * @throws IOException          ngoại lệ IO
-     * @throws InterruptedException ngoại lệ Interrupted
-     */
-    public void findUser(String stringId) throws IOException, InterruptedException {
-        if (stringId == null) {
-            throw new IllegalArgumentException("stringId or new tag cannot be null");
-        }
-        Reader reader = new Reader(stringId);
-        String response = UserService.showReaderInfo(reader);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response);
-    }
 }

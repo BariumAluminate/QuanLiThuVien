@@ -81,6 +81,18 @@ public class UserService {
     }
 
     /**
+     * Chuyển đổi chuỗi JSON thành đối tượng Reader.
+     *
+     * @param jsonString Chuỗi JSON chứa thông tin của Reader
+     * @return Đối tượng Reader được tạo từ chuỗi JSON
+     * @throws IOException Nếu có lỗi khi phân tích chuỗi JSON
+     */
+    public static Reader jsonToReader(String jsonString) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(jsonString, Reader.class);
+    }
+
+    /**
      * Đăng nhập.
      *
      * @param reader Người dùng đăng nhập
@@ -91,8 +103,7 @@ public class UserService {
                 .create();
         String json = gson.toJson(reader);
 
-        BookService bookService = new BookService();
-        HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/login/authenticate", json);
+        HttpResponse<String> response = BookService.doPostRequest(BASE_URL + "/login/authenticate", json);
 
         if (response.statusCode() == 200) {
             // Parse the response to update api_KEY and csrftoken
