@@ -6,8 +6,8 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class removeQuery extends  SingleLineQuery{
-    public removeQuery() {
+public class RemoveQuery extends  SingleLineQuery{
+    public RemoveQuery() {
         super("Remove");
     }
 

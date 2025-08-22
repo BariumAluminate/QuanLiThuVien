@@ -15,6 +15,7 @@ module com.example.UI {
     requires java.sql;
     requires com.fasterxml.jackson.databind;
     requires javafx.graphics;
+    requires javafx.base;
 
     opens com.example.UI to javafx.fxml, gson;
     exports com.example.UI;

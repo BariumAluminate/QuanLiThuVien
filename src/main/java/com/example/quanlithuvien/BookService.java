@@ -117,6 +117,7 @@ public class BookService {
     public static Book findBookById(Reader reader, String bookId) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
+        System.out.println(book.getBookId() + bookId);
 
         LibraryData libraryData = new LibraryData(reader, book);
 
@@ -131,6 +132,7 @@ public class BookService {
                 .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
+        System.out.println(json);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/findid", json);
 

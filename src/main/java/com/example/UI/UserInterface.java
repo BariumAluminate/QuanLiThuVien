@@ -1,9 +1,6 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
-import com.example.quanlithuvien.BookService;
-import com.example.quanlithuvien.Reader;
-import com.example.quanlithuvien.UserService;
+import com.example.quanlithuvien.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
@@ -32,7 +29,7 @@ public class UserInterface {
 
     private String editMode;
 
-    private TableView<Book> table;
+    private final TableView<Book> table;
 
     ObservableList<Book> bookList;
 
@@ -111,7 +108,7 @@ public class UserInterface {
         bookButton.setMaxHeight(Double.MAX_VALUE);
         bookButton.setMaxWidth(Double.MAX_VALUE);
         bookButton.setOnAction(e-> {
-            if (bookButton.getText() == "Book") {
+            if (Objects.equals(bookButton.getText(), "Book")) {
                 editMode = "User";
                 bookButton.setText("User");
             }
@@ -144,21 +141,27 @@ public class UserInterface {
         TableColumn<Book, String> author = new TableColumn<>("Author");
         author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
         TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
-        borrowButton.setCellFactory(param -> new TableCell<>() {
-            private final Button button = new Button("Borrow");
-            {
+    borrowButton.setCellFactory(
+        param ->
+            new TableCell<>() {
+              private final Button button = new Button("Borrow");
+
+              {
                 button.setMaxWidth(Double.MAX_VALUE);
                 button.getStyleClass().add("functionButton");
-            }
-            @Override
-            protected void updateItem(Void item, boolean empty) {
+              }
+
+              @Override
+              protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
-                    setGraphic(null);
+                  setGraphic(null);
                 } else {
-                    Book book = getTableView().getItems().get(getIndex());
-                    button.setOnAction(event -> {
-                        try {
+                  Book book = getTableView().getItems().get(getIndex());
+                  button.setOnAction(
+                      event -> {
+                        if (book.getBorrowedId().isEmpty()){
+                          try {
                             user.borrow(book.getBookId());
                             table.refresh();
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -166,18 +169,25 @@ public class UserInterface {
                             alert.setHeaderText(null);
                             alert.setContentText("Book borrowed successfully!");
                             alert.showAndWait();
-                        } catch (Exception e) {
+                          } catch (Exception e) {
                             Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setTitle("Borrow Error");
                             alert.setHeaderText(null);
                             alert.setContentText("Failed to borrow book: " + e.getMessage());
                             alert.showAndWait();
+                          }
+                        } else {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Borrow Error");
+                            alert.setHeaderText(null);
+                            alert.setContentText("This book is borrowed");
+                            alert.showAndWait();
                         }
-                    });
-                    setGraphic(button);
+                      });
+                  setGraphic(button);
                 }
-            }
-        });
+              }
+            });
 
         table.getColumns().addAll(id, title, author, borrowButton);
         table.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -254,22 +264,31 @@ public class UserInterface {
 
     public void removeQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (Objects.equals(editMode, "User")) {
-            throw new RuntimeException("This edit mode can't do this");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Librarian Authority:");
+            alert.setHeaderText(null);
+            alert.setContentText("You can't do this in this mode");
+            alert.showAndWait();
+            return;
         }
-        removeQuery remove = new removeQuery();
-        remove.resizeProperty(stackPane);
+        if (librarianAuthority()) return;
+        System.out.println("Check successfully");
+        RemoveQuery remove = new RemoveQuery();
         remove.render(stackPane);
-        remove.setOnAction(stackPane, user, ()-> {
+        remove.resizeProperty(stackPane);
+        remove.setOnAction(stackPane, user, () -> {
             try {
-                refresh();
+              refresh();
             } catch (IOException | InterruptedException ex) {
-                throw new RuntimeException(ex);
+              throw new RuntimeException(ex);
             }
         });
+        System.out.println("Render successfully");
     }
 
     public void addQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (Objects.equals(editMode, "Book")) {
+            if (librarianAuthority()) return;
             AddQuery add = new AddQuery();
             add.setOnAction(stackPane, user, ()-> {
                 try {
@@ -281,6 +300,7 @@ public class UserInterface {
             add.render(stackPane);
             add.resize(stackPane);
         } else {
+            if (librarianAuthority()) return;
             AddUser addUser = new AddUser();
             addUser.setOnAction(stackPane, user);
             addUser.render(stackPane);
@@ -289,12 +309,24 @@ public class UserInterface {
 
     }
 
+    private boolean librarianAuthority() {
+        if (!(user instanceof Librarian)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Librarian Authority:");
+            alert.setHeaderText(null);
+            alert.setContentText("You are not a librarian to perform this action");
+            alert.showAndWait();
+            return true;
+        }
+        return false;
+    }
+
     public void searchQuery(StackPane stackPane) throws IOException, InterruptedException {
-        if (editMode == "Book") {
+        if (Objects.equals(editMode, "Book")) {
             SearchChooser searchChooser = new SearchChooser();
             searchChooser.render(stackPane);
             searchChooser.resize(stackPane);
-            searchChooser.setOnAction(stackPane, user);
+            searchChooser.setOnAction(stackPane, user, table::refresh, bookList);
         }
         else {
             SearchUser searchUser = new SearchUser();
@@ -304,12 +336,7 @@ public class UserInterface {
     }
 
     public void updateQuery(StackPane stackPane) throws IOException, InterruptedException {
-//        if (user instanceof  Librarian) {
-//            UpdateChooser update = new UpdateChooser();
-//            update.render(stackPane);
-//            update.resize(stackPane);
-//            update.setOnAction(stackPane, user, null);
-//        }
+        if (librarianAuthority()) return;
         UpdateChooser update = new UpdateChooser();
         update.render(stackPane);
         update.resize(stackPane);

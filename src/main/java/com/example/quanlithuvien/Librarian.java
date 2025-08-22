@@ -93,17 +93,8 @@ public class Librarian extends Reader {
             throw new IllegalArgumentException("User details cannot be null");
         }
         Reader reader = new Reader(stringId, name, password);
-        if (UserService.login(reader)) {
-            String json = UserService.makeJson(reader);
-            HttpResponse<String> response = BookService.doPostRequest(BASE_URL + "/login/authenticate", json);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.body());
-            String apiKey = jsonNode.get("api_KEY").asText();
-            String csrfToken = jsonNode.get("csrftoken").asText();
-            reader.setApi_KEY(apiKey);
-            reader.setCsrftoken(csrftoken);
-        }
+        String response = UserService.addReader(getCsrftoken(), getStringId(), getApi_KEY(), reader);
+        System.out.println(response);
     }
 
     /**

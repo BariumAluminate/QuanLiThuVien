@@ -98,9 +98,10 @@ public class Reader {
      * @throws InterruptedException ngoại lệ Interrupted
      */
     public Book findById(String bookId) throws IOException, InterruptedException {
-        if (bookId == null) {
+        if (bookId == null || bookId.isEmpty()) {
             throw new IllegalArgumentException("bookId cannot be null!");
         }
+        System.out.println(bookId);
         return BookService.findBookById(this, bookId);
     }
 

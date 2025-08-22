@@ -10,7 +10,7 @@ public class Book {
     private String bookId;
     private String title;
     private String author;
-    private String bookTag;
+    private String booktag;
     private String borrowerId;
 
     public Book() {
@@ -20,22 +20,22 @@ public class Book {
     /**
      * Phương thức khởi tạo.
      */
-    public Book(String bookId, String title, String author, String bookTag) {
+    public Book(String bookId, String title, String author, String booktag) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
-        this.bookTag = bookTag;
+        this.booktag = booktag;
         this.borrowerId = null;
     }
 
     /**
      * Phương thức khởi tạo.
      */
-    public Book(String bookId, String title, String author, String bookTag, String borrowerId) {
+    public Book(String bookId, String title, String author, String booktag, String borrowerId) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
-        this.bookTag = bookTag;
+        this.booktag = booktag;
         this.borrowerId = borrowerId;
     }
 
@@ -52,7 +52,7 @@ public class Book {
     }
 
     public String getBookTag() {
-        return bookTag;
+        return booktag;
     }
 
     public String getBorrowedId() {
@@ -71,11 +71,11 @@ public class Book {
         this.author = author;
     }
 
-    public void setBookTag(String bookTag) {
-        this.bookTag = bookTag;
+    public void setBookTag(String booktag) {
+        this.booktag = booktag;
     }
 
-    public void setborrowerId(String borrowerId) {
+    public void setBorrowerId(String borrowerId) {
         this.borrowerId = borrowerId;
     }
 
@@ -87,14 +87,14 @@ public class Book {
         this.author = author;
     }
 
-    public void updateBookTag(String newTag) {
-        this.bookTag = newTag;
+    public void updatebooktag(String newTag) {
+        this.booktag = newTag;
     }
 
-    public void updateAll(String title, String author, String bookTag) {
+    public void updateAll(String title, String author, String booktag) {
         this.author = author;
         this.title = title;
-        this.bookTag = bookTag;
+        this.booktag = booktag;
     }
 
     public StringProperty bookIdProperty() {

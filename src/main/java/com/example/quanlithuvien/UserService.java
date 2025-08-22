@@ -38,12 +38,14 @@ public class UserService {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response);
+        System.out.println(jsonNode.asText());
 
         JsonNode readerNode = jsonNode.get("reader");
         if (readerNode == null) {
             throw new IOException("No 'reader' object found in JSON response");
         }
         JsonNode librarianNode = readerNode.get("librarian");
+        System.out.println(librarianNode.asText());
         if (librarianNode == null) {
             throw new IOException("No 'librarian' field found in reader object");
         }
@@ -74,30 +76,8 @@ public class UserService {
                 .create();
         String json = gson.toJson(reader);
 
-        BookService bookService = new BookService();
-        HttpResponse<String> response = bookService.doPostRequest(url, json);
+        HttpResponse<String> response = BookService.doPostRequest(url, json);
         return response.body();
-    }
-
-    /**
-     * biến đầu vào là một String có cấu trúc là một file json thành thực thể reader
-     * @param json string json đầu vào
-     * @return thực thể reader tương ứng
-     */
-    public static Reader jsonToReader(String json) throws IOException {
-        try {
-            Gson gson = new Gson();
-            // Parse the JSON string and extract the "reader" object
-            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-            JsonElement readerElement = jsonObject.get("reader");
-            if (readerElement == null) {
-                throw new IOException("No 'reader' object found in JSON response");
-            }
-            // Deserialize the "reader" object into a Reader instance
-            return gson.fromJson(readerElement, Reader.class);
-        } catch (Exception e) {
-            throw new IOException("Failed to parse JSON into Reader object: " + e.getMessage());
-        }
     }
 
     /**
@@ -155,9 +135,9 @@ public class UserService {
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(reader);
+        System.out.println(json);
 
-        BookService bookService = new BookService();
-        HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/reader/show", json);
+        HttpResponse<String> response = BookService.doPostRequest(BASE_URL + "/reader/show", json);
         return response.body();
     }
 }
