@@ -6,17 +6,18 @@ import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
 
-public class removeQuery extends  SingleLineQuery{
-    public removeQuery() {
+public class RemoveQuery extends  SingleLineQuery{
+    public RemoveQuery() {
         super("Remove");
     }
 
-    public void setOnAction(StackPane stackPane, Reader user) {
+    public void setOnAction(StackPane stackPane, Reader user, Runnable runnable) {
         confirm.setOnAction(e-> {
             try {
                 if (user instanceof Librarian librarian) {
-                    librarian.removeBookTag(Element.getText());
+                    librarian.removeBook(Element.getText());
                     close(stackPane);
+                    runnable.run();
                 }
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);

@@ -4,12 +4,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.io.IOException;
+
 public class Book {
     private String bookId;
     private String title;
     private String author;
-    private String bookTag;
-    private String BorrowerID;
+    private String booktag;
+    private String borrowerId;
 
     public Book() {
 
@@ -18,23 +20,23 @@ public class Book {
     /**
      * Phương thức khởi tạo.
      */
-    public Book(String bookId, String title, String author, String bookTag) {
+    public Book(String bookId, String title, String author, String booktag) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
-        this.bookTag = bookTag;
-        this.BorrowerID = null;
+        this.booktag = booktag;
+        this.borrowerId = null;
     }
 
     /**
      * Phương thức khởi tạo.
      */
-    public Book(String bookId, String title, String author, String bookTag, String borrowerID) {
+    public Book(String bookId, String title, String author, String booktag, String borrowerId) {
         this.bookId = bookId;
         this.title = title;
         this.author = author;
-        this.bookTag = bookTag;
-        BorrowerID = borrowerID;
+        this.booktag = booktag;
+        this.borrowerId = borrowerId;
     }
 
     public String getBookId() {
@@ -50,11 +52,11 @@ public class Book {
     }
 
     public String getBookTag() {
-        return bookTag;
+        return booktag;
     }
 
     public String getBorrowedId() {
-        return BorrowerID;
+        return borrowerId;
     }
 
     public void setBookId(String bookId) {
@@ -69,12 +71,12 @@ public class Book {
         this.author = author;
     }
 
-    public void setBookTag(String bookTag) {
-        this.bookTag = bookTag;
+    public void setBookTag(String booktag) {
+        this.booktag = booktag;
     }
 
-    public void setBorrowerID(String borrowerID) {
-        BorrowerID = borrowerID;
+    public void setBorrowerId(String borrowerId) {
+        this.borrowerId = borrowerId;
     }
 
     public void updateTitle(String title) {
@@ -85,14 +87,14 @@ public class Book {
         this.author = author;
     }
 
-    public void updateBookTag(String newTag) {
-        this.bookTag = newTag;
+    public void updatebooktag(String newTag) {
+        this.booktag = newTag;
     }
 
-    public void updateAll(String title, String author, String bookTag) {
+    public void updateAll(String title, String author, String booktag) {
         this.author = author;
         this.title = title;
-        this.bookTag = bookTag;
+        this.booktag = booktag;
     }
 
     public StringProperty bookIdProperty() {

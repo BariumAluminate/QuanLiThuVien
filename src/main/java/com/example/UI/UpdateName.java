@@ -1,8 +1,11 @@
 package com.example.UI;
 
 import com.example.quanlithuvien.Book;
+import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import javafx.scene.layout.StackPane;
+
+import java.io.IOException;
 
 public class UpdateName extends GeneralUpdate{
     public UpdateName(Book book) {
@@ -13,11 +16,17 @@ public class UpdateName extends GeneralUpdate{
     }
 
     @Override
-    public void setUp(StackPane stackPane, Reader reader, Book book ) {
+    public void setUp(StackPane stackPane, Reader reader, Book book, Runnable runnable) {
         confirm.setOnAction(e-> {
-            String newName = newElement.getText();
-            book.updateTitle(newName);
-            close(stackPane);
+            if (reader instanceof Librarian librarian) {
+                try {
+                    librarian.updateBookName(book.getBookId(), newElement.getText());
+                    runnable.run();
+                    close(stackPane);
+                } catch (IOException | InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         });
     }
 }

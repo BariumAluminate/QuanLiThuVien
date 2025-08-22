@@ -10,30 +10,30 @@ public class UpdateChooser extends Chooser {
         this.getMainBox().getChildren().remove(ID);
     }
 
-    public void updateName(StackPane stackPane, Reader user, Book book) {
+    public void updateName(StackPane stackPane, Reader user, Book book, Runnable runnable) {
         UpdateName name = new UpdateName(book);
         name.render(stackPane);
         name.resize(stackPane);
-        name.setUp(stackPane, user, book);
+        name.setUp(stackPane, user, book, runnable);
     }
 
-    public void updateAuthor(StackPane stackPane, Reader user, Book book) {
+    public void updateAuthor(StackPane stackPane, Reader user, Book book, Runnable runnable) {
         UpdateAuthor updateAuthor = new UpdateAuthor(book);
         updateAuthor.render(stackPane);
         updateAuthor.resize(stackPane);
-        updateAuthor.setUp(stackPane, user, book);
+        updateAuthor.setUp(stackPane, user, book, runnable);
     }
 
-    public void updateTags(StackPane stackPane, Reader user, Book book) {
+    public void updateTags(StackPane stackPane, Reader user, Book book, Runnable runnable) {
         UpdateTag updateTag = new UpdateTag(book);
         updateTag.render(stackPane);
         updateTag.resize(stackPane);
-        updateTag.setUp(stackPane, user, book);
+        updateTag.setUp(stackPane, user, book, runnable);
     }
 
-    public void setOnAction(StackPane stackPane, Reader user, Book book) {
-        title.setOnAction(e->updateName(stackPane, user, book));
-        author.setOnAction(e->updateAuthor(stackPane, user, book));
-        tag.setOnAction(e->updateTags(stackPane, user, book));
+    public void setOnAction(StackPane stackPane, Reader user, Book book, Runnable runnable) {
+        title.setOnAction(e->updateName(stackPane, user, book, runnable));
+        author.setOnAction(e->updateAuthor(stackPane, user, book, runnable));
+        tag.setOnAction(e->updateTags(stackPane, user, book, runnable));
     }
 }

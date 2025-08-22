@@ -12,11 +12,32 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ShowUserInfo {
-    private VBox mainBox;
-    private Rectangle rect;
-    private Button quit;
+    private final VBox mainBox;
+    private final Rectangle rect;
+    private final Button quit;
 
+    public ShowUserInfo(Reader reader) {
+        mainBox = new VBox();
 
+        Label nameofQuery = new Label("Your information");
+        nameofQuery.getStyleClass().add("Label");
+        Label idLabel = new Label("ID: \t" + reader.getStringId());
+        idLabel.getStyleClass().add("Label");
+        Label nameLabel = new Label("Name: \t" + reader.getName());
+        nameLabel.getStyleClass().add("Label");
+        quit = new Button("Quit");
+
+        mainBox.getChildren().addAll(nameofQuery, idLabel, nameLabel, quit);
+        mainBox.setAlignment(Pos.CENTER);
+
+        rect = new Rectangle(); // Initialize with fill
+        rect.setWidth(300);
+        rect.setHeight(300);
+        rect.setFill(Color.rgb(255, 255, 255));
+        rect.setStroke(Color.BLACK);
+        rect.setArcWidth(20);
+        rect.setArcHeight(20);
+    }
 
     public void render(StackPane stackPane) {
         StackPane.setAlignment(mainBox, Pos.CENTER);

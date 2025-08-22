@@ -36,6 +36,7 @@ public class AddUser {
         titleLabel = new Label("Name");
         title = new TextField();
         title.setPromptText("Enter username");
+        passField = new Label("Password");
         password = new TextField();
         password.setPromptText("Enter user's password");
         confirm = new Button("Confirm");
@@ -58,6 +59,12 @@ public class AddUser {
         VBox.setVgrow(title, Priority.ALWAYS);
         titleBox.setAlignment(Pos.CENTER);
 
+        VBox passwordBox = new VBox(2, passField, password);
+        passField.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(passField, Priority.ALWAYS);
+        password.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(password, Priority.ALWAYS);
+
         HBox button = new HBox(2, confirm, cancel);
         button.setAlignment(Pos.CENTER);
         confirm.setMaxWidth(Double.MAX_VALUE);
@@ -65,7 +72,7 @@ public class AddUser {
         cancel.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(cancel, Priority.ALWAYS);
 
-        mainBox.getChildren().addAll(nameOfQuery, idBox, titleBox, button);
+        mainBox.getChildren().addAll(nameOfQuery, idBox, titleBox, passwordBox, button);
     }
 
     public void render(StackPane stackPane) {
@@ -77,8 +84,8 @@ public class AddUser {
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(0, 255, 0)); // light blue with 50% opacity
-        rect.setStroke(null);
+        rect.setFill(Color.rgb(255, 255, 255)); // light blue with 50% opacity
+        rect.setStroke(Color.BLACK);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
         StackPane.setAlignment(mainBox, Pos.CENTER);

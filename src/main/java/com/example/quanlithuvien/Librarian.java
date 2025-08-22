@@ -9,8 +9,6 @@ import java.net.http.HttpResponse;
 
 public class Librarian extends Reader {
     public static final String BASE_URL = "http://20.196.64.166:8080";
-    private final BookService bookService = new BookService();
-    private final UserService userService = new UserService();
 
     /**
      * Phương thức khởi tạo.
@@ -35,7 +33,7 @@ public class Librarian extends Reader {
         if (book == null) {
             throw new IllegalArgumentException("Book cannot be null!");
         }
-        System.out.println(bookService.addBook(this, book));
+        System.out.println(BookService.addBook(this, book));
     }
 
     /**
@@ -45,11 +43,11 @@ public class Librarian extends Reader {
      * @throws IOException          ngoại lệ IO
      * @throws InterruptedException ngoại lệ Interrupted
      */
-    public void RemoveBook(String bookId) throws IOException, InterruptedException {
+    public void removeBook(String bookId) throws IOException, InterruptedException {
         if (bookId == null || bookId.isEmpty()) {
             throw new IllegalArgumentException("Book ID cannot be be null or empty!");
         }
-        System.out.println(bookService.removeBook(this, bookId));
+        System.out.println(BookService.removeBook(this, bookId));
     }
 
     /**
@@ -63,7 +61,7 @@ public class Librarian extends Reader {
         if (bookId == null || bookId.isEmpty()) {
             throw new IllegalArgumentException("BookId title cannot be be null or empty!");
         }
-        System.out.println(bookService.findBookById(this, bookId));
+        System.out.println(BookService.findBookById(this, bookId));
     }
 
     /**
@@ -77,18 +75,9 @@ public class Librarian extends Reader {
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Title cannot be be null or empty!");
         }
-        System.out.println(bookService.findBookByName(this, title));
+        System.out.println(BookService.findBookByName(this, title));
     }
 
-    /**
-     * Ghi ra thông tin sách trong thư viện
-     *
-     * @throws IOException          ngoại lệ IO
-     * @throws InterruptedException ngoại lệ Interrupted
-     */
-    public void showAllBook() throws IOException, InterruptedException {
-        System.out.println(bookService.showAllBook(this));
-    }
 
     /**
      * Thêm người dùng.
@@ -104,17 +93,8 @@ public class Librarian extends Reader {
             throw new IllegalArgumentException("User details cannot be null");
         }
         Reader reader = new Reader(stringId, name, password);
-        if (UserService.login(reader)) {
-            String json = UserService.makeJson(reader);
-            HttpResponse<String> response = bookService.doPostRequest(BASE_URL + "/login/authenticate", json);
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(response.body());
-            String apiKey = jsonNode.get("api_KEY").asText();
-            String csrfToken = jsonNode.get("csrftoken").asText();
-            reader.setApi_KEY(apiKey);
-            reader.setCsrftoken(csrftoken);
-        }
+        String response = UserService.addReader(getCsrftoken(), getStringId(), getApi_KEY(), reader);
+        System.out.println(response);
     }
 
     /**
@@ -129,7 +109,7 @@ public class Librarian extends Reader {
         if (bookId == null || title == null) {
             throw new IllegalArgumentException("Book ID or title cannot be null");
         }
-        System.out.println(bookService.updateBookName(this, bookId, title));
+        System.out.println(BookService.updateBookName(this, bookId, title));
     }
 
     /**
@@ -144,7 +124,7 @@ public class Librarian extends Reader {
         if (bookId == null || author == null) {
             throw new IllegalArgumentException("Book ID or author cannot be null");
         }
-        System.out.println(bookService.updateAuthor(this, bookId, author));
+        System.out.println(BookService.updateAuthor(this, bookId, author));
     }
 
     /**
@@ -159,7 +139,7 @@ public class Librarian extends Reader {
         if (bookId == null || bookTag == null) {
             throw new IllegalArgumentException("Book ID or tag cannot be null");
         }
-        System.out.println(bookService.updateBookTag(this, bookId, bookTag));
+        System.out.println(BookService.updateBookTag(this, bookId, bookTag));
     }
 
     /**
@@ -173,7 +153,7 @@ public class Librarian extends Reader {
         if (bookId == null) {
             throw new IllegalArgumentException("Book ID cannot be null");
         }
-        System.out.println(bookService.updateBookTag(this, bookId, null));
+        System.out.println(BookService.updateBookTag(this, bookId, null));
     }
 
     /**
@@ -188,23 +168,6 @@ public class Librarian extends Reader {
         if (bookId == null || newTag == null) {
             throw new IllegalArgumentException("Book ID or new tag cannot be null");
         }
-        System.out.println(bookService.updateBookTag(this, bookId, newTag));
-    }
-
-    /**
-     * Tìm kiếm thông tin người dùng thông qua Id của họ.
-     *
-     * @param stringId Id người dùng
-     * @throws IOException          ngoại lệ IO
-     * @throws InterruptedException ngoại lệ Interrupted
-     */
-    public void findUser(String stringId) throws IOException, InterruptedException {
-        if (stringId == null) {
-            throw new IllegalArgumentException("stringId or new tag cannot be null");
-        }
-        Reader reader = new Reader(stringId);
-        String response = userService.showReaderInfo(reader);
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(response);
+        System.out.println(BookService.updateBookTag(this, bookId, newTag));
     }
 }

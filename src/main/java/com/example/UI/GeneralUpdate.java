@@ -80,8 +80,8 @@ public abstract class GeneralUpdate {
         rect = new Rectangle();
         rect.setWidth(300);
         rect.setHeight(300);
-        rect.setFill(Color.rgb(0, 255, 0));
-        rect.setStroke(null);
+        rect.setFill(Color.rgb(255, 255, 255)); // light blue with 50% opacity
+        rect.setStroke(Color.BLACK);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
     }
@@ -103,5 +103,5 @@ public abstract class GeneralUpdate {
         stackPane.getChildren().removeAll(rect, mainBox);
     }
 
-    public abstract void setUp(StackPane stackPane, Reader reader, Book book);
+    public abstract void setUp(StackPane stackPane, Reader reader, Book book, Runnable runnable);
 }
