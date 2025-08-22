@@ -1,7 +1,6 @@
 package com.example.UI;
 
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -43,8 +42,8 @@ public abstract class SingleLineQuery {
         temp.setAlignment(Pos.CENTER);
         box.getChildren().addAll(nameOfQuery, Element, temp);
         StackPane.setAlignment(box, Pos.CENTER);
-        confirm.setOnAction(e->close(stackPane));
-        cancel.setOnAction(e -> close(stackPane));
+        confirm.setOnAction(_ ->close(stackPane));
+        cancel.setOnAction(_ -> close(stackPane));
         stackPane.getChildren().add(box);
         System.out.println("Rendered rectangle for " + nameOfQuery.getText() + ", Fill: " + rect.getFill());
     }

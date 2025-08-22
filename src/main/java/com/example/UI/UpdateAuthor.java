@@ -17,7 +17,7 @@ public class UpdateAuthor extends GeneralUpdate{
 
     @Override
     public void setUp(StackPane stackPane, Reader reader, Book book, Runnable runnable) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             if (reader instanceof Librarian librarian) {
                 try {
                     librarian.updateBookAuthor(book.getBookId(), newElement.getText());

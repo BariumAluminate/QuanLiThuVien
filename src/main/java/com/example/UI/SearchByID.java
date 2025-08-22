@@ -2,7 +2,6 @@ package com.example.UI;
 
 import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Reader;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
 
@@ -14,7 +13,7 @@ public class SearchByID extends SingleLineQuery {
     }
 
     public void setOnAction(StackPane stackPane, Reader reader, ObservableList<Book> bookList, Runnable runnable) {
-        confirm.setOnAction(e -> {
+        confirm.setOnAction(_ -> {
             try {
                 String searchText = Element.getText();
                 bookList.clear();
@@ -29,7 +28,7 @@ public class SearchByID extends SingleLineQuery {
                 throw new RuntimeException(ex);
             }
         });
-        cancel.setOnAction(e->this.close(stackPane, reader, runnable, bookList));
+        cancel.setOnAction(_ ->this.close(stackPane, reader, runnable, bookList));
     }
 
     public void close(StackPane stackPane, Reader user, Runnable runnable, ObservableList<Book> bookList) {

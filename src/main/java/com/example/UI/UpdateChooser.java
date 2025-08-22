@@ -32,8 +32,8 @@ public class UpdateChooser extends Chooser {
     }
 
     public void setOnAction(StackPane stackPane, Reader user, Book book, Runnable runnable) {
-        title.setOnAction(e->updateName(stackPane, user, book, runnable));
-        author.setOnAction(e->updateAuthor(stackPane, user, book, runnable));
-        tag.setOnAction(e->updateTags(stackPane, user, book, runnable));
+        title.setOnAction(_ ->updateName(stackPane, user, book, runnable));
+        author.setOnAction(_ ->updateAuthor(stackPane, user, book, runnable));
+        tag.setOnAction(_ ->updateTags(stackPane, user, book, runnable));
     }
 }

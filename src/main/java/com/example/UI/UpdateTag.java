@@ -17,7 +17,7 @@ public class UpdateTag extends GeneralUpdate{
 
     @Override
     public void setUp(StackPane stackPane, Reader reader, Book book, Runnable runnable) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             if (reader instanceof Librarian librarian) {
                 try {
                     librarian.updateBookTag(book.getBookId(), newElement.getText());

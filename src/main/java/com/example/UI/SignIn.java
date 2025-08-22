@@ -127,6 +127,6 @@ public class SignIn {
   }
 
   void setOnAction(Runnable onSignIn) {
-    LogIn.setOnAction(e->onSignIn.run());
+    LogIn.setOnAction(_ ->onSignIn.run());
   }
 }

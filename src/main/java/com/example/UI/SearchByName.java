@@ -6,9 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.StackPane;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SearchByName extends SingleLineQuery {
     public SearchByName() {
@@ -16,7 +14,7 @@ public class SearchByName extends SingleLineQuery {
     }
 
     public void setOnAction(StackPane stackPane, Reader reader, ObservableList<Book> bookList, Runnable runnable) {
-        confirm.setOnAction(e->{
+        confirm.setOnAction(_ ->{
             try {
                 String searchText = Element.getText();
                 bookList.clear();
@@ -30,7 +28,7 @@ public class SearchByName extends SingleLineQuery {
                 throw new RuntimeException(ex);
             }
         });
-        cancel.setOnAction(e->this.close(stackPane, reader, runnable, bookList));
+        cancel.setOnAction(_ ->this.close(stackPane, reader, runnable, bookList));
     }
 
     public void close(StackPane stackPane, Reader user, Runnable runnable, ObservableList<Book> bookList) {

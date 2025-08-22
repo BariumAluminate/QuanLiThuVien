@@ -322,6 +322,7 @@ public class BookService {
                 .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
+        System.out.println(json);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/find_by_tag", json);
 

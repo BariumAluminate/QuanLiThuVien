@@ -16,6 +16,7 @@ module com.example.UI {
     requires com.fasterxml.jackson.databind;
     requires javafx.graphics;
     requires javafx.base;
+    requires annotations;
 
     opens com.example.UI to javafx.fxml, gson;
     exports com.example.UI;

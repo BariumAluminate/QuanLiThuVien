@@ -89,7 +89,7 @@ public class ShowBookInfo {
     }
 
     public void setup(StackPane stackPane) {
-        quit.setOnAction(e->{
+        quit.setOnAction(_ ->{
             if (stackPane != null) {
                 stackPane.getChildren().removeAll(rect, mainBox);
             }

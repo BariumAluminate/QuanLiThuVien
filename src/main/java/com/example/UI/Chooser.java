@@ -82,7 +82,7 @@ public abstract class Chooser {
     public void render(StackPane stackPane) {
         StackPane.setAlignment(mainBox, Pos.CENTER);
         stackPane.getChildren().addAll(rect, mainBox);
-        quit.setOnAction(e->close(stackPane));
+        quit.setOnAction(_ ->close(stackPane));
     }
 
     public void close(StackPane stackPane) {

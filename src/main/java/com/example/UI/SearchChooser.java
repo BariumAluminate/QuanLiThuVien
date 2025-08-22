@@ -34,15 +34,15 @@ public class SearchChooser extends Chooser {
     }
 
     public void setOnAction(StackPane stackPane, Reader user, Runnable runnable, ObservableList<Book> bookList) {
-        ID.setOnAction(e ->{
+        ID.setOnAction(_ ->{
             findById(user, stackPane, runnable, bookList);
             close(stackPane);
         });
-        title.setOnAction(e->{
+        title.setOnAction(_ ->{
             findByName(user, stackPane, runnable, bookList);
             close(stackPane);
         });
-        tag.setOnAction(e->{
+        tag.setOnAction(_ ->{
             findByTag(user, stackPane, runnable, bookList);
             close(stackPane);
         });

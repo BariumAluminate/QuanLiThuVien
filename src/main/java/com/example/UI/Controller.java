@@ -1,6 +1,5 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import com.example.quanlithuvien.UserService;
@@ -20,11 +19,11 @@ public class Controller {
         this.scene = scene;
     }
 
-    public Controller(StackPane stackPane, Scene scene, Reader reader) {
-        this.mainBox = stackPane;
-        this.scene = scene;
-        this.reader = reader;
-    }
+//    public Controller(StackPane stackPane, Scene scene, Reader reader) {
+//        this.mainBox = stackPane;
+//        this.scene = scene;
+//        this.reader = reader;
+//    }
 
     public void showSignIn() {
         mainBox.getChildren().clear();
