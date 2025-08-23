@@ -364,9 +364,11 @@ public class UserInterface {
             searchChooser.setOnAction(stackPane, user, table::refresh, bookList);
         }
         else {
-            SearchUser searchUser = new SearchUser();
-            searchUser.render(stackPane);
-            searchUser.resizeProperty(stackPane);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Librarian Authority:");
+            alert.setHeaderText(null);
+            alert.setContentText("You can't do this in this mode");
+            alert.showAndWait();
         }
     }
 
