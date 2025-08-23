@@ -1,22 +1,18 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Librarian;
-import com.example.quanlithuvien.Reader;
-import com.example.quanlithuvien.UserService;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
 
 public class Application extends javafx.application.Application {
     @Override
-    public void start(Stage stage) throws IOException, InterruptedException {
+    public void start(Stage stage) throws IOException {
         StackPane backgroundLayer = new StackPane();
         Image image = new Image(new FileInputStream("src/main/java/com/example/UI/Assets/0_cqPWt_uqeZgPWRby.jpg"));
         ImageView imageView = new ImageView(image);

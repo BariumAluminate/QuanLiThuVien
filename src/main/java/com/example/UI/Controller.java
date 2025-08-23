@@ -1,6 +1,5 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import com.example.quanlithuvien.UserService;
@@ -20,11 +19,11 @@ public class Controller {
         this.scene = scene;
     }
 
-    public Controller(StackPane stackPane, Scene scene, Reader reader) {
-        this.mainBox = stackPane;
-        this.scene = scene;
-        this.reader = reader;
-    }
+//    public Controller(StackPane stackPane, Scene scene, Reader reader) {
+//        this.mainBox = stackPane;
+//        this.scene = scene;
+//        this.reader = reader;
+//    }
 
     public void showSignIn() {
         mainBox.getChildren().clear();
@@ -38,13 +37,11 @@ public class Controller {
             String ID = signIn.getId();
             reader = new Reader(ID, name, password);
             try {
-                System.out.println(ID + " " + password + " " + name);
                 if (UserService.login(reader)) {
                     System.out.println(reader.getApi_KEY());
                     if (UserService.isLibrarian(reader)) {
                         String API_key = reader.getApi_KEY();
                         String cr = reader.getCsrftoken();
-                        System.out.println(API_key + " " + cr);
                         reader = new Librarian(ID, name, password, API_key, cr);
                     }
                     showUserInterface();

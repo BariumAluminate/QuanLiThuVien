@@ -8,10 +8,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class UserInterface {
@@ -25,7 +24,7 @@ public class UserInterface {
 
     private final HBox objectBox;
     private final Button updateButton;
-    private Reader user;
+    private final Reader user;
 
     private String editMode;
 
@@ -46,7 +45,7 @@ public class UserInterface {
         name.setStyle("-fx-font-size: 30");
         userFace.getChildren().add(name);
         Button signOut = new Button("Sign out");
-        signOut.setOnAction(e->onSignOut.run());
+        signOut.setOnAction(_ ->onSignOut.run());
         signOut.setStyle("-fx-font-size: 20");
         userFace.getChildren().add(signOut);
         userFace.getStyleClass().add("UserBox");
@@ -91,34 +90,35 @@ public class UserInterface {
         VBox.setVgrow(showButton, Priority.ALWAYS);
         showButton.getStyleClass().add("functionButton");
 
+        Button showAll = new Button("Show All Books");
+        showAll.setMaxHeight(Double.MAX_VALUE);
+        showAll.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(showAll, Priority.ALWAYS);
+        VBox.setVgrow(showAll, Priority.ALWAYS);
+        showAll.getStyleClass().add("functionButton");
+        showAll.setOnAction(_ -> {
+            try {
+                refresh();
+            } catch (IOException | InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         Separator sep1 = new Separator(Orientation.HORIZONTAL);
         Separator sep2 = new Separator(Orientation.HORIZONTAL);
         Separator sep3 = new Separator(Orientation.HORIZONTAL);
         Separator sep4 = new Separator(Orientation.HORIZONTAL);
+        Separator sep5 = new Separator(Orientation.HORIZONTAL);
 
         functionBox.getChildren().addAll(addButton, sep1,removeButton, sep2);
-        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton);
+        functionBox.getChildren().addAll(updateButton, sep3, searchButton, sep4, showButton, sep5, showAll);
 
         //Object to choose
         objectBox = new HBox();
         objectBox.setStyle("-fx-background-color: deepskyblue;");
         objectBox.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
-        Button bookButton = new Button("Book");
-        bookButton.setMaxHeight(Double.MAX_VALUE);
-        bookButton.setMaxWidth(Double.MAX_VALUE);
-        bookButton.setOnAction(e-> {
-            if (Objects.equals(bookButton.getText(), "Book")) {
-                editMode = "User";
-                bookButton.setText("User");
-                showButton.setText("Show your information");
-            }
-            else {
-                editMode = "Book";
-                bookButton.setText("Book");
-                showButton.setText("Show ");
-            }
-        });
+        Button bookButton = getButton();
         HBox.setHgrow(bookButton, Priority.ALWAYS);
         VBox.setVgrow(bookButton, Priority.ALWAYS);
 
@@ -142,54 +142,7 @@ public class UserInterface {
         title.setCellValueFactory(cellData -> cellData.getValue().bookTitle());
         TableColumn<Book, String> author = new TableColumn<>("Author");
         author.setCellValueFactory(cellData -> cellData.getValue().bookAuthor());
-        TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
-    borrowButton.setCellFactory(
-        param ->
-            new TableCell<>() {
-              private final Button button = new Button("Borrow");
-
-              {
-                button.setMaxWidth(Double.MAX_VALUE);
-                button.getStyleClass().add("functionButton");
-              }
-
-              @Override
-              protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                  setGraphic(null);
-                } else {
-                  Book book = getTableView().getItems().get(getIndex());
-                  button.setOnAction(
-                      event -> {
-                        if (book.getBorrowedId().isEmpty()){
-                          try {
-                            user.borrow(book.getBookId());
-                            table.refresh();
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setTitle("Borrow Success");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Book borrowed successfully!");
-                            alert.showAndWait();
-                          } catch (Exception e) {
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Borrow Error");
-                            alert.setHeaderText(null);
-                            alert.setContentText("Failed to borrow book: " + e.getMessage());
-                            alert.showAndWait();
-                          }
-                        } else {
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setTitle("Borrow Error");
-                            alert.setHeaderText(null);
-                            alert.setContentText("This book is borrowed");
-                            alert.showAndWait();
-                        }
-                      });
-                  setGraphic(button);
-                }
-              }
-            });
+        TableColumn<Book, Void> borrowButton = getBookVoidTableColumn();
 
         table.getColumns().addAll(id, title, author, borrowButton);
         table.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -199,7 +152,7 @@ public class UserInterface {
         borrowButton.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
 
         // Selection listener to copy selected book to chosenBook
-        table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        table.getSelectionModel().selectedItemProperty().addListener((_, _, newSelection) -> {
             if (newSelection != null) {
                 book = newSelection;
                 System.out.println("Selected book copied to chosenBook: " + book.getTitle());
@@ -208,6 +161,79 @@ public class UserInterface {
                 System.out.println("No book selected, chosenBook set to null");
             }
         });
+    }
+
+    @NotNull
+    private TableColumn<Book, Void> getBookVoidTableColumn() {
+        TableColumn<Book, Void> borrowButton = new TableColumn<>("Borrow");
+        borrowButton.setCellFactory(
+                _ ->
+                new TableCell<>() {
+                  private final Button button = new Button("Borrow");
+
+                  {
+                    button.setMaxWidth(Double.MAX_VALUE);
+                    button.getStyleClass().add("functionButton");
+                  }
+
+                  @Override
+                  protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                      setGraphic(null);
+                    } else {
+                      Book book = getTableView().getItems().get(getIndex());
+                      button.setOnAction(
+                              _ -> {
+                            if (book.getBorrowedId() == null){
+                              try {
+                                user.borrow(book.getBookId());
+                                table.refresh();
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                alert.setTitle("Borrow Success");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Book borrowed successfully!");
+                                alert.showAndWait();
+                              } catch (Exception e) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Borrow Error");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Failed to borrow book: " + e.getMessage());
+                                alert.showAndWait();
+                              }
+                            } else {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Borrow Error");
+                                alert.setHeaderText(null);
+                                alert.setContentText("This book is borrowed");
+                                alert.showAndWait();
+                            }
+                          });
+                      setGraphic(button);
+                    }
+                  }
+                });
+        return borrowButton;
+    }
+
+    @NotNull
+    private Button getButton() {
+        Button bookButton = new Button("Book");
+        bookButton.setMaxHeight(Double.MAX_VALUE);
+        bookButton.setMaxWidth(Double.MAX_VALUE);
+        bookButton.setOnAction(_ -> {
+            if (Objects.equals(bookButton.getText(), "Book")) {
+                editMode = "User";
+                bookButton.setText("User");
+                showButton.setText("Show your information");
+            }
+            else {
+                editMode = "Book";
+                bookButton.setText("Book");
+                showButton.setText("Show ");
+            }
+        });
+        return bookButton;
     }
 
     public void resizeUserFace(StackPane stackPane) {
@@ -254,14 +280,15 @@ public class UserInterface {
         stackPane.getChildren().add(table);
 
         // Bind table's left margin to functionBox width for direct contact
-        functionBox.widthProperty().addListener((obs, oldValue, newValue) -> {
+        functionBox.widthProperty().addListener((_, _, _) -> {
             StackPane.setMargin(table, new javafx.geometry.Insets(objectBox.getHeight(), 0, 0, 0)); // Top margin for objectBox, no left gap
         });
 
         // Bind top margin for table to objectBox height
-        objectBox.heightProperty().addListener((obs, oldValue, newValue) -> {
-            StackPane.setMargin(table, new javafx.geometry.Insets(newValue.doubleValue(), 0, 0, 0));
-        });
+        objectBox.heightProperty().addListener(
+                (_, _, newValue)
+                        -> StackPane.setMargin(table,
+                        new javafx.geometry.Insets(newValue.doubleValue(), 0, 0, 0)));
     }
 
     public void removeQuery(StackPane stackPane) throws IOException, InterruptedException {
@@ -274,6 +301,12 @@ public class UserInterface {
             return;
         }
         if (librarianAuthority()) return;
+        if (book != null) {
+            Librarian librarian = (Librarian) user;
+            librarian.removeBook(book.getBookId());
+            refresh();
+            return;
+        }
         System.out.println("Check successfully");
         RemoveQuery remove = new RemoveQuery();
         remove.render(stackPane);
@@ -339,6 +372,15 @@ public class UserInterface {
 
     public void updateQuery(StackPane stackPane) throws IOException, InterruptedException {
         if (librarianAuthority()) return;
+        if (!Objects.equals(editMode, "Book")) return;
+        if (book == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Search Error");
+            alert.setHeaderText(null);
+            alert.setContentText("You have not chosen a book to show information");
+            alert.showAndWait();
+            return;
+        }
         UpdateChooser update = new UpdateChooser();
         update.render(stackPane);
         update.resize(stackPane);
@@ -359,6 +401,7 @@ public class UserInterface {
                 alert.setHeaderText(null);
                 alert.setContentText("You have not chosen a book to show information");
                 alert.showAndWait();
+                return;
             }
             ShowBookInfo showBookInfo = new ShowBookInfo(book);
             showBookInfo.render(stackPane);
@@ -379,28 +422,28 @@ public class UserInterface {
     }
 
     public void setOnAction(StackPane stackPane) {
-        addButton.setOnAction(e-> {
+        addButton.setOnAction(_ -> {
             try {
                 addQuery(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
         });
-        removeButton.setOnAction(e->{
+        removeButton.setOnAction(_ ->{
             try {
                 removeQuery(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
         });
-        searchButton.setOnAction(e->{
+        searchButton.setOnAction(_ ->{
             try {
                 searchQuery(stackPane);
             } catch (IOException | InterruptedException ex) {
                 throw new RuntimeException(ex);
             }
         });
-        updateButton.setOnAction(e->{
+        updateButton.setOnAction(_ ->{
             try {
                 updateQuery(stackPane);
             } catch (IOException | InterruptedException ex) {
@@ -408,6 +451,6 @@ public class UserInterface {
             }
 
         });
-        showButton.setOnAction(e->showQuery(stackPane));
+        showButton.setOnAction(_ ->showQuery(stackPane));
     }
 }

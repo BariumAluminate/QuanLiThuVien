@@ -14,7 +14,7 @@ public class SearchByTag extends SingleLineQuery {
     }
 
     public void setOnAction(StackPane stackPane, Reader reader, ObservableList<Book> bookList, Runnable runnable) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             try {
                 String searchText = Element.getText();
                 bookList.clear();
@@ -28,5 +28,14 @@ public class SearchByTag extends SingleLineQuery {
                 throw new RuntimeException(ex);
             }
         });
+        cancel.setOnAction(_ ->this.close(stackPane, reader, runnable, bookList));
+    }
+
+    public void close(StackPane stackPane, Reader user, Runnable runnable, ObservableList<Book> bookList) {
+        close(stackPane);
+        SearchChooser searchChooser = new SearchChooser();
+        searchChooser.render(stackPane);
+        searchChooser.resize(stackPane);
+        searchChooser.setOnAction(stackPane, user, runnable, bookList);
     }
 }

@@ -68,7 +68,7 @@ public class ShowBookInfo {
         rect.setWidth(300);
         rect.setHeight(300);
         rect.setFill(Color.rgb(255, 255, 255));
-        rect.setStroke(null);
+        rect.setStroke(Color.BLACK);
         rect.setArcWidth(20);
         rect.setArcHeight(20);
 
@@ -89,7 +89,7 @@ public class ShowBookInfo {
     }
 
     public void setup(StackPane stackPane) {
-        quit.setOnAction(e->{
+        quit.setOnAction(_ ->{
             if (stackPane != null) {
                 stackPane.getChildren().removeAll(rect, mainBox);
             }

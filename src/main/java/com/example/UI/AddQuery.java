@@ -13,11 +13,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 public class AddQuery {
-    private VBox mainBox;
+    private final VBox mainBox;
     protected Label idLabel;
     protected TextField id;
     Label titleLabel;
@@ -95,7 +93,7 @@ public class AddQuery {
             System.err.println("Error: StackPane is null");
             return;
         }
-        cancel.setOnAction(e->close(stackPane));
+        cancel.setOnAction(_ ->close(stackPane));
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
@@ -130,7 +128,7 @@ public class AddQuery {
     }
 
     public void setOnAction(StackPane stackPane, Reader reader, Runnable runnable) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             try {
                 setup(reader);
                 runnable.run();

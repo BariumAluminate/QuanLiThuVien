@@ -1,11 +1,9 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Reader;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -54,7 +52,7 @@ public class ShowUserInfo {
     }
 
     public void setup(StackPane stackPane) {
-        quit.setOnAction(e->{
+        quit.setOnAction(_ ->{
             if (stackPane != null) {
                 stackPane.getChildren().removeAll(rect, mainBox);
             }

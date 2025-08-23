@@ -12,7 +12,7 @@ public class RemoveQuery extends  SingleLineQuery{
     }
 
     public void setOnAction(StackPane stackPane, Reader user, Runnable runnable) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             try {
                 if (user instanceof Librarian librarian) {
                     librarian.removeBook(Element.getText());

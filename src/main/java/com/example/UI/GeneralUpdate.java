@@ -89,7 +89,7 @@ public abstract class GeneralUpdate {
     public void render(StackPane stackPane) {
         StackPane.setAlignment(mainBox, Pos.CENTER);
         stackPane.getChildren().addAll(rect, mainBox);
-        cancel.setOnAction(e->close(stackPane));
+        cancel.setOnAction(_ ->close(stackPane));
     }
 
     public void resize(StackPane stackPane) {

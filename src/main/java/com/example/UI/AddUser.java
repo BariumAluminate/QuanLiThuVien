@@ -1,6 +1,5 @@
 package com.example.UI;
 
-import com.example.quanlithuvien.Book;
 import com.example.quanlithuvien.Librarian;
 import com.example.quanlithuvien.Reader;
 import javafx.geometry.Pos;
@@ -80,7 +79,7 @@ public class AddUser {
             System.err.println("Error: StackPane is null");
             return;
         }
-        cancel.setOnAction(e->close(stackPane));
+        cancel.setOnAction(_ ->close(stackPane));
         mainBox.setAlignment(Pos.CENTER);
         rect.setWidth(300);
         rect.setHeight(300);
@@ -113,7 +112,7 @@ public class AddUser {
     }
 
     public void setOnAction(StackPane stackPane, Reader reader) {
-        confirm.setOnAction(e-> {
+        confirm.setOnAction(_ -> {
             try {
                 setup(reader);
                 close(stackPane);
@@ -123,7 +122,4 @@ public class AddUser {
         });
     }
 
-    public VBox getMainBox() {
-        return this.mainBox;
-    }
 }
