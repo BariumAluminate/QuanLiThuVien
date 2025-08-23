@@ -37,13 +37,11 @@ public class Controller {
             String ID = signIn.getId();
             reader = new Reader(ID, name, password);
             try {
-                System.out.println(ID + " " + password + " " + name);
                 if (UserService.login(reader)) {
                     System.out.println(reader.getApi_KEY());
                     if (UserService.isLibrarian(reader)) {
                         String API_key = reader.getApi_KEY();
                         String cr = reader.getCsrftoken();
-                        System.out.println(API_key + " " + cr);
                         reader = new Librarian(ID, name, password, API_key, cr);
                     }
                     showUserInterface();

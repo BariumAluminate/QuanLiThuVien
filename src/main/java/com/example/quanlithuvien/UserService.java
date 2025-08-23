@@ -34,18 +34,15 @@ public class UserService {
 
     public static boolean isLibrarian(Reader reader) throws IOException, InterruptedException {
         String response = showReaderInfo(reader);
-        System.out.println("API Response from /reader/show: " + response); // Debug log
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree(response);
-        System.out.println(jsonNode.asText());
 
         JsonNode readerNode = jsonNode.get("reader");
         if (readerNode == null) {
             throw new IOException("No 'reader' object found in JSON response");
         }
         JsonNode librarianNode = readerNode.get("librarian");
-        System.out.println(librarianNode.asText());
         if (librarianNode == null) {
             throw new IOException("No 'librarian' field found in reader object");
         }
@@ -146,7 +143,6 @@ public class UserService {
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(reader);
-        System.out.println(json);
 
         HttpResponse<String> response = BookService.doPostRequest(BASE_URL + "/reader/show", json);
         return response.body();

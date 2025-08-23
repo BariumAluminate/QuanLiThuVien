@@ -117,7 +117,6 @@ public class BookService {
     public static Book findBookById(Reader reader, String bookId) throws IOException, InterruptedException {
         Book book = new Book();
         book.setBookId(bookId);
-        System.out.println(book.getBookId() + bookId);
 
         LibraryData libraryData = new LibraryData(reader, book);
 
@@ -132,7 +131,6 @@ public class BookService {
                 .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
-        System.out.println(json);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/findid", json);
 
@@ -211,11 +209,8 @@ public class BookService {
                 .registerTypeAdapter(Reader.class, readerJsonSerializer)
                 .create();
         String json = gson.toJson(reader);
-        System.out.println("Request Body: " + json);
 
         HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/showAllBook", json);
-        System.out.println("HTTP Status: " + response.statusCode());
-        System.out.println("API Response: " + response.body());
 
         try {
             JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
@@ -322,14 +317,13 @@ public class BookService {
                 .registerTypeAdapter(Book.class, bookJsonSerializer)
                 .create();
         String json = gson.toJson(libraryData);
-        System.out.println(json);
 
-        HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/find_by_tag", json);
+        HttpResponse<String> response = doPostRequest(BASE_URL + "/reader/find_by_booktag", json);
 
         try {
             JsonObject jsonResponse = gson.fromJson(response.body(), JsonObject.class);
             if (!jsonResponse.has("message") ||
-                    jsonResponse.get("message").getAsString().equals("Books found")) {
+                    !jsonResponse.get("message").getAsString().equals("Books found")) {
                 throw new IOException("Cant find book");
             }
 

@@ -90,7 +90,7 @@ public class UserInterface {
         VBox.setVgrow(showButton, Priority.ALWAYS);
         showButton.getStyleClass().add("functionButton");
 
-        Button showAll = new Button("Show ALL Books");
+        Button showAll = new Button("Show All Books");
         showAll.setMaxHeight(Double.MAX_VALUE);
         showAll.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(showAll, Priority.ALWAYS);
@@ -301,6 +301,12 @@ public class UserInterface {
             return;
         }
         if (librarianAuthority()) return;
+        if (book != null) {
+            Librarian librarian = (Librarian) user;
+            librarian.removeBook(book.getBookId());
+            refresh();
+            return;
+        }
         System.out.println("Check successfully");
         RemoveQuery remove = new RemoveQuery();
         remove.render(stackPane);
