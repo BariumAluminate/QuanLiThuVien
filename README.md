@@ -15,3 +15,4 @@
 #### 6.Hiển thị bảng đầy đủ các sách
 #### 7.Thêm người dùng
 #### 8.Hiển thị thông tin của bản thân
+## Video demo chức năng :https://drive.google.com/file/d/1tiUOeLHF-WpuZ2mGd7r31AyCMKy5cP5E/view?usp=sharing
