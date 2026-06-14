@@ -22,7 +22,7 @@ Sơ đồ class và kiến trúc tổng thể được mô tả tại liên kế
 - Sau khi đăng nhập thành công, hệ thống trả về 3 thông tin quan trọng:  
   1. `stringID`: mã định danh của người đọc.  
   2. `API_KEY`: khóa để xác thực API request.  
-  3. `CSRFtoken`: token bổ sung để tăng cường xác thực và bảo mật.  
+  3. `CSRFtoken`: token để phòng chống CSRF.  
 
 #### Phân quyền người dùng
 - Người đọc có thể được cấp quyền **librarian** nếu trong cơ sở dữ liệu, tài khoản của họ được đánh dấu là librarian.  
